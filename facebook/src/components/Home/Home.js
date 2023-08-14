@@ -11,11 +11,13 @@ import feeds from "./../../images/feeds.jpg";
 import events from "./../../images/events.jpg";
 import ads from "./../../images/ads.jpg";
 import like from "./../../images/like.JPG";
+import Navbar from "../Navbar/Navbar";
 // import heart from "./../../images/heart.JPG";
 
 const Home = () => {
   return (
     <div id="home">
+      <Navbar />
       <div id="left">
         <div className="left-sec">
           <i
