@@ -1,0 +1,126 @@
+#navbar {
+  position: fixed;
+  top: 0;
+  height: 55px;
+  width: 100%;
+  padding: 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  background-color: white;
+  /* border: 1px solid black; */
+}
+
+#navbar > #left {
+  height: 100%;
+  /* width: 18%; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#navbar > #left > #logo {
+  height: 80%;
+  width: 50px;
+  /* border: 1px solid black; */
+}
+
+#navbar > #left > #logo > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  filter: contrast(150%);
+}
+
+#navbar > #left > #search-bar {
+  height: 70%;
+  width: 240px;
+  margin: 0 5px;
+  display: flex;
+  /* justify-content: space-around; */
+  align-items: center;
+  border-radius: 22px;
+  background-color: rgb(234, 234, 236);
+  /* border: 1px solid black; */
+}
+
+#navbar > #left > #search-bar > .fa-magnifying-glass {
+  margin: 0 8px 0 15px;
+}
+
+#navbar > #left > #search-bar > input {
+  height: 90%;
+  width: 80%;
+  background: none;
+  outline: none;
+  border: none;
+  /* border: 1px solid black; */
+}
+
+#navbar > #left > #search-bar > input::placeholder {
+  font-size: 14px;
+}
+
+#navbar > #middle {
+  height: 100%;
+  width: 25%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#navbar > #middle > div {
+  height: 85%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 10px;
+  /* border: 1px solid black; */
+}
+
+#navbar > #middle > div:hover {
+  /* border-bottom: 2px solid rgb(24, 119, 242);; */
+  background-color: rgb(238, 238, 238);
+}
+
+#navbar > #middle > div > i:hover {
+  color: rgb(24, 119, 242);
+}
+
+#navbar > #right {
+  height: 100%;
+  /* width: 20%; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+#navbar > #right > h3 {
+  font-weight: 500;
+  font-size: 15px;
+  border-radius: 22px;
+  padding: 6px 10px;
+  margin: 0 5px;
+  background-color: rgb(228, 230, 235);
+  /* border: 1px solid red; */
+}
+
+#navbar > #right > div {
+  height: 70%;
+  width: 38px;
+  margin: 0 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  background-color: rgb(228, 230, 235);
+  /* border: 1px solid red; */
+}
+
+#navbar > #right > .fa-circle-user {
+  margin: 0 4px;
+}

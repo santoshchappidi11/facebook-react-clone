@@ -1,7 +1,10 @@
 import React from "react";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigateTo = useNavigate();
+
   return (
     <div id="login-screen">
       <div id="logo">
@@ -39,7 +42,9 @@ const Login = () => {
             <button>Log in</button>
             <div id="sign-up">
               <p>Forgotten account?</p>
-              <span>Sign up for Facebook</span>
+              <span onClick={() => navigateTo("/register")}>
+                Sign up for Facebook
+              </span>
             </div>
           </form>
         </div>

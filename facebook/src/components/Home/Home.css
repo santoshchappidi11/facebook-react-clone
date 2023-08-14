@@ -1,0 +1,434 @@
+#home {
+  height: auto;
+  width: 100%;
+  position: relative;
+  display: flex;
+  margin-top: 50px;
+  padding: 20px 0 0 0;
+  background-color: rgb(240, 242, 245);
+  /* border: 1px solid black; */
+}
+
+#home > #left {
+  height: auto;
+  width: 22%;
+  position: fixed;
+  left: 0;
+  overflow-y: scroll;
+  /* margin: 10px 0 0 0; */
+  /* border: 1px solid red; */
+}
+
+#home > #left > .left-sec {
+  height: auto;
+  width: 98%;
+  padding: 10px 15px;
+  float: right;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  /* border: 1px solid green; */
+}
+
+#home > #left > .left-sec:hover {
+  background-color: rgb(228, 230, 235);
+  cursor: pointer;
+}
+
+#home > #left > .left-sec > img {
+  margin: 0 10px 0 0;
+  object-fit: contain;
+  filter: contrast(120%);
+}
+
+#home > #left > .left-sec > h4 {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+#home > #left > .left-sec > .fa-angle-down {
+  height: 28px;
+  width: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: rgb(228, 230, 235);
+  /* border: 1px solid black; */
+}
+
+#home > #middle {
+  /* padding: 5px 0 0 0; */
+  margin: 10px 0 0 0;
+  left: 22%;
+  position: relative;
+  width: 55%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  /* border: 1px solid red; */
+}
+
+#home > #middle > #story {
+  height: 75px;
+  width: 80%;
+  margin: 0 0 15px 0;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  /* border: 1px solid black; */
+}
+
+#home > #middle > #story > .fa-plus {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+  color: rgb(24, 118, 242);
+  background-color: rgb(219, 231, 242);
+  /* border: 1px solid red; */
+}
+
+#home > #middle > #story > #create-story {
+  /* border: 1px solid red; */
+}
+
+#home > #middle > #story > #create-story > h3 {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+#home > #middle > #story > #create-story > p {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+#home > #middle > #post-something {
+  height: 120px;
+  width: 70%;
+  margin: 0 0 15px 0;
+  display: flex;
+  /* align-items: center; */
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  /* border: 1px solid black; */
+}
+
+#home > #middle > #post-something > #top {
+  height: 50%;
+  width: 95%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid rgb(219, 219, 219);
+}
+
+#home > #middle > #post-something > #top > .fa-circle-user {
+  font-size: 40px;
+  margin: 0 8px;
+}
+
+#home > #middle > #post-something > #top > input {
+  width: 85%;
+  height: 70%;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  background-color: rgb(240, 242, 245);
+}
+
+#home > #middle > #post-something > #top > input::placeholder {
+  font-size: 16px;
+  padding: 0 0 0 15px;
+}
+
+#home > #middle > #post-something > #down {
+  height: 50%;
+  width: 85%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+#home > #middle > #post-something > #down > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 8px;
+  border-radius: 10px;
+  /* border: 1px solid black; */
+}
+
+#home > #middle > #post-something > #down > div:hover {
+  background-color: rgb(238, 238, 238);
+  cursor: pointer;
+}
+
+#home > #middle > #post-something > #down > div > p {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 8px;
+  color: rgb(63, 63, 63);
+}
+
+#home > #middle > #posts {
+  height: auto;
+  width: 70%;
+  margin: 20px 0 50px 0;
+  /* border: 1px solid black; */
+}
+
+#home > #middle > #posts > .post {
+  height: auto;
+  width: 100%;
+  border-radius: 10px;
+  margin: 0 0 20px 0;
+  background-color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  /* border: 1px solid red; */
+}
+
+#home > #middle > #posts > .post > .postsec-1 {
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0 0 0;
+  /* border: 1px solid red; */
+}
+
+#home > #middle > #posts > .post > .postsec-1 .post-user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#home > #middle > #posts > .post > .postsec-1 .post-user > .post-img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  margin: 0 8px 0 10px;
+  /* border: 1px solid black; */
+}
+
+#home > #middle > #posts > .post > .postsec-1 .post-user > .post-img > img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: contain;
+  /* border: 1px solid black; */
+}
+
+#home > #middle > #posts > .post > .postsec-1 .post-user > .post-details {
+  /* border: 1px solid black; */
+}
+
+#home > #middle > #posts > .post > .postsec-1 .post-user > .post-details > h4 {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+#home > #middle > #posts > .post > .postsec-1 .post-user > .post-details > p {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+#home > #middle > #posts > .post > .postsec-1 > .options {
+  /* border: 1px solid black; */
+  margin: 0 10px 0 0;
+}
+
+#home > #middle > #posts > .post > .postsec-1 > .options > i {
+  margin: 0 8px;
+  cursor: pointer;
+}
+
+#home > #middle > #posts > .post > .postsec-2 {
+  width: 100%;
+  padding: 5px 0 8px 0;
+  /* border: 1px solid black; */
+}
+
+#home > #middle > #posts > .post > .postsec-2 > .caption {
+  width: 100%;
+  padding: 0 14px;
+  /* border: 1px solid red; */
+}
+
+#home > #middle > #posts > .post > .postsec-2 > .caption > p {
+  font-size: 14px;
+}
+
+#home > #middle > #posts > .post > .postsec-3 {
+  width: 100%;
+}
+
+#home > #middle > #posts > .post > .postsec-3 > .img {
+  width: 100%;
+}
+
+#home > #middle > #posts > .post > .postsec-3 > .img > img {
+  width: 100%;
+  object-fit: contain;
+}
+
+#home > #middle > #posts > .post > .postsec-4 {
+  width: 100%;
+  padding: 5px 0;
+  /* border: 1px solid black; */
+}
+
+#home > #middle > #posts > .post > .postsec-4 > .post-activity {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px 0 15px;
+  /* border: 1px solid blue; */
+}
+
+#home
+  > #middle
+  > #posts
+  > .post
+  > .postsec-4
+  > .post-activity
+  > .activity-left {
+  width: 40%;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  /* border: 1px solid blue; */
+}
+
+#home
+  > #middle
+  > #posts
+  > .post
+  > .postsec-4
+  > .post-activity
+  > .activity-left
+  > p {
+  margin: 0 5px;
+  font-weight: 400;
+}
+
+#home
+  > #middle
+  > #posts
+  > .post
+  > .postsec-4
+  > .post-activity
+  > .activity-right {
+  /* width: 40%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#home
+  > #middle
+  > #posts
+  > .post
+  > .postsec-4
+  > .post-activity
+  > .activity-right
+  > p {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0 10px 0 0;
+}
+
+#home > #middle > #posts > .post > .postsec-5 {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid rgb(202, 202, 202);
+}
+
+#home > #middle > #posts > .post > .postsec-5 > div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#home > #middle > #posts > .post > .postsec-5 > div > p {
+  font-size: 14px;
+  margin: 0 5px;
+}
+
+/* -------------------------------------------------------- */
+#home > #right {
+  /* padding: 20px 0 0 0; */
+  margin: 10px 0 0 0;
+  position: relative;
+  width: 23%;
+  left: 22%;
+  height: auto;
+  /* border: 1px solid green; */
+}
+
+#home > #right > #header {
+  height: auto;
+  width: 90%;
+}
+
+#home > #right > #header > h4 {
+  font-weight: 600;
+  color: rgb(104, 104, 104);
+}
+
+#home > #right > #new-group {
+  height: auto;
+  width: 95%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 10px 0 0 0;
+  padding: 10px 5px;
+  border-radius: 10px;
+  /* border: 1px solid black; */
+}
+
+#home > #right > #new-group:hover {
+  background-color: rgb(228, 230, 235);
+  cursor: pointer;
+}
+
+#home > #right > #new-group > p {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#home > #right > #new-group > .fa-plus {
+  height: 25px;
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin: 0 8px 0 0;
+  cursor: pointer;
+  background-color: rgb(228, 230, 235);
+  /* border: 1px solid black; */
+}
