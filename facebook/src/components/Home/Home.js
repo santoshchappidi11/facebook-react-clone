@@ -74,7 +74,7 @@ const Home = () => {
       <div id="middle">
         <div id="story">
           <i class="fa-solid fa-plus"></i>
-          <div id="create-story">
+          <div id="create-story-home">
             <h3>Create Story</h3>
             <p>Share a photo or write something.</p>
           </div>
@@ -82,7 +82,8 @@ const Home = () => {
         <div id="post-something">
           <div id="top">
             <i class="fa-solid fa-circle-user fa-2x"></i>
-            <input type="text" placeholder="What's on your mind, Santosh?" />
+            <button>What's on your mind, Santosh?</button>
+            {/* <input type="text" placeholder="What's on your mind, Santosh?" /> */}
           </div>
           <div id="down">
             <div>
@@ -307,6 +308,72 @@ const Home = () => {
         <div id="new-group">
           <i class="fa-solid fa-plus"></i>
           <p>Create New Group</p>
+        </div>
+      </div>
+
+      <div id="create-post-screen">
+        <div id="create-post">
+          <div id="create-post-header">
+            <h4>Create Post</h4>
+            <i class="fa-solid fa-xmark fa-lg"></i>
+          </div>
+          <div id="create-post-body">
+            <form>
+              <div id="post-body-1">
+                <i class="fa-solid fa-circle-user"></i>
+                <div id="show-post-to">
+                  <h4>Santosh Chappidi</h4>
+                  <select>
+                    <option>Only Me</option>
+                    <option>Public</option>
+                    <option>Friends</option>
+                  </select>
+                </div>
+              </div>
+              <div id="post-body-2">
+                <input
+                  type="text"
+                  placeholder="What's on your mind, Santosh?"
+                />
+              </div>
+              <div id="post-body-3">
+                <img
+                  src="https://www.facebook.com/images/composer/SATP_Aa_square-2x.png"
+                  alt="story"
+                />
+                <i class="fa-regular fa-face-smile fa-xl"></i>
+              </div>
+              <div id="post-body-4">
+                <h4>Add to your post</h4>
+                <div id="add-to-post">
+                  <img
+                    src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/Ivw7nhRtXyo.png"
+                    alt="story"
+                  />
+                  <img
+                    src="https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/b37mHA1PjfK.png"
+                    alt="story"
+                  />
+                  <img
+                    src="https://static.xx.fbcdn.net/rsrc.php/v3/yd/r/Y4mYLVOhTwq.png"
+                    alt="story"
+                  />
+                  <img
+                    src="https://static.xx.fbcdn.net/rsrc.php/v3/y1/r/8zlaieBcZ72.png"
+                    alt="story"
+                  />
+                  <img
+                    src="https://static.xx.fbcdn.net/rsrc.php/v3/yT/r/q7MiRkL7MLC.png"
+                    alt="story"
+                  />
+                  <i class="fa-solid fa-ellipsis"></i>
+                </div>
+              </div>
+              <div id="post-body-5">
+                <button>Post</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
