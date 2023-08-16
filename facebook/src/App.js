@@ -5,6 +5,7 @@ import Login from "./components/Login/Login";
 // import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import CreateStory from "./components/stories/CreateStory";
+import Profile from "./components/Profile/Profile";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/home" element={<Home />} />
         <Route exact path="/create-story" element={<CreateStory />} />
+        <Route exact path="/profile" element={<Profile />} />
       </Routes>
     </div>
   );

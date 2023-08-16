@@ -9,6 +9,7 @@
   align-items: center;
   z-index: 10;
   background-color: white;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   /* border: 1px solid black; */
 }
 
@@ -23,6 +24,7 @@
 #navbar > #left > #logo {
   height: 80%;
   width: 50px;
+  cursor: pointer;
   /* border: 1px solid black; */
 }
 
@@ -123,4 +125,57 @@
 
 #navbar > #right > .fa-circle-user {
   margin: 0 4px;
+  font-size: 40px;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+/* --------------------------sidepopup--------- */
+
+#sidepopup {
+  position: absolute;
+  position: fixed;
+  top: 55px;
+  right: 10px;
+  z-index: 60;
+  width: 25%;
+  background-color: white;
+  padding: 15px 15px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  border-radius: 8px;
+  /* border: 1px solid black; */
+}
+
+#sidepopup > #sidepopup-header {
+  width: 100%;
+  padding: 5px 10px;
+  flex-direction: column;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;
+  /* border: 1px solid black; */
+}
+
+#sidepopup > #sidepopup-header > #popup-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px 0 12px 0;
+  border-bottom: 1px solid rgb(211, 211, 211);
+  cursor: pointer;
+}
+
+#sidepopup > #sidepopup-header > #popup-header > .fa-circle-user {
+  margin: 0 5px 0 0;
+}
+
+#sidepopup > #sidepopup-header > #popup-header > h4 {
+  font-weight: 600;
+}
+
+#sidepopup > #sidepopup-header > .profiles > p {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 10px 0;
+  color: rgb(29, 121, 242);
 }

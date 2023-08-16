@@ -1,0 +1,630 @@
+#profile {
+  height: auto;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+#profile > #profile-up {
+  height: auto;
+  width: 100%;
+  /* border: 1px solid red; */
+}
+
+#profile > #profile-up > #profile-cover-img {
+  position: relative;
+  height: 400px;
+  width: 70%;
+  margin: auto;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  /* border: 1px solid green; */
+}
+
+#profile > #profile-up > #profile-cover-img > .cover-avatar {
+  position: absolute;
+  top: 77%;
+  right: 3%;
+  width: 22%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 4px;
+  border-radius: 8px;
+  color: white;
+  background-color: rgb(92, 92, 92);
+  /* border: 1px solid black; */
+}
+
+#profile > #profile-up > #profile-cover-img > .cover-photo {
+  position: absolute;
+  top: 88%;
+  right: 3%;
+  width: 22%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 4px;
+  border-radius: 8px;
+  color: white;
+  background-color: rgb(92, 92, 92);
+  /* border: 1px solid black; */
+}
+
+#profile > #profile-up > #profile-cover-img > .cover-photo > i {
+  margin: 0 5px;
+}
+
+#profile > #profile-up > #profile-cover-img > .cover-photo > h4 {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+#profile > #profile-up > #profile-cover-img > .cover-avatar > i {
+  margin: 0 5px;
+}
+
+#profile > #profile-up > #profile-cover-img > .cover-avatar > h4 {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+#profile > #profile-up > #profile-cover-img > #cover-img {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(250, 250, 250),
+    rgb(224, 224, 224)
+  );
+  /* background-color: rgb(240, 242, 245); */
+  /* border: 1px solid black; */
+}
+
+#profile > #profile-up > #profile-cover-img > #profile-img {
+  position: absolute;
+  position: relative;
+  height: 170px;
+  width: 170px;
+  border-radius: 50%;
+  top: 78%;
+  left: 4%;
+  border: 4px solid white;
+}
+
+#profile > #profile-up > #profile-cover-img > #profile-img > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+#profile > #profile-up > #profile-cover-img > #profile-img > .fa-camera {
+  position: absolute;
+  top: 75%;
+  right: 7%;
+  height: 35px;
+  width: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: rgb(221, 221, 221);
+  /* border: 1px solid black; */
+}
+
+#profile > #profile-up > #profile-actions {
+  width: 55%;
+  margin: 28px 0 0 30%;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+#profile > #profile-up > #profile-actions > h2 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+#profile > #profile-up > #profile-actions > #actions > #profile-story-btn {
+  border: none;
+  background: none;
+  padding: 8px 18px;
+  margin: 0 5px;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: rgb(27, 116, 228);
+}
+
+#profile > #profile-up > #profile-actions > #actions > #edit-profile-btn {
+  border: none;
+  background: none;
+  padding: 8px 18px;
+  margin: 0 5px;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  color: black;
+  cursor: pointer;
+  background-color: rgb(228, 230, 235);
+}
+
+#profile > #profile-up > #profile-actions > #actions > #profile-more-btn {
+  border: none;
+  background: none;
+  padding: 8px 15px;
+  margin: 0 5px;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  color: black;
+  cursor: pointer;
+  background-color: rgb(228, 230, 235);
+}
+
+#profile > #profile-up > #profile-actions > #actions > button > i {
+  margin: 0 4px;
+}
+
+/* -----------------------edit-profile-------------------- */
+
+#edit-profile-screen {
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  background-color: rgba(235, 235, 235, 0.8);
+}
+
+#edit-profile-screen > #edit-profile {
+  height: auto;
+  width: 52%;
+  border-radius: 5px;
+  background-color: white;
+  margin: 30px 0 20px 0;
+  overflow-y: scroll;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+#edit-profile-screen > #edit-profile > #edit-profile-header {
+  height: 60px;
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  float: right;
+  padding: 0 20px 0 10px;
+}
+
+#edit-profile-screen > #edit-profile > #edit-profile-header > h3 {
+  font-size: 20px;
+}
+
+#edit-profile-screen > #edit-profile > #edit-profile-header > .fa-xmark {
+  height: 62%;
+  width: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin: 0 3px 0 15px;
+  cursor: pointer;
+  color: rgb(56, 56, 56);
+  background-color: rgb(218, 218, 218);
+}
+
+#edit-profile-screen > #edit-profile > #edit-profile-body {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  float: right;
+  padding: 10px 10px;
+  border-top: 1px solid rgb(230, 230, 230);
+}
+
+#edit-profile-screen > #edit-profile > #edit-profile-body > form {
+  width: 100%;
+  padding: 0 8px;
+}
+
+#edit-profile-screen > #edit-profile > #edit-profile-body > form > .edit-sec-1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 0 20px 0;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-1
+  > .profile-picture-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-1
+  > .profile-picture-header
+  > p {
+  cursor: pointer;
+  color: rgb(28, 28, 255);
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-1
+  > img {
+  margin: 15px 0;
+  border-radius: 50%;
+}
+
+#edit-profile-screen > #edit-profile > #edit-profile-body > form > .edit-sec-2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 0 20px 0;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-2
+  > .cover-photo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-2
+  > .cover-photo
+  > p {
+  cursor: pointer;
+  color: rgb(28, 28, 255);
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-2
+  > img {
+  margin: 15px 0;
+}
+
+#edit-profile-screen > #edit-profile > #edit-profile-body > form > .edit-sec-3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 0 20px 0;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-3
+  > .edit-avatar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-3
+  > .edit-avatar
+  > p {
+  cursor: pointer;
+  color: rgb(28, 28, 255);
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-3
+  > img {
+  margin: 15px 0;
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-3
+  > #avatar-img {
+  margin: 5px 0 10px 150px;
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-3
+  > span {
+  width: 100%;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-3
+  > p {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+#edit-profile-screen > #edit-profile > #edit-profile-body > form > .edit-sec-4 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin: 10px 0 20px 0;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-4
+  > .edit-bio {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-4
+  > .edit-bio
+  > p {
+  cursor: pointer;
+  color: rgb(28, 28, 255);
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-4
+  > p {
+  margin: 10px 0 15px 0;
+}
+
+#edit-profile-screen > #edit-profile > #edit-profile-body > form > .edit-sec-5 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 0 10px 0;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-5
+  > .edit-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-5
+  > .edit-custom
+  > p {
+  cursor: pointer;
+  color: rgb(28, 28, 255);
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-5
+  > .custom-options {
+  width: 100%;
+  margin: 10px 0;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-5
+  > .custom-options
+  > .options {
+  width: 100%;
+  margin: 18px 0;
+  display: flex;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+/* #edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-5
+  > .custom-options
+  > .options
+  > img {
+filter: ;
+} */
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-5
+  > .custom-options
+  > .options
+  > p {
+  margin: 0 5px;
+  font-size: 14px;
+}
+
+#edit-profile-screen > #edit-profile > #edit-profile-body > form > .edit-sec-6 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 0 50px 0;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-6
+  > .edit-hobbies {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-6
+  > .edit-hobbies
+  > p {
+  cursor: pointer;
+  color: rgb(28, 28, 255);
+}
+
+#edit-profile-screen > #edit-profile > #edit-profile-body > form > .edit-sec-7 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-7
+  > .edit-featured {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* border: 1px solid black; */
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-7
+  > .edit-featured
+  > p {
+  cursor: pointer;
+  color: rgb(28, 28, 255);
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-7
+  > img {
+  margin: 15px 0;
+}
+
+#edit-profile-screen
+  > #edit-profile
+  > #edit-profile-body
+  > form
+  > .edit-sec-7
+  > p {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 5px 0 10px 0;
+  color: rgb(65, 65, 65);
+}
+
+#edit-profile-screen > #edit-profile > #edit-profile-body > form > button {
+  width: 100%;
+  padding: 8px 0;
+  border-radius: 5px;
+  border: none;
+  background: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(24, 119, 242);
+  margin: 15px 0;
+  cursor: pointer;
+  background-color: rgb(231, 243, 255);
+}
