@@ -6,6 +6,7 @@ import Login from "./components/Login/Login";
 import Home from "./components/Home/Home";
 import CreateStory from "./components/stories/CreateStory";
 import Profile from "./components/Profile/Profile";
+import Search from "./components/Search/Search";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route exact path="/home" element={<Home />} />
         <Route exact path="/create-story" element={<CreateStory />} />
         <Route exact path="/profile" element={<Profile />} />
+        <Route exact path="/search" element={<Search />} />
       </Routes>
     </div>
   );
