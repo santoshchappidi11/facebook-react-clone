@@ -15,12 +15,14 @@
 }
 
 #search > #left {
-  height: auto;
+  height: 100%;
   width: 22%;
   position: fixed;
   left: 0;
+  top: 8%;
   overflow-y: scroll;
-  background-color: rgb(240, 242, 245);
+  padding: 10px 0 50px;
+  background-color: white;
   /* margin: 10px 0 0 0; */
   /* border: 1px solid red; */
 }
@@ -39,19 +41,33 @@
 }
 
 #search > #left > .left-sec:hover {
-  background-color: rgb(228, 230, 235);
+  background-color: rgb(243, 243, 243);
   cursor: pointer;
 }
 
-#search > #left > .left-sec > img {
+#search > #left > .left-sec > i {
+  height: 38px;
+  width: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
   margin: 0 10px 0 0;
-  object-fit: contain;
-  filter: contrast(120%);
+  background-color: rgb(231, 231, 231);
+  /* border: 1px solid black; */
 }
 
 #search > #left > .left-sec > h4 {
   font-weight: 600;
   font-size: 15px;
+}
+
+#search > #left > h3 {
+  font-size: 20px;
+  font-weight: 600;
+  padding: 0 0 0 22px;
+  margin: 10px 0;
+  /* border: 1px solid black; */
 }
 
 #search > #left > .left-sec > .fa-angle-down {

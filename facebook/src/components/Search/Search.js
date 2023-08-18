@@ -1,15 +1,5 @@
 import React from "react";
 import "./Search.css";
-import findfriends from "./../../images/findfriends.jpg";
-import welcome from "./../../images/welcome.jpg";
-import memories from "./../../images/memories.jpg";
-import saved from "./../../images/saved.jpg";
-import groups from "./../../images/groups.jpg";
-import video from "./../../images/video.jpg";
-import market from "./../../images/market.jpg";
-import feeds from "./../../images/feeds.jpg";
-import events from "./../../images/events.jpg";
-import ads from "./../../images/ads.jpg";
 import Navbar from "../Navbar/Navbar";
 
 const Search = () => {
@@ -17,56 +7,48 @@ const Search = () => {
     <div id="search">
       <Navbar />
       <div id="left">
+        <h3>Filters</h3>
+        {/* <div className="left-sec">
+        </div> */}
         <div className="left-sec">
-          <i
-            class="fa-solid fa-circle-user fa-xl"
-            style={{ marginRight: "5px" }}
-          ></i>
-          <h4 style={{ marginLeft: "5px" }}>Santosh Chappidi</h4>
+          <i class="fa-solid fa-photo-film fa-lg"></i>
+          <h4>All</h4>
         </div>
         <div className="left-sec">
-          <img src={findfriends} alt="left" />
-          <h4>Find Friends</h4>
+          <i class="fa-solid fa-comment fa-lg"></i>
+          <h4>Post</h4>
         </div>
         <div className="left-sec">
-          <img src={welcome} alt="left" />
-          <h4>Welcome</h4>
+          <i class="fa-solid fa-user-group fa-lg"></i>
+          <h4>People</h4>
         </div>
         <div className="left-sec">
-          <img src={memories} alt="left" />
-          <h4>Memories</h4>
+          <i class="fa-regular fa-image fa-lg"></i>
+          <h4>Photos</h4>
         </div>
         <div className="left-sec">
-          <img src={saved} style={{ marginLeft: "5px" }} alt="left" />
-          <h4 style={{ marginLeft: "5px" }}>Saved</h4>
+          <i class="fa-brands fa-youtube fa-lg"></i>
+          <h4>Videos</h4>
         </div>
         <div className="left-sec">
-          <img src={groups} alt="left" />
+          <i class="fa-solid fa-store fa-lg"></i>
+          <h4>MarketPlace</h4>
+        </div>
+        <div className="left-sec">
+          <i class="fa-solid fa-flag fa-lg"></i>
+          <h4>Pages</h4>
+        </div>
+        <div className="left-sec">
+          <i class="fa-solid fa-location-dot fa-lg"></i>
+          <h4>Places</h4>
+        </div>
+        <div className="left-sec">
+          <i class="fa-solid fa-users fa-lg"></i>
           <h4>Groups</h4>
         </div>
         <div className="left-sec">
-          <img src={video} alt="left" />
-          <h4>Video</h4>
-        </div>
-        <div className="left-sec">
-          <img src={market} alt="left" />
-          <h4>Market Place</h4>
-        </div>
-        <div className="left-sec">
-          <img src={feeds} alt="left" />
-          <h4>feeds</h4>
-        </div>
-        <div className="left-sec">
-          <img src={events} alt="left" />
+          <i class="fa-solid fa-calendar-plus fa-lg"></i>
           <h4>Events</h4>
-        </div>
-        <div className="left-sec">
-          <img src={ads} alt="left" />
-          <h4>Adds Manager</h4>
-        </div>
-        <div className="left-sec">
-          <i class="fa-solid fa-angle-down" style={{ marginRight: "5px" }}></i>
-          <h4 style={{ marginLeft: "5px" }}>See more</h4>
         </div>
       </div>
       <div id="middle">

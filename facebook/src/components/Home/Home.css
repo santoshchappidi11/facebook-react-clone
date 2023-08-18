@@ -14,19 +14,20 @@ body {
 }
 
 #home > #left {
-  height: auto;
+  height: 100%;
   width: 22%;
   position: fixed;
   left: 0;
   overflow-y: scroll;
-  /* margin: 10px 0 0 0; */
+  padding: 10px 0 50px;
+
   /* border: 1px solid red; */
 }
 
 #home > #left > .left-sec {
   height: auto;
   width: 98%;
-  padding: 10px 15px;
+  padding: 12px 15px;
   float: right;
   display: flex;
   justify-content: flex-start;
