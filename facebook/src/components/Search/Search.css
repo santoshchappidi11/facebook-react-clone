@@ -168,6 +168,17 @@
   object-fit: contain;
 }
 
+#search
+  > #middle
+  > #search-main
+  > #search-results
+  > .search-result
+  > .search-left
+  > .details
+  > p {
+  font-size: 15px;
+}
+
 #search > #middle > #search-main > #search-results > .search-result > .follow {
   display: flex;
   justify-content: center;

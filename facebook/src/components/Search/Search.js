@@ -83,7 +83,7 @@ const Search = () => {
                     alt="profle"
                   />
                 </div>
-                <div className="deatils">
+                <div className="details">
                   <h4>M.S Dhoni</h4>
                   <p>Cricket India</p>
                 </div>
@@ -100,7 +100,7 @@ const Search = () => {
                     alt="profle"
                   />
                 </div>
-                <div className="deatils">
+                <div className="details">
                   <h4>M.S Dhoni</h4>
                   <p>Cricket India</p>
                 </div>
@@ -117,7 +117,7 @@ const Search = () => {
                     alt="profle"
                   />
                 </div>
-                <div className="deatils">
+                <div className="details">
                   <h4>M.S Dhoni</h4>
                   <p>Cricket India</p>
                 </div>
@@ -134,7 +134,7 @@ const Search = () => {
                     alt="profle"
                   />
                 </div>
-                <div className="deatils">
+                <div className="details">
                   <h4>M.S Dhoni</h4>
                   <p>Cricket India</p>
                 </div>
@@ -151,7 +151,7 @@ const Search = () => {
                     alt="profle"
                   />
                 </div>
-                <div className="deatils">
+                <div className="details">
                   <h4>M.S Dhoni</h4>
                   <p>Cricket India</p>
                 </div>
@@ -168,7 +168,7 @@ const Search = () => {
                     alt="profle"
                   />
                 </div>
-                <div className="deatils">
+                <div className="details">
                   <h4>M.S Dhoni</h4>
                   <p>Cricket India</p>
                 </div>
@@ -185,7 +185,7 @@ const Search = () => {
                     alt="profle"
                   />
                 </div>
-                <div className="deatils">
+                <div className="details">
                   <h4>M.S Dhoni</h4>
                   <p>Cricket India</p>
                 </div>
