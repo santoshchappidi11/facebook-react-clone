@@ -1,9 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import api from "../../ApiConfig/index.js";
 
 const Register = () => {
   const navigateTo = useNavigate();
+
+  const [userData, setUserData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    number: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  // console.log(userData);
+
+  const handleChangeValues = (e) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+
+    if (
+      userData.firstName &&
+      userData.lastName &&
+      userData.email &&
+      userData.number &&
+      userData.password &&
+      userData.confirmPassword
+    ) {
+      if (userData.password == userData.confirmPassword) {
+        try {
+          const response = await api.post("/register", { userData });
+
+          if (response.data.success) {
+            toast.success(response.data.message);
+            setUserData({
+              firstName: "",
+              lastName: "",
+              email: "",
+              number: "",
+              password: "",
+              confirmPassword: "",
+            });
+            navigateTo("/login");
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          toast.error(error.response.data.message);
+        }
+      } else {
+        toast.error("Password and Confirm Password does not match!");
+      }
+    } else {
+      toast.error("Please fill all the details!");
+    }
+  };
 
   return (
     <div id="register-screen">
@@ -21,23 +78,57 @@ const Register = () => {
           <p>It's quick and easy.</p>
         </div>
         <div id="register-body">
-          <form>
+          <form onSubmit={handleRegisterSubmit}>
             <div id="fields-1">
-              <input type="text" name="name" placeholder="Enter Name" />
-              <input type="text" name="surname" placeholder="Enter Surname" />
+              <input
+                type="text"
+                name="firstName"
+                placeholder="Enter Name"
+                onChange={handleChangeValues}
+                value={userData.firstName}
+              />
+              <input
+                type="text"
+                name="lastName"
+                placeholder="Enter Surname"
+                onChange={handleChangeValues}
+                value={userData.lastName}
+              />
             </div>
             <div id="fields-2">
               <input
                 type="email"
                 name="email"
                 placeholder="Enter Email Address"
+                onChange={handleChangeValues}
+                value={userData.email}
               />
             </div>
-            <div id="fields-3">
+            <div id="fields-3" className="common-fields">
+              <input
+                type="number"
+                name="number"
+                placeholder="Enter Number"
+                onChange={handleChangeValues}
+                value={userData.number}
+              />
+            </div>
+            <div id="fields-4" className="common-fields">
               <input
                 type="password"
                 name="password"
                 placeholder="New Password"
+                onChange={handleChangeValues}
+                value={userData.password}
+              />
+            </div>
+            <div id="fields-5" className="common-fields">
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                onChange={handleChangeValues}
+                value={userData.confirmPassword}
               />
             </div>
             <p>
@@ -49,16 +140,16 @@ const Register = () => {
               Cookies Policy. You may receive SMS notifications from us and can
               opt out at any time.
             </p>
-            <button>Sign Up</button>
-            <div id="sign-in">
-              <p>
-                Already have an account?{" "}
-                <span onClick={() => navigateTo("/login")}>
-                  Login for Facebook
-                </span>
-              </p>
-            </div>
+            <button type="submit">Sign Up</button>
           </form>
+          <div id="sign-in">
+            <p>
+              Already have an account?{" "}
+              <span onClick={() => navigateTo("/login")}>
+                Login for Facebook
+              </span>
+            </p>
+          </div>
         </div>
       </div>
     </div>

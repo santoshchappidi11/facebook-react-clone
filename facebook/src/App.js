@@ -7,6 +7,7 @@ import Home from "./components/Home/Home";
 import CreateStory from "./components/stories/CreateStory";
 import Profile from "./components/Profile/Profile";
 import Search from "./components/Search/Search";
+import NewUserProfile from "./components/Profile/NewUserProfile";
 
 function App() {
   return (
@@ -15,10 +16,11 @@ function App() {
       <Routes>
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/login" element={<Login />} />
-        <Route exact path="/home" element={<Home />} />
+        <Route exact path="/" element={<Home />} />
         <Route exact path="/create-story" element={<CreateStory />} />
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/search" element={<Search />} />
+        <Route exact path="/new-user-profile" element={<NewUserProfile />} />
       </Routes>
     </div>
   );

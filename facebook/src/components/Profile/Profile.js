@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import Navbar from "../Navbar/Navbar";
 import editcover from "./../../images/editcover.jpg";
 import createavatar from "./../../images/edit-create-avatar.jpg";
+import toast from "react-hot-toast";
+import api from "../../ApiConfig";
 
 const Profile = () => {
   const [isShowEditProfile, setIsShowEditProfile] = useState(false);
+  const [profileImg, setProfileImg] = useState("");
+  const [coverImg, setCoverImg] = useState("");
+  const [bioData, setBioData] = useState("");
 
   const openEditProfilePopup = () => {
     setIsShowEditProfile(true);
@@ -15,12 +20,96 @@ const Profile = () => {
     setIsShowEditProfile(false);
   };
 
+  useEffect(() => {
+    const getProfileDetails = async () => {
+      const token = JSON.parse(localStorage.getItem("Token"));
+
+      if (token) {
+        const response = await api.post("/get-profile-details", { token });
+
+        try {
+          if (response.data.success) {
+            setProfileImg(response.data.profileImg);
+            setCoverImg(response.data.coverImg);
+            setBioData(response.data.bioData);
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          toast.error(error.response.data.message);
+        }
+      }
+    };
+    getProfileDetails();
+  }, []);
+
+  const handleProfileImg = (e) => {
+    const reader = new FileReader();
+
+    const fileData = e.target.files[0];
+
+    if (fileData) {
+      reader.readAsDataURL(fileData);
+    }
+
+    reader.onload = () => {
+      setProfileImg(reader.result);
+      console.log(reader.result, "URL");
+    };
+  };
+
+  const handleCoverImage = (e) => {
+    const reader = new FileReader();
+
+    const fileData = e.target.files[0];
+
+    if (fileData) {
+      reader.readAsDataURL(fileData);
+    }
+
+    reader.onload = () => {
+      setCoverImg(reader.result);
+    };
+  };
+
+  const handleBioValue = (e) => {
+    setBioData(e.target.value);
+  };
+
+  const handleUserProfileSubmit = async (e) => {
+    e.preventDefault();
+
+    const token = JSON.parse(localStorage.getItem("Token"));
+
+    if (token) {
+      try {
+        const response = await api.post("/new-user-profile", {
+          bioData,
+          coverImg,
+          profileImg,
+          token,
+        });
+
+        if (response.data.success) {
+          toast.success("Updated your profile!");
+          setIsShowEditProfile(false)
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    }
+  };
+
   return (
     <div id="profile">
       <Navbar />
       <div id="profile-up">
         <div id="profile-cover-img">
-          <div id="cover-img"></div>
+          <div id="cover-img">
+            <img src={coverImg} alt="cover" />
+          </div>
           <div className="cover-avatar">
             <i class="fa-solid fa-user-pen"></i>
             <h4>Create with avatar</h4>
@@ -30,10 +119,7 @@ const Profile = () => {
             <h4>Add Cover Photo</h4>
           </div>
           <div id="profile-img">
-            <img
-              src="https://scontent.fbom3-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=-tIpWnFaNRwAX_ICb_0&_nc_ht=scontent.fbom3-2.fna&oh=00_AfAsJ7f4iOsqIP4393bDTy6hp2S21M8OoQfEe-wjMk7vfA&oe=6503FFF8"
-              alt="profile"
-            />
+            <img src={profileImg} alt="profile" />
             <i class="fa-solid fa-camera fa-lg"></i>
           </div>
         </div>
@@ -58,31 +144,46 @@ const Profile = () => {
       {isShowEditProfile && (
         <div id="edit-profile-screen">
           <div id="edit-profile">
-            <div id="edit-profile-header">
-              <h3>Edit Profile</h3>
+            <div id="profile-header">
+              <h3>Edit Your Profile</h3>
               <i
                 class="fa-solid fa-xmark fa-lg"
                 onClick={closeEditProfilePopup}
               ></i>
             </div>
             <div id="edit-profile-body">
-              <form>
+              <form onSubmit={handleUserProfileSubmit}>
                 <div className="edit-sec-1">
                   <div className="profile-picture-header">
                     <h3>Profile Picture</h3>
-                    <p>Add</p>
+                    {/* <p>Add</p> */}
+                    <label>
+                      Add <br />
+                      <i class="fa fa-2x fa-camera"></i>
+                      <input type="file" onClick={handleProfileImg} />
+                      <br />
+                      <span id="profileImageName"></span>
+                    </label>
                   </div>
-                  <img
-                    src="https://scontent.fbom3-2.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?stp=dst-png_p160x160&_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=-tIpWnFaNRwAX_ICb_0&_nc_ht=scontent.fbom3-2.fna&oh=00_AfAeSY3zZj5pvrsk6QstGDeEXh0ZZoeNbsVNdMjEUkYJNA&oe=6503FFF8"
-                    alt="profile"
-                  />
+                  <div id="profile-image">
+                    <img src={profileImg} alt="profile" />
+                  </div>
                 </div>
                 <div className="edit-sec-2">
                   <div className="cover-photo">
                     <h3>Cover Photo</h3>
-                    <p>Add</p>
+                    {/* <p>Add</p> */}
+                    <label>
+                      Add <br />
+                      <i class="fa fa-2x fa-camera"></i>
+                      <input type="file" onClick={handleCoverImage} />
+                      <br />
+                      <span id="coverImageName"></span>
+                    </label>
                   </div>
-                  <img src={editcover} alt="cover" />
+                  <div id="cover-image">
+                    <img src={coverImg ? coverImg : editcover} alt="cover" />
+                  </div>
                 </div>
                 <div className="edit-sec-3">
                   <div className="edit-avatar">
@@ -102,7 +203,13 @@ const Profile = () => {
                     <h3>Bio</h3>
                     <p>Add</p>
                   </div>
-                  <p>Describe yourself...</p>
+                  {/* <p>Describe yourself...</p> */}
+                  <input
+                    type="text"
+                    placeholder="Describe yourself..."
+                    onChange={handleBioValue}
+                    value={bioData}
+                  />
                 </div>
                 <div className="edit-sec-5">
                   <div className="edit-custom">
@@ -167,7 +274,7 @@ const Profile = () => {
                     your friends to see.
                   </p>
                 </div>
-                <button>Edit Your About Info</button>
+                <button type="submit">Update Your About Info</button>
               </form>
             </div>
           </div>

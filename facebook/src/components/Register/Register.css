@@ -1,8 +1,8 @@
 #register-screen {
-  height: 100vh;
+  /* height: 100vh; */
   width: 100%;
-  /* margin-top: 60px; */
   background-color: rgb(240, 242, 245);
+  padding: 0 0 20px 0;
   /* border: 1px solid black; */
 }
 
@@ -132,7 +132,7 @@
   color: rgb(155, 155, 155);
 }
 
-#register-screen > #register > #register-body > form > #fields-3 {
+#register-screen > #register > #register-body > form > .common-fields {
   height: 40px;
   width: 100%;
   display: flex;
@@ -142,7 +142,7 @@
   /* border: 1px solid red; */
 }
 
-#register-screen > #register > #register-body > form > #fields-3 > input {
+#register-screen > #register > #register-body > form > .common-fields > input {
   height: 100%;
   width: 92%;
   outline: none;
@@ -155,12 +155,32 @@
   > #register
   > #register-body
   > form
-  > #fields-3
+  > .common-fields
   > input::placeholder {
   padding: 0 0 0 10px;
   font-size: 14px;
   color: rgb(155, 155, 155);
 }
+/* 
+#register-screen > #register > #register-body > form > #fields-4 > input {
+  height: 100%;
+  width: 92%;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  border: 1px solid rgb(207, 207, 207);
+}
+
+#register-screen
+  > #register
+  > #register-body
+  > form
+  > #fields-4
+  > input::placeholder {
+  padding: 0 0 0 10px;
+  font-size: 14px;
+  color: rgb(155, 155, 155);
+} */
 
 #register-screen > #register > #register-body > form > p {
   width: 92%;
@@ -181,21 +201,21 @@
   background-color: rgb(35, 190, 35);
 }
 
-#register-screen > #register > #register-body > form > #sign-in {
+#sign-in {
   width: 92%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 0 30px 0;
+  padding: 0 0 20px 0;
   /* border: 1px solid black; */
 }
 
-#register-screen > #register > #register-body > form > #sign-in > p {
+#sign-in > p {
   font-size: 13px;
   margin: 0 10px 0 0;
   color: rgb(35, 190, 35);
 }
 
-#register-screen > #register > #register-body > form > #sign-in > p > span {
+#sign-in > p > span {
   cursor: pointer;
 }

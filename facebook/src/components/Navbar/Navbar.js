@@ -1,11 +1,43 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Navbar.css";
 import logo from "./../../images/logo.JPG";
 import { useNavigate } from "react-router-dom";
+import { AuthContexts } from "../../Context/AuthContext";
+import toast from "react-hot-toast";
+import api from "../../ApiConfig";
 
 const Navbar = () => {
+  const { state, Logout } = useContext(AuthContexts);
   const navigateTo = useNavigate();
   const [isShowSidePopup, setIsShowSidePopup] = useState(false);
+  const [profileImg, setProfileImg] = useState("");
+
+  const userLogout = () => {
+    Logout();
+    navigateTo("/login");
+    toast.success("Logout Successfull!");
+  };
+
+  useEffect(() => {
+    const getProfileDetails = async () => {
+      const token = JSON.parse(localStorage.getItem("Token"));
+
+      if (token) {
+        const response = await api.post("/get-profile-details", { token });
+
+        try {
+          if (response.data.success) {
+            setProfileImg(response.data.profileImg);
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          toast.error(error.response.data.message);
+        }
+      }
+    };
+    getProfileDetails();
+  }, []);
 
   const openShowSidePopup = () => {
     setIsShowSidePopup(true);
@@ -20,7 +52,7 @@ const Navbar = () => {
       <div id="navbar">
         <div id="left">
           <div id="logo">
-            <img src={logo} alt="logo" onClick={() => navigateTo("/home")} />
+            <img src={logo} alt="logo" onClick={() => navigateTo("/")} />
           </div>
           <div id="search-bar">
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -49,11 +81,18 @@ const Navbar = () => {
           <div>
             <i class="fa-solid fa-bell fa-lg"></i>
           </div>
-          <i
+          {/* <i
             class="fa-solid fa-circle-user fa-2x"
             onMouseOver={openShowSidePopup}
             onMouseLeave={closeShowSidePopup}
-          ></i>
+          ></i> */}
+          <div
+            id="navbar-profile-img"
+            onMouseOver={openShowSidePopup}
+            onMouseLeave={closeShowSidePopup}
+          >
+            <img src={profileImg} alt="profile" />
+          </div>
         </div>
       </div>
 
@@ -67,8 +106,16 @@ const Navbar = () => {
         >
           <div id="sidepopup-header">
             <div id="popup-header" onClick={() => navigateTo("/profile")}>
-              <i class="fa-solid fa-circle-user fa-2x"></i>
-              <h4>Santosh Chappidi</h4>
+              <div id="popup-profile-img">
+                <img src={profileImg} alt="profile" />
+              </div>
+              <h4>
+                {state?.currentUser?.firstName} {state?.currentUser?.lastName}
+              </h4>
+            </div>
+            <div id="logout">
+              <i class="fa-solid fa-right-from-bracket fa-xl"></i>
+              <h4 onClick={() => userLogout()}>Logout</h4>
             </div>
             <div className="profiles">
               <p>See all Profiles</p>

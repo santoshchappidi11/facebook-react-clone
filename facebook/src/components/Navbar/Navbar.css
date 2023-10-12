@@ -123,11 +123,26 @@
   /* border: 1px solid red; */
 }
 
-#navbar > #right > .fa-circle-user {
+/* #navbar > #right > .fa-circle-user {
   margin: 0 4px;
   font-size: 40px;
-  padding: 8px 0;
   cursor: pointer;
+} */
+
+#navbar-profile-img {
+  height: 100%;
+  width: 22px;
+  margin: 0 4px;
+  /* padding: 8px 0; */
+  /* padding: 5px; */
+  /* border: 1px solid black; */
+}
+
+#navbar-profile-img > img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: contain;
 }
 
 /* --------------------------sidepopup--------- */
@@ -135,7 +150,7 @@
 #sidepopup {
   position: absolute;
   position: fixed;
-  top: 55px;
+  top: 47px;
   right: 10px;
   z-index: 60;
   width: 25%;
@@ -163,10 +178,24 @@
   padding: 10px 0 12px 0;
   border-bottom: 1px solid rgb(211, 211, 211);
   cursor: pointer;
+  /* border: 1px solid black; */
 }
 
-#sidepopup > #sidepopup-header > #popup-header > .fa-circle-user {
+/* #sidepopup > #sidepopup-header > #popup-header > .fa-circle-user {
   margin: 0 5px 0 0;
+} */
+
+#popup-profile-img {
+  height: 100%;
+  width: 45px;
+  margin: 0 10px 0 0;
+}
+
+#popup-profile-img > img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: contain;
 }
 
 #sidepopup > #sidepopup-header > #popup-header > h4 {
@@ -178,4 +207,16 @@
   font-weight: 600;
   margin: 10px 0;
   color: rgb(29, 121, 242);
+}
+
+#logout {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  cursor: pointer;
+  /* border: 1px solid black; */
+}
+
+#logout > h4 {
+  padding: 0 10px;
 }
