@@ -10,6 +10,7 @@ import {
   newUserProfileDetails,
   register,
 } from "./Controllers/UserController.js";
+import { addPost, getAllPosts, likeUnlikePost } from "./Controllers/PostController.js";
 
 const app = express();
 
@@ -24,6 +25,9 @@ app.post("/login", login);
 app.post("/get-current-user", getCurrentUser);
 app.post("/new-user-profile", newUserProfileDetails);
 app.post("/get-profile-details", getProfileDetails);
+app.get("/get-all-posts", getAllPosts);
+app.post("/add-post", addPost);
+app.post("/like-unlike-post", likeUnlikePost)
 
 mongoose
   .connect(process.env.MONGO_URL)

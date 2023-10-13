@@ -138,7 +138,7 @@ body {
   width: 95%;
   margin: auto;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   border-bottom: 1px solid rgb(219, 219, 219);
 }
@@ -197,6 +197,11 @@ body {
   width: 70%;
   margin: 10px 0 50px 0;
   /* border: 1px solid black; */
+}
+
+#posts > #no-post-msg{
+  width: 100%;
+  text-align: center;
 }
 
 #home > #middle > #posts > .post {
@@ -575,8 +580,20 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 60px 0 0 0;
+  /* margin: 60px 0 0 0; */
   /* border: 1px solid black; */
+}
+
+#post-body-3 > #post-img-preview {
+  height: 150px;
+  width: 250px;
+  /* border: 1px solid red; */
+}
+
+#post-body-3 > #post-img-preview > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
 }
 
 #create-post-screen
@@ -641,5 +658,40 @@ body {
   font-weight: 600;
   margin: 0 0 15px 0;
   cursor: pointer;
-  background-color: rgb(216, 214, 214);
+  color: white;
+  background-color: rgb(99, 99, 255);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+label {
+  cursor: pointer;
+  margin: 5px 0 0 0;
+  /* color: rgb(28, 28, 255); */
+}
+
+#post-profile-img {
+  height: 50px;
+  width: 50px;
+}
+
+#post-profile-img > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+#left-profile-img {
+  height: 28px;
+  width: 28px;
+}
+
+#left-profile-img > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 50%;
 }

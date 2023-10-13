@@ -13,10 +13,19 @@ const postSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  userImage: {
+    type: String,
+  },
+  userFirstName: {
+    type: String,
+  },
+  userLastName: {
+    type: String,
+  },
   likes: {
     type: [String],
   },
-  object: {
+  comments: {
     type: [Object],
   },
 });

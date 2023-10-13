@@ -58,6 +58,7 @@ export const login = async (req, res) => {
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
 
         const userObj = {
+          userId: user._id,
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
@@ -107,6 +108,7 @@ export const getCurrentUser = async (req, res) => {
 
     if (user) {
       const userObj = {
+        userId: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
