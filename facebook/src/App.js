@@ -8,6 +8,7 @@ import CreateStory from "./components/stories/CreateStory";
 import Profile from "./components/Profile/Profile";
 import Search from "./components/Search/Search";
 import NewUserProfile from "./components/Profile/NewUserProfile";
+import SinglePost from "./components/Posts/SinglePost";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/search" element={<Search />} />
         <Route exact path="/new-user-profile" element={<NewUserProfile />} />
+        <Route exact path="/single-post/:postId" element={<SinglePost />} />
       </Routes>
     </div>
   );

@@ -1,0 +1,122 @@
+#single-post {
+  height: auto;
+  width: 100%;
+  margin: 60px 0 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border: 1px solid black;
+}
+
+#single-post-left {
+  height: auto;
+  width: 60%;
+  border: 1px solid red;
+}
+
+#single-post-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border: 1px solid black;
+}
+
+#single-post-profile-img {
+  height: 120px;
+  width: 120px;
+  margin: 0 10px 0 10px;
+}
+
+#single-post-profile-img > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+#single-post-header > h3 {
+  font-size: 25px;
+}
+
+#main-post {
+  height: auto;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px solid black;
+}
+
+#main-post > div {
+  height: auto;
+  width: auto;
+  text-align: center;
+  margin: 10px 0;
+  border: 1px solid red;
+}
+
+#single-post-caption > h4 {
+  font-size: 25px;
+}
+
+#single-post-img {
+  height: 380px;
+  width: 380px;
+  border: 1px solid black;
+}
+
+#single-post-img > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+#single-post-right {
+  height: auto;
+  width: 25%;
+  /* border: 1px solid blue; */
+}
+
+#post-single-comment {
+  height: auto;
+  width: 80%;
+  margin: 0 0 10px 0;
+  padding: 5px 0;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+#comment-profile {
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#comment-profile > h3 {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+#comment-profile-img {
+  height: 50px;
+  width: 50px;
+  margin: 0 10px 0 5px;
+}
+
+#comment-profile-img > img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+#main-comment {
+  width: 100%;
+  margin: 5px 0 5px 0;
+  padding: 0 5px;
+  font-size: 20px;
+  /* border: 1px solid blue; */
+}

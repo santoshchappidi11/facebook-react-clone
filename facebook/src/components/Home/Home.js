@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import api from "../../ApiConfig";
 import { AuthContexts } from "../../Context/AuthContext";
 import LikePost from "./LikePost";
+import CommentBox from "./CommentBox";
 // import heart from "./../../images/heart.JPG";
 
 const Home = () => {
@@ -29,8 +30,9 @@ const Home = () => {
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
   const [allPosts, setAllPosts] = useState([]);
+  // const [isShowCommentBox, setIsShowCommentBox] = useState(false);
 
-  console.log(allPosts);
+  // console.log(allPosts);
 
   const openCreatePostPopup = () => {
     setIsShowCreatePost(true);
@@ -139,6 +141,10 @@ const Home = () => {
       toast.error("please select caption and image to post something!");
     }
   };
+
+  // const handleShowCommentbox = () => {
+  //   setIsShowCommentBox(!isShowCommentBox);
+  // };
 
   return (
     <>
@@ -271,7 +277,10 @@ const Home = () => {
                       <p>{post.caption} 😂🤗</p>
                     </div>
                   </div>
-                  <div className="postsec-3">
+                  <div
+                    className="postsec-3"
+                    onClick={() => navigateTo(`/single-post/${post._id}`)}
+                  >
                     <div className="img">
                       <img src={post?.image} alt="postimage" />
                     </div>
@@ -295,7 +304,7 @@ const Home = () => {
                       {/* <i class="fa-regular fa-thumbs-up"></i> */}
                       <p>Like</p>
                     </div>
-                    <div>
+                    <div id="sec-5-comment">
                       <i class="fa-regular fa-message"></i>
                       <p>Comment</p>
                     </div>
@@ -304,6 +313,8 @@ const Home = () => {
                       <p>Share</p>
                     </div>
                   </div>
+
+                  <CommentBox postId={post._id} />
                 </div>
               ))
             ) : (
