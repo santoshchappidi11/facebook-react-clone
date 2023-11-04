@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import api from "../../ApiConfig";
 import toast from "react-hot-toast";
 import Navbar from "../Navbar/Navbar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const SinglePost = () => {
   const { postId } = useParams();
@@ -70,7 +72,7 @@ const SinglePost = () => {
             singlePost?.comments?.map((item) => (
               <div id="post-single-comment">
                 <div id="delete-comment">
-                  <i className="fa-solid fa-xmark"></i>
+                  <FontAwesomeIcon icon={faXmark} />
                 </div>
                 <div id="comment-profile">
                   <div id="comment-profile-img">

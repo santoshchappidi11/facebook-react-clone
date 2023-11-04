@@ -2,8 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import api from "../../ApiConfig";
 import toast from "react-hot-toast";
 import { AuthContexts } from "../../Context/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 
-const LikePost = ({ postId, likes }) => {
+const LikePost = ({ postId, likes, setAllPosts }) => {
   const { state } = useContext(AuthContexts);
   const [isPostLiked, setIsPostLiked] = useState();
 
@@ -11,9 +13,10 @@ const LikePost = ({ postId, likes }) => {
     for (let i = 0; i < likes.length; i++) {
       if (likes[i] == state?.currentUser?.userId) {
         setIsPostLiked(true);
-      } else {
-        setIsPostLiked(false);
       }
+      // else {
+      //   setIsPostLiked(false);
+      // }
     }
   }, [state, likes]);
 
@@ -26,6 +29,7 @@ const LikePost = ({ postId, likes }) => {
       if (response.data.success) {
         toast.success(response.data.message);
         setIsPostLiked(response.data.isPostLike);
+        setAllPosts(response.data.allPosts);
       } else {
         toast.error(response.data.message);
       }
@@ -34,14 +38,14 @@ const LikePost = ({ postId, likes }) => {
 
   return (
     <div>
-      <i
-        class="fa-solid fa-thumbs-up"
+      <FontAwesomeIcon
+        icon={faThumbsUp}
         style={{
           cursor: "pointer",
           color: `${isPostLiked ? "blue" : "black"}`,
         }}
         onClick={handlePostLike}
-      ></i>
+      />
     </div>
   );
 };

@@ -18,6 +18,9 @@ import api from "../../ApiConfig";
 import { AuthContexts } from "../../Context/AuthContext";
 import LikePost from "./LikePost";
 import CommentBox from "./CommentBox";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMessage } from "@fortawesome/free-regular-svg-icons";
+import { faShare } from "@fortawesome/free-solid-svg-icons";
 // import heart from "./../../images/heart.JPG";
 
 const Home = () => {
@@ -300,20 +303,18 @@ const Home = () => {
                   </div>
                   <div className="postsec-5">
                     <div>
-                      <LikePost postId={post._id} likes={post?.likes} />
-                      {/* <i class="fa-regular fa-thumbs-up"></i> */}
+                      <LikePost postId={post._id} likes={post?.likes} setAllPosts={setAllPosts} />
                       <p>Like</p>
                     </div>
                     <div id="sec-5-comment">
-                      <i class="fa-regular fa-message"></i>
+                      <FontAwesomeIcon icon={faMessage} />
                       <p>Comment</p>
                     </div>
                     <div>
-                      <i class="fa-solid fa-share"></i>
+                      <FontAwesomeIcon icon={faShare} />
                       <p>Share</p>
                     </div>
                   </div>
-
                   <CommentBox postId={post._id} />
                 </div>
               ))

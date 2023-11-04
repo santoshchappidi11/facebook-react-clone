@@ -103,10 +103,12 @@ export const likeUnlikePost = async (req, res) => {
       if (flag == false) {
         post?.likes?.push(user._id);
         await post.save();
+        const allPosts = await PostModel.find({});
         return res.status(200).json({
           success: true,
           message: "You liked the post!",
           isPostLike: true,
+          allPosts,
         });
       }
 
@@ -117,10 +119,12 @@ export const likeUnlikePost = async (req, res) => {
         { new: true }
       );
       await updatedPost.save();
+      const allPosts = await PostModel.find({});
       return res.status(200).json({
         success: true,
         message: "You unliked the post!",
         isPostLike: false,
+        allPosts
       });
     }
     return res.status(404).json({ success: false, message: "No post found!" });
