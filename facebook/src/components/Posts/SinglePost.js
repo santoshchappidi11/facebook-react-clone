@@ -51,7 +51,9 @@ const SinglePost = () => {
           <div id="main-post">
             <div>
               <div id="single-post-caption">
-                <h4>{singlePost?.caption}</h4>
+                <h4>
+                  Caption : <span>{singlePost?.caption}</span>
+                </h4>
               </div>
               <div id="single-post-img">
                 <img src={singlePost?.image} alt="post" />
@@ -60,9 +62,16 @@ const SinglePost = () => {
           </div>
         </div>
         <div id="single-post-right">
-          {singlePost ? (
+          <div id="comment-header">
+            <h3>Comments:</h3>
+          </div>
+
+          {singlePost?.comments?.length ? (
             singlePost?.comments?.map((item) => (
               <div id="post-single-comment">
+                <div id="delete-comment">
+                  <i className="fa-solid fa-xmark"></i>
+                </div>
                 <div id="comment-profile">
                   <div id="comment-profile-img">
                     <img src={item.profileImg} alt="profile" />
@@ -77,7 +86,7 @@ const SinglePost = () => {
               </div>
             ))
           ) : (
-            <p>No Comments!</p>
+            <p>No Comments Yet!</p>
           )}
         </div>
       </div>
