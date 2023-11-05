@@ -65,6 +65,44 @@ export const addPost = async (req, res) => {
   }
 };
 
+export const getSinglePost = async (req, res) => {
+  try {
+    const { token, postId } = req.body;
+
+    if (!token || !postId)
+      return res
+        .status(404)
+        .json({ success: false, message: "All fields are required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (user) {
+      const post = await PostModel.findById(postId);
+
+      if (post) {
+        return res.status(200).json({ success: true, post });
+      }
+
+      return res
+        .status(404)
+        .json({ success: false, message: "No post found!" });
+    }
+
+    return res.status(404).json({ success: false, message: "No user found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 export const likeUnlikePost = async (req, res) => {
   try {
     const { token, postId } = req.body;
@@ -124,7 +162,7 @@ export const likeUnlikePost = async (req, res) => {
         success: true,
         message: "You unliked the post!",
         isPostLike: false,
-        allPosts
+        allPosts,
       });
     }
     return res.status(404).json({ success: false, message: "No post found!" });
@@ -187,11 +225,11 @@ export const addComment = async (req, res) => {
   }
 };
 
-export const getSinglePost = async (req, res) => {
+export const deleteComment = async (req, res) => {
   try {
-    const { token, postId } = req.body;
+    const { token, postId, ID } = req.body;
 
-    if (!token || !postId)
+    if (!token || !postId || !ID)
       return res
         .status(404)
         .json({ success: false, message: "All fields are required!" });
@@ -210,16 +248,106 @@ export const getSinglePost = async (req, res) => {
     if (user) {
       const post = await PostModel.findById(postId);
 
-      if (post) {
-        return res.status(200).json({ success: true, post });
+      if (post && post?.comments) {
+        let flag = false;
+
+        for (let i = 0; i < post?.comments?.length; i++) {
+          if (
+            post?.comments[i]?.userId?.equals(user._id) &&
+            post?.comments[i]?.commentId == ID
+          ) {
+            flag = true;
+            console.log("true reached here");
+          }
+        }
+
+        if (flag == false) {
+          return res.status(404).json({
+            success: false,
+            message: "Can't delete, Not your comment!",
+          });
+        }
+
+        const filteredComments = post?.comments?.filter(
+          (item) => item.commentId != ID
+        );
+
+        post.comments = filteredComments;
+
+        await post.save();
+
+        const singlePost = await PostModel.findById(postId);
+        return res.status(200).json({
+          success: true,
+          message: "Your Comment Deleted!",
+          post: singlePost,
+        });
+      }
+      return res
+        .status(404)
+        .json({ success: false, message: "Post Not found!" });
+    }
+    return res.status(404).json({ success: false, message: "User not found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const getEditComment = async (req, res) => {
+  try {
+    const { token, postId, ID } = req.body;
+    console.log(token, postId, ID);
+
+    if (!token || !postId || !ID)
+      return res
+        .status(404)
+        .json({ success: false, message: "All fields are required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (user) {
+      const post = await PostModel.findById(postId);
+
+      if (post && post?.comments) {
+        let flag = false;
+
+        for (let i = 0; i < post?.comments?.length; i++) {
+          if (
+            post?.comments[i]?.userId?.equals(user._id) &&
+            post?.comments[i]?.commentId == ID
+          ) {
+            flag = true;
+            console.log("true edit here");
+            return res.status(200).json({
+              success: true,
+              comment: post?.comments[i]?.comment,
+            });
+          }
+        }
+
+        if (flag == false) {
+          return res.status(404).json({
+            success: false,
+            message: "Can't edit, Not your comment!",
+          });
+        }
       }
 
       return res
         .status(404)
-        .json({ success: false, message: "No post found!" });
+        .json({ success: false, message: "Post Not found!" });
     }
 
-    return res.status(404).json({ success: false, message: "No user found!" });
+    return res.status(404).json({ success: false, message: "User Not found!" });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
   }

@@ -6,11 +6,13 @@ import toast from "react-hot-toast";
 import Navbar from "../Navbar/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 
 const SinglePost = () => {
   const { postId } = useParams();
   const [singlePost, setSinglePost] = useState({});
-  console.log(singlePost);
+  const [editComment, setEditComment] = useState("");
+  console.log(editComment, "edit comment");
 
   useEffect(() => {
     const getSinglePost = async () => {
@@ -36,6 +38,51 @@ const SinglePost = () => {
 
     getSinglePost();
   }, [postId]);
+
+  const deleteComment = async (ID) => {
+    const token = JSON.parse(localStorage.getItem("Token"));
+
+    if (token) {
+      try {
+        const response = await api.post("/delete-comment", {
+          token,
+          postId,
+          ID,
+        });
+
+        if (response.data.success) {
+          setSinglePost(response.data.post);
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    }
+  };
+
+  const getEditComment = async (ID) => {
+    const token = JSON.parse(localStorage.getItem("Token"));
+
+    if (token && postId) {
+      try {
+        const response = await api.post("/get-edit-comment", {
+          token,
+          postId,
+          ID,
+        });
+
+        if (response.data.success) {
+          setEditComment(response.data.comment);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    }
+  };
 
   return (
     <>
@@ -70,9 +117,20 @@ const SinglePost = () => {
 
           {singlePost?.comments?.length ? (
             singlePost?.comments?.map((item) => (
-              <div id="post-single-comment">
-                <div id="delete-comment">
-                  <FontAwesomeIcon icon={faXmark} />
+              <div id="post-single-comment" key={item.commentId}>
+                <div id="comment-actions">
+                  <div id="edit-comment">
+                    <FontAwesomeIcon
+                      icon={faPenToSquare}
+                      onClick={() => getEditComment(item?.commentId)}
+                    />
+                  </div>
+                  <div id="delete-comment">
+                    <FontAwesomeIcon
+                      icon={faXmark}
+                      onClick={() => deleteComment(item?.commentId)}
+                    />
+                  </div>
                 </div>
                 <div id="comment-profile">
                   <div id="comment-profile-img">
@@ -85,6 +143,7 @@ const SinglePost = () => {
                 <div id="main-comment">
                   <h5>{item.comment}</h5>
                 </div>
+                <p>{editComment}</p>
               </div>
             ))
           ) : (

@@ -33,7 +33,7 @@ const Home = () => {
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
   const [allPosts, setAllPosts] = useState([]);
-  // const [isShowCommentBox, setIsShowCommentBox] = useState(false);
+  const [isShowCommentBox, setIsShowCommentBox] = useState(false);
 
   // console.log(allPosts);
 
@@ -50,7 +50,7 @@ const Home = () => {
       setUserFirstName(state?.currentUser?.firstName);
       setUserLastName(state?.currentUser?.lastName);
     }
-  }, [state]);
+  }, [state, navigateTo]);
 
   useEffect(() => {
     const getAllPosts = async () => {
@@ -145,9 +145,9 @@ const Home = () => {
     }
   };
 
-  // const handleShowCommentbox = () => {
-  //   setIsShowCommentBox(!isShowCommentBox);
-  // };
+  const handleShowCommentbox = () => {
+    setIsShowCommentBox(!isShowCommentBox);
+  };
 
   return (
     <>
@@ -303,10 +303,14 @@ const Home = () => {
                   </div>
                   <div className="postsec-5">
                     <div>
-                      <LikePost postId={post._id} likes={post?.likes} setAllPosts={setAllPosts} />
+                      <LikePost
+                        postId={post._id}
+                        likes={post?.likes}
+                        setAllPosts={setAllPosts}
+                      />
                       <p>Like</p>
                     </div>
-                    <div id="sec-5-comment">
+                    <div id="sec-5-comment" onClick={handleShowCommentbox}>
                       <FontAwesomeIcon icon={faMessage} />
                       <p>Comment</p>
                     </div>
@@ -315,7 +319,7 @@ const Home = () => {
                       <p>Share</p>
                     </div>
                   </div>
-                  <CommentBox postId={post._id} />
+                  {<CommentBox postId={post._id} />}
                 </div>
               ))
             ) : (

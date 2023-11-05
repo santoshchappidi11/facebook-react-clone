@@ -175,12 +175,19 @@
   margin: 10px 0 10px 0;
 }
 
-#delete-comment {
+#comment-actions {
   width: 100%;
-  text-align: right;
+  display: flex;
+  justify-content: end;
+  align-items: center;
   /* border: 1px solid black; */
 }
 
-#delete-comment > .fa-xmark {
+#edit-comment {
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+#delete-comment {
   cursor: pointer;
 }

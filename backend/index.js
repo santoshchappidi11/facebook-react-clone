@@ -13,7 +13,9 @@ import {
 import {
   addComment,
   addPost,
+  deleteComment,
   getAllPosts,
+  getEditComment,
   getSinglePost,
   likeUnlikePost,
 } from "./Controllers/PostController.js";
@@ -35,7 +37,9 @@ app.get("/get-all-posts", getAllPosts);
 app.post("/add-post", addPost);
 app.post("/like-unlike-post", likeUnlikePost);
 app.post("/add-comment", addComment);
+app.post("/delete-comment", deleteComment);
 app.post("/get-single-post", getSinglePost);
+app.post("/get-edit-comment", getEditComment);
 
 mongoose
   .connect(process.env.MONGO_URL)
