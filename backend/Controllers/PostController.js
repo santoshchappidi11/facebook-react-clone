@@ -296,7 +296,7 @@ export const deleteComment = async (req, res) => {
 export const getEditComment = async (req, res) => {
   try {
     const { token, postId, ID } = req.body;
-    console.log(token, postId, ID);
+    // console.log(token, postId, ID);
 
     if (!token || !postId || !ID)
       return res
@@ -326,7 +326,7 @@ export const getEditComment = async (req, res) => {
             post?.comments[i]?.commentId == ID
           ) {
             flag = true;
-            console.log("true edit here");
+            // console.log("true edit here");
             return res.status(200).json({
               success: true,
               comment: post?.comments[i]?.comment,
@@ -348,6 +348,75 @@ export const getEditComment = async (req, res) => {
     }
 
     return res.status(404).json({ success: false, message: "User Not found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const updateComment = async (req, res) => {
+  try {
+    const { token, postId, ID, updatedComment } = req.body;
+
+    if (!token || !postId || !ID || !updatedComment)
+      return res
+        .status(404)
+        .json({ success: false, message: "All fields are required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (user) {
+      const post = await PostModel.findById(postId);
+
+      if (post && post?.comments) {
+        let flag = false;
+
+        for (let i = 0; i < post?.comments?.length; i++) {
+          if (
+            post?.comments[i]?.userId?.equals(user._id) &&
+            post?.comments[i]?.commentId == ID
+          ) {
+            flag = true;
+            // console.log(post.comments[i].comment, "the comment to update!");
+          }
+        }
+
+        const updatedCommentPost = await PostModel.updateOne(
+          { _id: postId, "comments.commentId": ID },
+          { $set: { "comments.$.comment": updatedComment } }
+        );
+
+        if (updatedCommentPost) {
+          const updatedPost = await PostModel.findById(postId);
+          return res.status(200).json({
+            success: true,
+            message: "You Comment Updated!",
+            post: updatedPost,
+          });
+        }
+
+        if (flag == false) {
+          return res.status(404).json({
+            success: false,
+            message: "Something went wrong, can't update!",
+          });
+        }
+      }
+
+      return res
+        .status(404)
+        .json({ success: false, message: "Post not found!" });
+    }
+
+    return res.status(404).json({ success: false, message: "User not found!" });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
   }

@@ -18,6 +18,7 @@ import {
   getEditComment,
   getSinglePost,
   likeUnlikePost,
+  updateComment,
 } from "./Controllers/PostController.js";
 
 const app = express();
@@ -40,6 +41,7 @@ app.post("/add-comment", addComment);
 app.post("/delete-comment", deleteComment);
 app.post("/get-single-post", getSinglePost);
 app.post("/get-edit-comment", getEditComment);
+app.post("/update-comment", updateComment);
 
 mongoose
   .connect(process.env.MONGO_URL)
