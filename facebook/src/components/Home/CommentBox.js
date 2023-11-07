@@ -3,7 +3,7 @@ import api from "../../ApiConfig";
 import toast from "react-hot-toast";
 import { AuthContexts } from "../../Context/AuthContext";
 
-const CommentBox = ({ postId, setAllPosts }) => {
+const CommentBox = ({ postId, setAllPosts, setSinglePost }) => {
   const { state } = useContext(AuthContexts);
   const [userComment, setUserComment] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -59,7 +59,14 @@ const CommentBox = ({ postId, setAllPosts }) => {
 
           if (response.data.success) {
             toast.success(response.data.message);
-            setAllPosts(response.data.allPosts);
+            if (setAllPosts) {
+              setAllPosts(response.data.allPosts);
+            }
+
+            if (setSinglePost) {
+              setSinglePost(response.data.post);
+            }
+
             setUserComment("");
           } else {
             toast.error(response.data.message);
@@ -81,7 +88,7 @@ const CommentBox = ({ postId, setAllPosts }) => {
         onChange={handleCommentValue}
         value={userComment}
       />
-      <button onClick={() => handleCommentSubmit(postId)}>Add Comment</button>
+      <button onClick={() => handleCommentSubmit(postId)}>Comment</button>
     </div>
   );
 };

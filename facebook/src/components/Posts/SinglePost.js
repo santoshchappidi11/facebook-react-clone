@@ -11,6 +11,7 @@ import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import LikePost from "../Home/LikePost";
+import CommentBox from "../Home/CommentBox";
 
 const SinglePost = () => {
   const { postId } = useParams();
@@ -18,10 +19,15 @@ const SinglePost = () => {
   const [editComment, setEditComment] = useState("");
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [updatedComment, setUpdatedComment] = useState("");
+  const [isShowCommentBox, setIsShowCommentBox] = useState(false);
   // console.log(editComment, "edit comment");
 
   const handleUpdatedCommentValue = (e) => {
     setUpdatedComment(e.target.value);
+  };
+
+  const toggleCommentBox = () => {
+    setIsShowCommentBox(!isShowCommentBox);
   };
 
   useEffect(() => {
@@ -190,7 +196,7 @@ const SinglePost = () => {
               />
               <p>Like</p>
             </div>
-            <div id="sec-5-comment">
+            <div onClick={toggleCommentBox}>
               <FontAwesomeIcon icon={faMessage} />
               <p>Comment</p>
             </div>
@@ -199,6 +205,9 @@ const SinglePost = () => {
               <p>Share</p>
             </div>
           </div>
+          {isShowCommentBox && (
+            <CommentBox postId={singlePost._id} setSinglePost={setSinglePost} />
+          )}
           <div id="single-post-comments">
             {singlePost ? (
               singlePost?.comments?.map((item) => (

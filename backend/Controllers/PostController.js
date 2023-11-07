@@ -215,9 +215,13 @@ export const addComment = async (req, res) => {
         post?.comments?.push(commentObj);
         await post.save();
         const allPosts = await PostModel.find({});
-        return res
-          .status(200)
-          .json({ success: true, message: "comment added to post!", allPosts });
+        const singlePost = await PostModel.findById(postId);
+        return res.status(200).json({
+          success: true,
+          message: "comment added to post!",
+          allPosts,
+          post: singlePost,
+        });
       }
 
       return res

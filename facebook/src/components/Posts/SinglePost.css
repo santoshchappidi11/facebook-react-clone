@@ -142,6 +142,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  /* border: 1px solid black; */
 }
 
 #user-actions > div > p {
@@ -250,7 +252,7 @@
 
 #edit-modal-header > h4 {
   font-size: 20px;
-  margin: 0 0 0 190px;
+  margin: 0 0 0 230px;
 }
 
 .edit-modal-close {
