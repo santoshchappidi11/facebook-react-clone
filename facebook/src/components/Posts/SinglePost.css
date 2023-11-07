@@ -1,4 +1,5 @@
 #single-post {
+  position: relative;
   height: calc(100vh - 55px);
   width: 100%;
   margin: 58px 0 0 0;
@@ -100,9 +101,14 @@
   align-items: center;
 }
 
-#user-activity > #user-left,
-#user-right {
-  width: 40%;
+#user-activity > #user-left {
+  display: flex;
+  width: 20%;
+  /* border: 1px solid green; */
+}
+
+#user-activity > #user-right {
+  width: 80%;
   display: flex;
   /* border: 1px solid green; */
 }
@@ -193,6 +199,7 @@
 }
 
 .comment-actions {
+  /* width: 80px; */
   margin: 0 0 0 5px;
   text-align: end;
   /* border: 1px solid black; */
@@ -205,4 +212,115 @@
 .comment-actions .edit,
 .delete {
   cursor: pointer;
+}
+
+#edit-comment-modal-screen {
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(235, 235, 235, 0.8);
+}
+
+#edit-comment-modal {
+  height: auto;
+  width: 48%;
+  border-radius: 5px;
+  background-color: white;
+  padding: 10px 0 20px 0;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+#edit-modal-header {
+  height: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  float: right;
+  padding: 0 10px;
+  /* border: 1px solid blue; */
+}
+
+#edit-modal-header > h4 {
+  font-size: 20px;
+  margin: 0 0 0 190px;
+}
+
+.edit-modal-close {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin: 0 3px 0 15px;
+  padding: 8px 10px;
+  cursor: pointer;
+  color: rgb(56, 56, 56);
+  font-size: 22px;
+  background-color: rgb(218, 218, 218);
+}
+
+#edit-modal-body {
+  display: flex;
+  padding: 20px 15px 20px 15px;
+  /* border: 1px solid black; */
+}
+
+#edit-comment-img {
+}
+
+#edit-comment-img > img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  margin: 0 10px 0 0;
+  object-fit: contain;
+  /* border: 1px solid red; */
+}
+
+#edit-comment-details {
+  width: 85%;
+  padding: 10px 15px;
+  border-radius: 15px;
+  background-color: rgb(240, 242, 245);
+}
+
+#edit-comment-details > h5 {
+  font-size: 18px;
+}
+
+#edit-main-comment {
+  display: flex;
+  margin: 10px 0;
+  /* border: 1px solid green; */
+}
+
+#edit-main-comment > input {
+  height: 38px;
+  width: 65%;
+  border: none;
+  outline: none;
+}
+
+#edit-main-comment > input::placeholder {
+  padding: 0 10px;
+}
+
+#edit-main-comment > button {
+  padding: 8px 8px;
+  margin: 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+  background: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  background-color: rgb(99, 99, 255);
 }

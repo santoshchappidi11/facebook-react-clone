@@ -16,7 +16,13 @@ const SinglePost = () => {
   const { postId } = useParams();
   const [singlePost, setSinglePost] = useState({});
   const [editComment, setEditComment] = useState("");
-  console.log(editComment, "edit comment");
+  const [isShowEditModal, setIsShowEditModal] = useState(false);
+  const [updatedComment, setUpdatedComment] = useState("");
+  // console.log(editComment, "edit comment");
+
+  const handleUpdatedCommentValue = (e) => {
+    setUpdatedComment(e.target.value);
+  };
 
   useEffect(() => {
     const getSinglePost = async () => {
@@ -78,7 +84,9 @@ const SinglePost = () => {
         });
 
         if (response.data.success) {
-          setEditComment(response.data.comment);
+          setIsShowEditModal(true);
+          setEditComment(response.data.editComment);
+          setUpdatedComment(response.data.comment);
         } else {
           toast.error(response.data.message);
         }
@@ -86,6 +94,36 @@ const SinglePost = () => {
         toast.error(error.response.data.message);
       }
     }
+  };
+
+  const updateUserComment = async (ID) => {
+    const token = JSON.parse(localStorage.getItem("Token"));
+
+    if (token && postId) {
+      try {
+        const response = await api.post("/update-comment", {
+          token,
+          postId,
+          ID,
+          updatedComment,
+        });
+
+        if (response.data.success) {
+          setIsShowEditModal(false);
+          // setUpdatedComment(response.data.comment);
+          setSinglePost(response.data.post);
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    }
+  };
+
+  const closeEditPostModal = () => {
+    setIsShowEditModal(false);
   };
 
   return (
@@ -126,15 +164,18 @@ const SinglePost = () => {
               <div id="user-activity">
                 <div id="user-left">
                   <img src={like} alt="like" />
-                  {/* <p>{singlePost?.likes ? singlePost?.likes?.length : "0"}</p> */}
-                  {/* <img src={heart} alt="heart" /> */}
+                  <p>{singlePost?.likes ? singlePost?.likes?.length : "0"}</p>
                 </div>
                 <div id="user-right">
                   <p>
-                    <FontAwesomeIcon icon={faMessage} /> 531
+                    <FontAwesomeIcon icon={faMessage} />{" "}
+                    {singlePost?.comments ? singlePost?.comments?.length : "0"}
+                    {singlePost?.comments?.length > 1
+                      ? " comments"
+                      : " comment"}
                   </p>
                   <p>
-                    <FontAwesomeIcon icon={faShare} /> 112
+                    <FontAwesomeIcon icon={faShare} /> 112 shares
                   </p>
                 </div>
               </div>
@@ -142,11 +183,11 @@ const SinglePost = () => {
           </div>
           <div id="user-actions">
             <div>
-              {/* <LikePost
-              postId={post._id}
-              likes={post?.likes}
-              setAllPosts={setAllPosts}
-               />  */}
+              <LikePost
+                postId={singlePost?._id}
+                likes={singlePost?.likes}
+                setSinglePost={setSinglePost}
+              />
               <p>Like</p>
             </div>
             <div id="sec-5-comment">
@@ -175,8 +216,16 @@ const SinglePost = () => {
                       </div>
                     </div>
                     <div className="comment-actions">
-                      <FontAwesomeIcon icon={faPenToSquare} className="edit" />
-                      <FontAwesomeIcon icon={faXmark} className="delete" />
+                      <FontAwesomeIcon
+                        icon={faPenToSquare}
+                        className="edit"
+                        onClick={() => getEditComment(item.commentId)}
+                      />
+                      <FontAwesomeIcon
+                        icon={faXmark}
+                        className="delete"
+                        onClick={() => deleteComment(item.commentId)}
+                      />
                     </div>
                   </div>
                 </div>
@@ -186,6 +235,45 @@ const SinglePost = () => {
             )}
           </div>
         </div>
+
+        {isShowEditModal && (
+          <div id="edit-comment-modal-screen">
+            <div id="edit-comment-modal">
+              <div id="edit-modal-header">
+                <h4>Edit Comment</h4>
+                <FontAwesomeIcon
+                  icon={faXmark}
+                  className="edit-modal-close"
+                  onClick={closeEditPostModal}
+                />
+              </div>
+              <div id="edit-modal-body">
+                <div id="edit-comment-img">
+                  <img src={editComment?.profileImg} alt="comment" />
+                </div>
+                <div id="edit-comment-details">
+                  <h5>
+                    {editComment?.firstName} {editComment?.lastName}
+                  </h5>
+                  <div id="edit-main-comment">
+                    <input
+                      type="text"
+                      placeholder="Edit Your Comment..."
+                      value={updatedComment}
+                      onChange={handleUpdatedCommentValue}
+                    />
+                    <button
+                      type="submit"
+                      onClick={() => updateUserComment(editComment?.commentId)}
+                    >
+                      Update Comment
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

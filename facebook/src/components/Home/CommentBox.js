@@ -3,7 +3,7 @@ import api from "../../ApiConfig";
 import toast from "react-hot-toast";
 import { AuthContexts } from "../../Context/AuthContext";
 
-const CommentBox = ({ postId }) => {
+const CommentBox = ({ postId, setAllPosts }) => {
   const { state } = useContext(AuthContexts);
   const [userComment, setUserComment] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -59,6 +59,7 @@ const CommentBox = ({ postId }) => {
 
           if (response.data.success) {
             toast.success(response.data.message);
+            setAllPosts(response.data.allPosts);
             setUserComment("");
           } else {
             toast.error(response.data.message);

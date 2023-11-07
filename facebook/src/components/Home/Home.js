@@ -296,7 +296,10 @@ const Home = () => {
                         {/* <img src={heart} alt="heart" /> */}
                       </div>
                       <div className="activity-right">
-                        <p>531 comments</p>
+                        <p>
+                          {post?.comments ? post?.comments?.length : "0"}{" "}
+                          {post?.comments?.length > 1 ? "comments" : "comment"}
+                        </p>
                         <p>112 shares</p>
                       </div>
                     </div>
@@ -319,7 +322,7 @@ const Home = () => {
                       <p>Share</p>
                     </div>
                   </div>
-                  {<CommentBox postId={post._id} />}
+                  {<CommentBox postId={post._id} setAllPosts={setAllPosts} />}
                 </div>
               ))
             ) : (

@@ -142,11 +142,13 @@ export const likeUnlikePost = async (req, res) => {
         post?.likes?.push(user._id);
         await post.save();
         const allPosts = await PostModel.find({});
+        const singlePost = await PostModel.findById(postId);
         return res.status(200).json({
           success: true,
           message: "You liked the post!",
           isPostLike: true,
           allPosts,
+          singlePost,
         });
       }
 
@@ -158,11 +160,13 @@ export const likeUnlikePost = async (req, res) => {
       );
       await updatedPost.save();
       const allPosts = await PostModel.find({});
+      const singlePost = await PostModel.findById(postId);
       return res.status(200).json({
         success: true,
         message: "You unliked the post!",
         isPostLike: false,
         allPosts,
+        singlePost,
       });
     }
     return res.status(404).json({ success: false, message: "No post found!" });
@@ -210,9 +214,10 @@ export const addComment = async (req, res) => {
 
         post?.comments?.push(commentObj);
         await post.save();
+        const allPosts = await PostModel.find({});
         return res
           .status(200)
-          .json({ success: true, message: "comment added to post!" });
+          .json({ success: true, message: "comment added to post!", allPosts });
       }
 
       return res
@@ -257,7 +262,7 @@ export const deleteComment = async (req, res) => {
             post?.comments[i]?.commentId == ID
           ) {
             flag = true;
-            console.log("true reached here");
+            // console.log("true reached here");
           }
         }
 
@@ -329,6 +334,7 @@ export const getEditComment = async (req, res) => {
             // console.log("true edit here");
             return res.status(200).json({
               success: true,
+              editComment: post?.comments[i],
               comment: post?.comments[i]?.comment,
             });
           }
@@ -398,7 +404,7 @@ export const updateComment = async (req, res) => {
           const updatedPost = await PostModel.findById(postId);
           return res.status(200).json({
             success: true,
-            message: "You Comment Updated!",
+            message: "Your Comment Updated!",
             post: updatedPost,
           });
         }
