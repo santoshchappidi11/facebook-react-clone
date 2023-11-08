@@ -16,6 +16,8 @@ import {
   deleteComment,
   getAllPosts,
   getEditComment,
+  getSearchQuery,
+  getSearchResult,
   getSinglePost,
   likeUnlikePost,
   updateComment,
@@ -42,6 +44,8 @@ app.post("/delete-comment", deleteComment);
 app.post("/get-single-post", getSinglePost);
 app.post("/get-edit-comment", getEditComment);
 app.post("/update-comment", updateComment);
+app.post("/get-search-query", getSearchQuery);
+app.post("/get-search-result", getSearchResult);
 
 mongoose
   .connect(process.env.MONGO_URL)

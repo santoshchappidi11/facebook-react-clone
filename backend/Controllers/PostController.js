@@ -431,3 +431,49 @@ export const updateComment = async (req, res) => {
     return res.status(500).json({ success: false, error: error.message });
   }
 };
+
+export const getSearchQuery = async (req, res) => {
+  try {
+    const { firstName } = req.body;
+
+    if (!firstName)
+      return res
+        .status(404)
+        .json({ success: false, message: "Please search Something!" });
+
+    const query = {};
+    if (firstName) {
+      query.firstName = { $regex: firstName, $options: "i" };
+    }
+
+    const allUsers = await UserModel.find(query);
+
+    if (allUsers) {
+      return res.status(200).json({ success: true, users: allUsers });
+    }
+
+    return res.status(404).json({ success: false, message: "No Match Found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export const getSearchResult = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    if (!userId)
+      return res
+        .status(404)
+        .json({ success: false, message: "User Id is required!" });
+
+    const singleUser = await UserModel.findById(userId);
+
+    if (singleUser)
+      return res.status(200).json({ success: true, user: singleUser });
+
+    return res.status(404).json({ success: false, message: "No User!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};

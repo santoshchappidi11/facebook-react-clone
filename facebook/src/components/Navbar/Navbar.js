@@ -7,16 +7,55 @@ import toast from "react-hot-toast";
 import api from "../../ApiConfig";
 
 const Navbar = () => {
-  const { state, Logout } = useContext(AuthContexts);
+  const { state, Logout, getSearchId } = useContext(AuthContexts);
   const navigateTo = useNavigate();
   const [isShowSidePopup, setIsShowSidePopup] = useState(false);
   const [profileImg, setProfileImg] = useState("");
+  const [isShowNavbarSearchBox, setIsShowNavbarSearchBox] = useState(false);
+  const [searchInputValue, setSearchInputValue] = useState("");
+  const [allUsers, setAllUsers] = useState([]);
 
   const userLogout = () => {
     Logout();
     navigateTo("/login");
     toast.success("Logout Successfull!");
   };
+
+  const handleSearchInputValue = (e) => {
+    if (e.target.value == "") {
+      setIsShowNavbarSearchBox(false);
+    } else {
+      setIsShowNavbarSearchBox(true);
+    }
+
+    setSearchInputValue(e.target.value);
+  };
+
+  const navigateToSearchPage = (userId) => {
+    navigateTo("/search");
+    getSearchId(userId);
+    setIsShowNavbarSearchBox(false)
+  };
+
+  useEffect(() => {
+    const getSearchQuery = async () => {
+      try {
+        const response = await api.post("/get-search-query", {
+          firstName: searchInputValue,
+        });
+
+        if (response.data.success) {
+          setAllUsers(response.data.users);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    };
+
+    getSearchQuery();
+  }, [searchInputValue]);
 
   useEffect(() => {
     const getProfileDetails = async () => {
@@ -56,7 +95,11 @@ const Navbar = () => {
           </div>
           <div id="search-bar">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Search Facebook" />
+            <input
+              type="text"
+              placeholder="Search Facebook"
+              onChange={handleSearchInputValue}
+            />
           </div>
         </div>
         <div id="middle">
@@ -81,11 +124,6 @@ const Navbar = () => {
           <div>
             <i class="fa-solid fa-bell fa-lg"></i>
           </div>
-          {/* <i
-            class="fa-solid fa-circle-user fa-2x"
-            onMouseOver={openShowSidePopup}
-            onMouseLeave={closeShowSidePopup}
-          ></i> */}
           <div
             id="navbar-profile-img"
             onMouseOver={openShowSidePopup}
@@ -122,6 +160,31 @@ const Navbar = () => {
             </div>
           </div>
           <div id="sidepopup-body"></div>
+        </div>
+      )}
+
+      {/* -----------------------------search-results------------------------------------ */}
+
+      {isShowNavbarSearchBox && (
+        <div id="navbar-search-results">
+          {allUsers?.length > 0 ? (
+            allUsers?.map((item) => (
+              <div
+                className="navbar-search-result"
+                key={item._id}
+                onClick={() => navigateToSearchPage(item._id)}
+              >
+                <div className="navbar-search-img">
+                  <img src={item.profileImg} alt="search" />
+                </div>
+                <h4>
+                  {item.firstName} {item.lastName}
+                </h4>
+              </div>
+            ))
+          ) : (
+            <p>No results!</p>
+          )}
         </div>
       )}
     </>

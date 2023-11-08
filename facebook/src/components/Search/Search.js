@@ -1,8 +1,38 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Search.css";
 import Navbar from "../Navbar/Navbar";
+import toast from "react-hot-toast";
+import api from "../../ApiConfig";
+import { AuthContexts } from "../../Context/AuthContext";
 
 const Search = () => {
+  const { state } = useContext(AuthContexts);
+  const [searchUser, setSearchUser] = useState({});
+
+  console.log(searchUser, "search user here");
+
+  useEffect(() => {
+    const getSearchResults = async () => {
+      if (state?.searchId) {
+        try {
+          const response = await api.post("/get-search-result", {
+            userId: state.searchId,
+          });
+
+          if (response.data.success) {
+            setSearchUser(response.data.user);
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          console.log(error.response.data.message);
+        }
+      }
+    };
+
+    getSearchResults();
+  }, [state]);
+
   return (
     <div id="search">
       <Navbar />
