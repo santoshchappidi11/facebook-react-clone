@@ -468,9 +468,12 @@ export const getSearchResult = async (req, res) => {
         .json({ success: false, message: "User Id is required!" });
 
     const singleUser = await UserModel.findById(userId);
+    const allPosts = await PostModel.find({ userId });
 
     if (singleUser)
-      return res.status(200).json({ success: true, user: singleUser });
+      return res
+        .status(200)
+        .json({ success: true, user: singleUser, posts: allPosts });
 
     return res.status(404).json({ success: false, message: "No User!" });
   } catch (error) {

@@ -34,7 +34,7 @@ const Navbar = () => {
   const navigateToSearchPage = (userId) => {
     navigateTo("/search");
     getSearchId(userId);
-    setIsShowNavbarSearchBox(false)
+    setIsShowNavbarSearchBox(false);
   };
 
   useEffect(() => {

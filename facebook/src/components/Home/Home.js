@@ -19,8 +19,8 @@ import { AuthContexts } from "../../Context/AuthContext";
 import LikePost from "./LikePost";
 import CommentBox from "./CommentBox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMessage } from "@fortawesome/free-regular-svg-icons";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
+import { faMessage } from "@fortawesome/free-regular-svg-icons";
 // import heart from "./../../images/heart.JPG";
 
 const Home = () => {

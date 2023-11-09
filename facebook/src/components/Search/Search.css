@@ -9,19 +9,19 @@
   display: flex;
   align-items: flex-start;
   margin-top: 50px;
-  padding: 20px 0 0 0;
+  padding: 25px 0 50px 0;
   background-color: rgb(240, 242, 245);
   /* border: 1px solid black; */
 }
 
 #search > #left {
   height: 100%;
-  width: 22%;
+  width: 27%;
   position: fixed;
   left: 0;
   top: 8%;
   overflow-y: scroll;
-  padding: 10px 0 50px;
+  padding: 10px 0 50px 0;
   background-color: white;
   /* margin: 10px 0 0 0; */
   /* border: 1px solid red; */
@@ -84,152 +84,289 @@
 #search > #middle {
   /* padding: 5px 0 0 0; */
   margin: 10px 0 0 0;
-  left: 22%;
+  left: 28%;
   position: relative;
-  width: 70%;
+  width: 72%;
   height: auto;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   /* background-color: rgb(240, 242, 245); */
   /* border: 1px solid red; */
 }
 
-#search > #middle > #search-main {
-  height: auto;
-  width: 60%;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: flex-start;
-  /* border: 1px solid black; */
-}
-
-#search > #middle > #search-main > #search-header {
-  width: 100%;
-  /* border: 1px solid black; */
-}
-
-#search > #middle > #search-main > #search-header > h2 {
-  font-size: 18px;
-  font-weight: 500;
-  text-align: center;
-  color: rgb(85, 85, 85);
-}
-
-#search > #middle > #search-main > #search-results {
-  width: 100%;
-  margin: 20px 0 50px 0;
-  padding: 20px 20px;
-  border-radius: 5px;
+#middle-header {
+  /* width: 67%; */
+  border-radius: 8px;
+  padding: 20px 15px;
   background-color: white;
-  /* border: 1px solid black; */
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  /* border: 1px solid blue; */
 }
 
-#search > #middle > #search-main > #search-results > .search-result {
-  width: 100%;
+#middle-header-up {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 10px;
   /* margin: 10px 0; */
-  border-radius: 5px;
-  /* border: 1px solid red; */
 }
 
-#search > #middle > #search-main > #search-results > .search-result:hover {
-  cursor: pointer;
-  background-color: rgb(243, 243, 243);
+#middle-header-img {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  margin: 0 15px 0 0;
 }
 
-#search
-  > #middle
-  > #search-main
-  > #search-results
-  > .search-result
-  > .search-left {
-  height: auto;
-  width: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* border: 1px solid black; */
-}
-
-#search
-  > #middle
-  > #search-main
-  > #search-results
-  > .search-result
-  > .search-left
-  > .img {
-  height: 50px;
-  width: 50px;
-  margin: 0 20px 0 5px;
-}
-
-#search
-  > #middle
-  > #search-main
-  > #search-results
-  > .search-result
-  > .search-left
-  > .img
-  > img {
+#middle-header-img > img {
   height: 100%;
   width: 100%;
   border-radius: 50%;
   object-fit: contain;
 }
 
-#search
-  > #middle
-  > #search-main
-  > #search-results
-  > .search-result
-  > .search-left
-  > .details
-  > p {
-  font-size: 15px;
-}
-
-#search > #middle > #search-main > #search-results > .search-result > .follow {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+#middle-header-name {
   /* border: 1px solid black; */
 }
 
-#search
-  > #middle
-  > #search-main
-  > #search-results
-  > .search-result
-  > .follow
-  > button {
-  height: 100%;
-  width: 100%;
-  padding: 6px 12px;
+#middle-header-name > h4 {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+#middle-header-name > span {
+  font-size: 13px;
+}
+
+#middle-header-middle {
+  margin: 15px 0;
+  /* border: 1px solid green; */
+}
+
+#middle-header-middle > p {
+  margin: 13px 0;
+  font-size: 14px;
+}
+
+#middle-header-middle > p > .profile-info {
+  margin: 0 15px 0 0;
+  font-size: 20px;
+  color: rgb(112, 112, 112);
+}
+
+#middle-header-middle > p > .profile-posts {
+  margin: 0 10px 0 0;
+  font-size: 20px;
+  color: rgb(112, 112, 112);
+}
+
+#middle-header-down {
+  /* border: 1px solid red; */
+}
+
+#middle-header-down > button {
+  height: 38px;
+  width: 650px;
+  border-radius: 8px;
   border: none;
   background: none;
-  border-radius: 5px;
-  background-color: rgb(24, 119, 242);
-  color: white;
-  cursor: pointer;
-  /* border: 1px solid black; */
+  font-weight: 600;
+  font-size: 15px;
+  color: rgb(76, 100, 210);
+  transition: 0.2s ease;
+  /* margin: 0 10px; */
+  background-color: rgb(235, 245, 255);
 }
 
-#search > #middle > #search-main > #search-results > .see-more {
+#middle-header-down > button:hover {
+  cursor: pointer;
+  background-color: rgb(231, 234, 238);
+}
+
+#middle-body {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px 0 0 0;
+  /* border: 1px solid green; */
+}
+
+#posts {
+  height: auto;
+  width: 70%;
+  margin: 20px 0 20px 0;
   /* border: 1px solid black; */
 }
 
-#search > #middle > #search-main > #search-results > .see-more > p {
+#posts > #no-post-msg {
+  height: 50vh;
+  width: 100%;
+  text-align: center;
+  /* border: 1px solid black; */
+}
+
+#posts > .post {
+  height: auto;
+  width: 100%;
+  border-radius: 10px;
+  margin: 0 0 20px 0;
+  background-color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  /* border: 1px solid red; */
+}
+
+#posts > .post > .postsec-1 {
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0 0 0;
+  /* border: 1px solid red; */
+}
+
+#posts > .post > .postsec-1 .post-user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#posts > .post > .postsec-1 .post-user > .post-img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  margin: 0 8px 0 10px;
+  /* border: 1px solid black; */
+}
+
+#posts > .post > .postsec-1 .post-user > .post-img > img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: contain;
   cursor: pointer;
+  /* border: 1px solid black; */
+}
+
+#posts > .post > .postsec-1 .post-user > .post-details {
+  /* border: 1px solid black; */
+}
+
+#posts > .post > .postsec-1 .post-user > .post-details > h4 {
   font-size: 15px;
+  font-weight: 700;
+}
+
+#posts > .post > .postsec-1 .post-user > .post-details > p {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+#posts > .post > .postsec-1 > .options {
+  /* border: 1px solid black; */
+  margin: 0 10px 0 0;
+}
+
+#posts > .post > .postsec-1 > .options > i {
+  margin: 0 8px;
+  cursor: pointer;
+}
+
+#posts > .post > .postsec-2 {
+  width: 100%;
+  padding: 5px 0 8px 0;
+  /* border: 1px solid black; */
+}
+
+#posts > .post > .postsec-2 > .caption {
+  width: 100%;
+  padding: 0 14px;
+  /* border: 1px solid red; */
+}
+
+#posts > .post > .postsec-2 > .caption > p {
+  font-size: 14px;
+}
+
+#posts > .post > .postsec-3 {
+  width: 100%;
+}
+
+#posts > .post > .postsec-3 > .img {
+  width: 100%;
+  cursor: pointer;
+}
+
+#posts > .post > .postsec-3 > .img > img {
+  width: 100%;
+  object-fit: contain;
+}
+
+#posts > .post > .postsec-4 {
+  width: 100%;
+  padding: 5px 0;
+  /* border: 1px solid black; */
+}
+
+#posts > .post > .postsec-4 > .post-activity {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 10px 15px 15px;
+  /* border: 1px solid blue; */
+}
+
+#posts > .post > .postsec-4 > .post-activity > .activity-left {
+  width: 40%;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  /* border: 1px solid blue; */
+}
+
+#posts > .post > .postsec-4 > .post-activity > .activity-left > img {
+  height: 25px;
+  width: 25px;
+}
+
+#posts > .post > .postsec-4 > .post-activity > .activity-left > p {
+  margin: 0 5px;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+#posts > .post > .postsec-4 > .post-activity > .activity-right {
+  /* width: 40%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#posts > .post > .postsec-4 > .post-activity > .activity-right > p {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 10px 0 0;
+  font-size: 16px;
+}
+
+#posts > .post > .postsec-5 {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid rgb(202, 202, 202);
+}
+
+#posts > .post > .postsec-5 > div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#posts > .post > .postsec-5 > div > p {
+  font-size: 14px;
+  margin: 0 5px;
 }
