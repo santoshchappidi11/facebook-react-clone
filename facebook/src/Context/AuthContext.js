@@ -7,7 +7,6 @@ export const AuthContexts = createContext();
 
 const initialState = {
   currentUser: null,
-  searchId: null,
 };
 
 const reducer = (state, action) => {
@@ -17,9 +16,6 @@ const reducer = (state, action) => {
 
     case "LOGOUT":
       return { ...state, currentUser: null };
-
-    case "SEARCH_VALUE":
-      return { ...state, searchId: action.payload };
 
     default:
       return state;
@@ -45,13 +41,6 @@ const AuthProvider = ({ children }) => {
 
     dispatch({
       type: "LOGOUT",
-    });
-  };
-
-  const getSearchId = (value) => {
-    dispatch({
-      type: "SEARCH_VALUE",
-      payload: value,
     });
   };
 
@@ -81,7 +70,7 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContexts.Provider value={{ state, Login, Logout, getSearchId }}>
+    <AuthContexts.Provider value={{ state, Login, Logout }}>
       {children}
     </AuthContexts.Provider>
   );

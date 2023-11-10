@@ -3,30 +3,31 @@ import "./Search.css";
 import Navbar from "../Navbar/Navbar";
 import toast from "react-hot-toast";
 import api from "../../ApiConfig";
-import { AuthContexts } from "../../Context/AuthContext";
+// import { AuthContexts } from "../../Context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faCreditCard } from "@fortawesome/free-solid-svg-icons";
-import LikePost from "../Home/LikePost";
-import CommentBox from "../Home/CommentBox";
-import { faShare } from "@fortawesome/free-solid-svg-icons";
-import { faMessage } from "@fortawesome/free-regular-svg-icons";
-import { useNavigate } from "react-router-dom";
+// import LikePost from "../Home/LikePost";
+// import CommentBox from "../Home/CommentBox";
+// import { faShare } from "@fortawesome/free-solid-svg-icons";
+// import { faMessage } from "@fortawesome/free-regular-svg-icons";
+import { useNavigate, useParams } from "react-router-dom";
 import like from "./../../images/like.JPG";
 
 const Search = () => {
-  const { state } = useContext(AuthContexts);
+  // const { state } = useContext(AuthContexts);
   const [searchUser, setSearchUser] = useState({});
   const [allPosts, setAllPosts] = useState([]);
   const navigateTo = useNavigate();
+  const { searchId } = useParams();
 
-  console.log(searchUser, "search user here");
+  // console.log(searchUser, "search user here");
 
   useEffect(() => {
     const getSearchResults = async () => {
-      if (state?.searchId) {
+      if (searchId) {
         try {
           const response = await api.post("/get-search-result", {
-            userId: state.searchId,
+            userId: searchId,
           });
 
           if (response.data.success) {
@@ -42,7 +43,7 @@ const Search = () => {
     };
 
     getSearchResults();
-  }, [state]);
+  }, [searchId]);
 
   return (
     <div id="search">

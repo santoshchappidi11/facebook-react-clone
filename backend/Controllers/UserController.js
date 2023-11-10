@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import UserModel from "../Models/UserModel.js";
+import PostModel from "../Models/PostModel.js";
 
 export const register = async (req, res) => {
   try {
@@ -186,6 +187,40 @@ export const getProfileDetails = async (req, res) => {
         profileImg: user.profileImg,
         coverImg: user.coverImg,
       });
+    }
+
+    return res.status(404).json({ success: false, message: "No user found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const getProfileResult = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token)
+      return res
+        .status(404)
+        .json({ success: false, message: "Token is required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const currentUser = await UserModel.findById(userId);
+
+    if (currentUser) {
+      const userPosts = await PostModel.find({ userId });
+
+      return res
+        .status(200)
+        .json({ success: true, user: currentUser, posts: userPosts });
     }
 
     return res.status(404).json({ success: false, message: "No user found!" });

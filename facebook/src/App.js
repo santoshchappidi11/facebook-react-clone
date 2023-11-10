@@ -20,7 +20,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/create-story" element={<CreateStory />} />
         <Route exact path="/profile" element={<Profile />} />
-        <Route exact path="/search" element={<Search />} />
+        <Route exact path="/search/:searchId" element={<Search />} />
         <Route exact path="/new-user-profile" element={<NewUserProfile />} />
         <Route exact path="/single-post/:postId" element={<SinglePost />} />
       </Routes>

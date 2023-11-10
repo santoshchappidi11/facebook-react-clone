@@ -33,7 +33,7 @@ const Home = () => {
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
   const [allPosts, setAllPosts] = useState([]);
-  const [isShowCommentBox, setIsShowCommentBox] = useState(false);
+  // const [isShowCommentBox, setIsShowCommentBox] = useState(false);
 
   // console.log(allPosts);
 
@@ -145,9 +145,9 @@ const Home = () => {
     }
   };
 
-  const handleShowCommentbox = () => {
-    setIsShowCommentBox(!isShowCommentBox);
-  };
+  // const handleShowCommentbox = () => {
+  //   setIsShowCommentBox(!isShowCommentBox);
+  // };
 
   return (
     <>
@@ -313,7 +313,7 @@ const Home = () => {
                       />
                       <p>Like</p>
                     </div>
-                    <div id="sec-5-comment" onClick={handleShowCommentbox}>
+                    <div id="sec-5-comment">
                       <FontAwesomeIcon icon={faMessage} />
                       <p>Comment</p>
                     </div>
@@ -424,7 +424,7 @@ const Home = () => {
                         src="https://static.xx.fbcdn.net/rsrc.php/v3/yT/r/q7MiRkL7MLC.png"
                         alt="story"
                       />
-                      <i class="fa-solid fa-ellipsis"></i>
+                      <i className="fa-solid fa-ellipsis"></i>
                     </div>
                   </div>
                   <div id="post-body-5">

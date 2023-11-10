@@ -6,6 +6,7 @@ import morgan from "morgan";
 import {
   getCurrentUser,
   getProfileDetails,
+  getProfileResult,
   login,
   newUserProfileDetails,
   register,
@@ -46,6 +47,7 @@ app.post("/get-edit-comment", getEditComment);
 app.post("/update-comment", updateComment);
 app.post("/get-search-query", getSearchQuery);
 app.post("/get-search-result", getSearchResult);
+app.post("/get-profile-result", getProfileResult);
 
 mongoose
   .connect(process.env.MONGO_URL)

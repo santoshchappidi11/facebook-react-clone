@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import api from "../../ApiConfig";
 
 const Navbar = () => {
-  const { state, Logout, getSearchId } = useContext(AuthContexts);
+  const { state, Logout } = useContext(AuthContexts);
   const navigateTo = useNavigate();
   const [isShowSidePopup, setIsShowSidePopup] = useState(false);
   const [profileImg, setProfileImg] = useState("");
@@ -32,8 +32,7 @@ const Navbar = () => {
   };
 
   const navigateToSearchPage = (userId) => {
-    navigateTo("/search");
-    getSearchId(userId);
+    navigateTo(`/search/${userId}`);
     setIsShowNavbarSearchBox(false);
   };
 
