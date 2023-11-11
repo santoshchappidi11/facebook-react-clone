@@ -1,0 +1,134 @@
+#profile-about {
+  position: relative;
+  width: 65%;
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  border-radius: 6px;
+  background-color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  /* border: 1px solid black; */
+}
+
+#profile-about-left {
+  width: 35%;
+  padding: 20px 15px;
+  /* border: 1px solid red; */
+}
+
+#profile-about-left > h2 {
+  font-size: 22px;
+}
+
+#profile-about-options {
+  /* border: 1px solid black; */
+}
+
+#profile-about-options > h4 {
+  margin: 6px 0;
+  padding: 8px 5px;
+  border-radius: 6px;
+  font-size: 14px;
+  /* color: rgb(36, 36, 36); */
+  cursor: pointer;
+  font-weight: 600;
+  /* border: 1px solid blue; */
+}
+
+#profile-about-options > h4:hover {
+  /* color: rgb(8, 102, 255); */
+  background-color: rgb(235, 245, 255);
+}
+
+.profile-active {
+  color: rgb(8, 102, 255);
+  background-color: rgb(235, 245, 255);
+}
+
+#profile-about-right {
+  width: 65%;
+  padding: 20px 25px 35px 15px;
+  border-left: 1px solid rgb(196, 196, 196);
+}
+
+#basic-info {
+  /* border: 1px solid red; */
+}
+
+#basic-info > h3 {
+  font-size: 16px;
+  /* font-weight: 600; */
+}
+
+#basic-info > div {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  margin: 10px 0;
+  /* border: 1px solid blue; */
+}
+
+#basic-info > div > .info-icon {
+  font-size: 20px;
+  color: rgb(104, 104, 104);
+}
+
+#basic-info > div > p {
+  margin: 0 8px;
+  font-size: 14px;
+}
+
+#page-transparency {
+  /* border: 1px solid black; */
+}
+
+#page-transparency > p {
+  font-size: 14px;
+}
+
+#page-transparency > button {
+  height: 35px;
+  width: 98%;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  background: none;
+  background-color: rgb(228, 230, 235);
+  cursor: pointer;
+  border-radius: 6px;
+  color: rgb(34, 34, 34);
+}
+
+#page-transparency > button:hover {
+  background-color: rgb(224, 224, 224);
+}
+
+#transparency-info > .transp-info {
+  display: flex;
+  align-items: center;
+  margin: 12px 0;
+  /* border: 1px solid pink; */
+}
+
+.transp-info > .flag,
+.clock,
+.user,
+.page {
+  font-size: 22px;
+  color: rgb(104, 104, 104);
+}
+
+.transp-info > div {
+  margin: 0 12px;
+}
+
+.transp-info > div > h4 {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.transp-info > div > p {
+  font-size: 13px;
+  font-weight: 400;
+}

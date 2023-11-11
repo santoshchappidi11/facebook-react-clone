@@ -6,22 +6,22 @@ import createavatar from "./../../images/edit-create-avatar.jpg";
 import toast from "react-hot-toast";
 import api from "../../ApiConfig";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEllipsis,
-  faCircleInfo,
-  faArrowDownShortWide,
-} from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import like from "./../../images/like.JPG";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+// import { useNavigate } from "react-router-dom";
+import ProfilePosts from "./ProfilePosts";
+import ProfileAbout from "./ProfileAbout";
+// import like from "./../../images/like.JPG";
 
 const Profile = () => {
-  const navigateTo = useNavigate();
+  // const navigateTo = useNavigate();
   const [isShowEditProfile, setIsShowEditProfile] = useState(false);
   const [profileImg, setProfileImg] = useState("");
   const [coverImg, setCoverImg] = useState("");
   const [bioData, setBioData] = useState("");
   const [allPosts, setAllPosts] = useState([]);
   const [searchUser, setSearchUser] = useState({});
+  const [isShowPosts, setIsShowPosts] = useState(true);
+  const [isShowAbout, setIsShowAbout] = useState(false);
 
   const openEditProfilePopup = () => {
     setIsShowEditProfile(true);
@@ -29,6 +29,17 @@ const Profile = () => {
 
   const closeEditProfilePopup = () => {
     setIsShowEditProfile(false);
+  };
+
+  const handleMultiplePages = (e) => {
+    if (e.target.innerText == "Posts") {
+      setIsShowPosts(true);
+      setIsShowAbout(false);
+    }
+    if (e.target.innerText == "About") {
+      setIsShowPosts(false);
+      setIsShowAbout(true);
+    }
   };
 
   useEffect(() => {
@@ -177,8 +188,18 @@ const Profile = () => {
       <div id="profile-down">
         <div id="profile-down-main">
           <div id="profile-down-left">
-            <h4>Posts</h4>
-            <h4>About</h4>
+            <h4
+              onClick={handleMultiplePages}
+              className={`${isShowPosts ? "profile-down-active" : ""}`}
+            >
+              Posts
+            </h4>
+            <h4
+              onClick={handleMultiplePages}
+              className={`${isShowAbout ? "profile-down-active" : ""}`}
+            >
+              About
+            </h4>
             <h4>Mentions</h4>
             <h4>Followers</h4>
             <h4>Photos</h4>
@@ -192,115 +213,10 @@ const Profile = () => {
       </div>
 
       <div id="profile-all-activities">
-        <div id="profile-posts">
-          <div id="profile-posts-left">
-            <h3>Intro</h3>
-            <p>{searchUser?.bioData}</p>
-            <div>
-              <FontAwesomeIcon icon={faCircleInfo} className="info-abt" />
-              <p>Page ·</p>
-              <span>Not Mentioned.</span>
-            </div>
-          </div>
-          <div id="profile-posts-right">
-            <div id="profile-posts-header">
-              <h3>Posts</h3>
-              <button>
-                {" "}
-                <FontAwesomeIcon
-                  icon={faArrowDownShortWide}
-                  className="post-filters"
-                />
-                Filters
-              </button>
-            </div>
-            <div id="profile-posts-body">
-              <div id="profile-posts">
-                {allPosts?.length ? (
-                  allPosts?.map((post) => (
-                    <div className="profile-post" key={post._id}>
-                      <div className="profile-post-sec-1">
-                        <div className="profile-post-user">
-                          <div className="profile-post-img">
-                            <img src={post?.userImage} alt="profile-post-img" />
-                          </div>
-                          <div className="profile-post-details">
-                            <h4>
-                              {post?.userFirstName} {post?.userLastName}
-                            </h4>
-                            <p>
-                              2 d · <i class="fa-solid fa-earth-asia"></i>
-                            </p>
-                          </div>
-                        </div>
-                        <div className="options">
-                          <i class="fa-solid fa-ellipsis fa-lg"></i>
-                          <i class="fa-solid fa-xmark fa-xl"></i>
-                        </div>
-                      </div>
-                      <div className="profile-post-sec-2">
-                        <div className="caption">
-                          <p>{post.caption} 😂🤗</p>
-                        </div>
-                      </div>
-                      <div
-                        className="profile-post-sec-3"
-                        onClick={() => navigateTo(`/single-post/${post._id}`)}
-                      >
-                        <div className="img">
-                          <img src={post?.image} alt="postimage" />
-                        </div>
-                      </div>
-                      <div className="profile-post-sec-4">
-                        <div className="profile-post-activity">
-                          <div className="activity-left">
-                            <img src={like} alt="like" />
-                            <p>{post?.likes ? post?.likes?.length : "0"}</p>
-                          </div>
-                          <div className="activity-right">
-                            <p>
-                              {post?.comments ? post?.comments?.length : "0"}{" "}
-                              {post?.comments?.length > 1
-                                ? "comments"
-                                : "comment"}
-                            </p>
-                            <p>112 shares</p>
-                          </div>
-                        </div>
-                      </div>
-                      {/* <div className="postsec-5">
-                    <div>
-                      <LikePost
-                        postId={post._id}
-                        likes={post?.likes}
-                        setAllPosts={setAllPosts}
-                      />
-                      <p>Like</p>
-                    </div>
-                    <div id="sec-5-comment">
-                      <FontAwesomeIcon icon={faMessage} />
-                      <p>Comment</p>
-                    </div>
-                    <div>
-                      <FontAwesomeIcon icon={faShare} />
-                      <p>Share</p>
-                    </div>
-                  </div>
-                  {<CommentBox postId={post._id} setAllPosts={setAllPosts} />} */}
-                    </div>
-                  ))
-                ) : (
-                  <div id="profile-no-post-msg">
-                    <h3>
-                      No Posts Yet from {searchUser?.firstName}{" "}
-                      {searchUser?.lastName}!
-                    </h3>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
+        {isShowPosts && (
+          <ProfilePosts allPosts={allPosts} searchUser={searchUser} />
+        )}
+        {isShowAbout && <ProfileAbout searchUser={searchUser} />}
       </div>
 
       {/* -------------------------edit-profile---------------------- */}

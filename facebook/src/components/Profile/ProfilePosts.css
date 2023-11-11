@@ -1,0 +1,225 @@
+#profile-posts {
+    position: relative;
+    width: 65%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+  
+  }
+  
+  #profile-posts-left {
+    top: 10%;
+    position: sticky;
+    width: 40%;
+    padding: 10px 15px;
+    border-radius: 6px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    background-color: white;
+  }
+  
+  #profile-posts-left > div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 15px 10px 10px 0px;
+    border-top: 1px solid rgb(201, 201, 201);
+  }
+  
+  #profile-posts-left > p {
+    width: 100%;
+    text-align: center;
+    padding: 15px 10px 10px 0px;
+    font-size: 14px;
+  }
+  
+  #profile-posts-left > div {
+    font-size: 14px;
+  }
+  
+  #profile-posts-left > div > .info-abt {
+    font-size: 20px;
+    color: rgb(104, 104, 104);
+  }
+  
+  #profile-posts-left > div > p {
+    margin: 0 10px;
+    font-weight: 600;
+  }
+  
+  #profile-posts-right {
+    width: 55%;
+  }
+  
+  #profile-posts-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  }
+  
+  #profile-posts-header > button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    background: none;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: rgb(228, 230, 235);
+    cursor: pointer;
+  }
+  
+  #profile-posts-header > button > .post-filters {
+    margin: 0 5px;
+  }
+  
+  #profile-posts-body {
+    width: 100%;
+    margin: 20px 0 10px 0;
+  }
+  
+  #profile-posts-body > #profile-posts {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  #profile-posts > .profile-post {
+    height: auto;
+    width: 100%;
+    border-radius: 10px;
+    margin: 0 0 20px 0;
+    background-color: white;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  }
+  
+  .profile-post-sec-1 {
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0 0 0;
+  }
+  
+  .profile-post-user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .profile-post-img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin: 0 8px 0 10px;
+  }
+  
+  .profile-post-img > img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    object-fit: contain;
+    cursor: pointer;
+  }
+  
+  .profile-post-details > h4 {
+    font-size: 15px;
+    font-weight: 700;
+  }
+  
+  .profile-post-details > p {
+    font-size: 13px;
+    font-weight: 400;
+  }
+  
+  .options {
+    margin: 0 10px 0 0;
+  }
+  
+  .options > i {
+    margin: 0 8px;
+    cursor: pointer;
+  }
+  
+  .profile-post-sec-2 {
+    width: 100%;
+    padding: 5px 0 8px 0;
+  }
+  
+  .profile-post-sec-2 > .caption {
+    width: 100%;
+    padding: 0 14px;
+  }
+  
+  .profile-post-sec-2 > .caption > p {
+    font-size: 14px;
+  }
+  
+  .profile-post-sec-3 {
+    width: 100%;
+  }
+  
+  .profile-post-sec-3 > .img {
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .profile-post-sec-3 > .img > img {
+    width: 100%;
+    object-fit: contain;
+  }
+  
+  .profile-post-sec-4 {
+    width: 100%;
+    padding: 5px 0;
+  }
+  
+  .profile-post-sec-4 > .profile-post-activity {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 10px 15px 15px;
+  }
+  
+  .profile-post-sec-4 > .profile-post-activity > .activity-left {
+    width: 40%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .activity-left > img {
+    height: 25px;
+    width: 25px;
+  }
+  
+  .activity-left > p {
+    margin: 0 5px;
+    font-weight: 500;
+    font-size: 18px;
+  }
+  
+  .activity-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .activity-right > p {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 10px 0 0;
+    font-size: 16px;
+  }
+  
+  #profile-no-post-msg {
+    width: 100%;
+    text-align: center;
+  }
