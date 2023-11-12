@@ -10,6 +10,7 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 // import { useNavigate } from "react-router-dom";
 import ProfilePosts from "./ProfilePosts";
 import ProfileAbout from "./ProfileAbout";
+import ProfileFriends from "./ProfileFriends";
 // import like from "./../../images/like.JPG";
 
 const Profile = () => {
@@ -20,8 +21,9 @@ const Profile = () => {
   const [bioData, setBioData] = useState("");
   const [allPosts, setAllPosts] = useState([]);
   const [searchUser, setSearchUser] = useState({});
-  const [isShowPosts, setIsShowPosts] = useState(true);
+  const [isShowPosts, setIsShowPosts] = useState(false);
   const [isShowAbout, setIsShowAbout] = useState(false);
+  const [isShowFriends, setIsShowFriends] = useState(true);
 
   const openEditProfilePopup = () => {
     setIsShowEditProfile(true);
@@ -35,10 +37,18 @@ const Profile = () => {
     if (e.target.innerText == "Posts") {
       setIsShowPosts(true);
       setIsShowAbout(false);
+      setIsShowFriends(false);
     }
     if (e.target.innerText == "About") {
-      setIsShowPosts(false);
       setIsShowAbout(true);
+      setIsShowPosts(false);
+      setIsShowFriends(false);
+    }
+
+    if (e.target.innerText == "Friends") {
+      setIsShowFriends(true);
+      setIsShowPosts(false);
+      setIsShowAbout(false);
     }
   };
 
@@ -201,7 +211,12 @@ const Profile = () => {
               About
             </h4>
             <h4>Mentions</h4>
-            <h4>Followers</h4>
+            <h4
+              onClick={handleMultiplePages}
+              className={`${isShowFriends ? "profile-down-active" : ""}`}
+            >
+              Friends
+            </h4>
             <h4>Photos</h4>
             <h4>Videos</h4>
             <h4>More</h4>
@@ -217,6 +232,7 @@ const Profile = () => {
           <ProfilePosts allPosts={allPosts} searchUser={searchUser} />
         )}
         {isShowAbout && <ProfileAbout searchUser={searchUser} />}
+        {isShowFriends && <ProfileFriends />}
       </div>
 
       {/* -------------------------edit-profile---------------------- */}
