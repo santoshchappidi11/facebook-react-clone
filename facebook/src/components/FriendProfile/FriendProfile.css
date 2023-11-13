@@ -1,0 +1,278 @@
+#friend-profile {
+  height: auto;
+  width: 100%;
+  /* background-color: white; */
+  /* border: 1px solid black; */
+}
+
+#friend-profile > #profile-up {
+  height: auto;
+  width: 100%;
+  /* border: 1px solid red; */
+}
+
+#friend-profile > #profile-up > #profile-cover-img {
+  position: relative;
+  height: 400px;
+  width: 70%;
+  margin: auto;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  /* border: 1px solid green; */
+}
+
+#profile-cover-img > #cover-img {
+  height: 100%;
+  width: 100%;
+}
+
+#cover-img > img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+#friend-profile > #profile-up > #profile-cover-img > .cover-avatar {
+  position: absolute;
+  top: 77%;
+  right: 3%;
+  width: 22%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 4px;
+  border-radius: 8px;
+  color: white;
+  background-color: rgb(92, 92, 92);
+  /* border: 1px solid black; */
+}
+
+#friend-profile > #profile-up > #profile-cover-img > .cover-photo {
+  position: absolute;
+  top: 88%;
+  right: 3%;
+  width: 22%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 4px;
+  border-radius: 8px;
+  color: white;
+  background-color: rgb(92, 92, 92);
+  /* border: 1px solid black; */
+}
+
+#friend-profile > #profile-up > #profile-cover-img > .cover-photo > i {
+  margin: 0 5px;
+}
+
+#friend-profile > #profile-up > #profile-cover-img > .cover-photo > h4 {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+#friend-profile > #profile-up > #profile-cover-img > .cover-avatar > i {
+  margin: 0 5px;
+}
+
+#friend-profile > #profile-up > #profile-cover-img > .cover-avatar > h4 {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+#friend-profile > #profile-up > #profile-cover-img > #cover-img {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(250, 250, 250),
+    rgb(224, 224, 224)
+  );
+  /* background-color: rgb(240, 242, 245); */
+  /* border: 1px solid black; */
+}
+
+#friend-profile > #profile-up > #profile-cover-img > #profile-img {
+  position: absolute;
+  position: relative;
+  height: 170px;
+  width: 170px;
+  border-radius: 50%;
+  top: 78%;
+  left: 4%;
+  border: 4px solid white;
+}
+
+#friend-profile > #profile-up > #profile-cover-img > #profile-img > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+  background-color: rgb(0, 0, 0);
+}
+
+#friend-profile > #profile-up > #profile-cover-img > #profile-img > .fa-camera {
+  position: absolute;
+  top: 75%;
+  right: 7%;
+  height: 35px;
+  width: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: rgb(221, 221, 221);
+  /* border: 1px solid black; */
+}
+
+#friend-profile > #profile-up > #profile-actions {
+  width: 55%;
+  margin: 28px 0 0 30%;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+#friend-profile > #profile-up > #profile-actions > h2 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+#friend-profile
+  > #profile-up
+  > #profile-actions
+  > #actions
+  > #profile-story-btn {
+  border: none;
+  background: none;
+  padding: 8px 18px;
+  margin: 0 5px;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: rgb(27, 116, 228);
+}
+
+#friend-profile
+  > #profile-up
+  > #profile-actions
+  > #actions
+  > #edit-profile-btn {
+  border: none;
+  background: none;
+  padding: 8px 18px;
+  margin: 0 5px;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  color: black;
+  cursor: pointer;
+  background-color: rgb(228, 230, 235);
+}
+
+#friend-profile
+  > #profile-up
+  > #profile-actions
+  > #actions
+  > #profile-more-btn {
+  border: none;
+  background: none;
+  padding: 8px 15px;
+  margin: 0 5px;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  color: black;
+  cursor: pointer;
+  background-color: rgb(228, 230, 235);
+}
+
+#friend-profile > #profile-up > #profile-actions > #actions > button > i {
+  margin: 0 4px;
+}
+
+#friend-profile-down {
+  /* height: 55px; */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0 0 0;
+  /* border: 1px solid red; */
+}
+
+#friend-profile-down-main {
+  padding: 8px 0;
+  border-top: 1px solid rgb(185, 185, 185);
+  /* border-bottom: 1px solid rgb(185, 185, 185); */
+  /* height: 100%; */
+  width: 66%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 1px solid green; */
+}
+
+#profile-down-left {
+  /* height: 90%; */
+  /* width: 65%; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+#profile-down-left > h4 {
+  padding: 12px 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid gold; */
+  font-weight: 600;
+  /* color: rgb(61, 61, 61); */
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+#profile-down-left > h4:hover {
+  cursor: pointer;
+  background-color: rgb(231, 231, 231);
+}
+
+#profile-down-right {
+  /* height: 90%; */
+  /* border: 1px solid black; */
+}
+
+#profile-down-right > .ellipsis {
+  padding: 12px 18px;
+  color: rgb(61, 61, 61);
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: rgb(228, 230, 235);
+}
+
+#profile-all-activities {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px 0;
+  background-color: rgb(236, 236, 236);
+  /* border: 1px solid green; */
+}
+
+.profile-down-active {
+  color: rgb(8, 102, 255);
+  /* border-bottom: 1px solid blue; */
+}

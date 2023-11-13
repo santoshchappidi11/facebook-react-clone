@@ -158,7 +158,10 @@ const Home = () => {
             <div id="left-profile-img">
               <img src={profileImg} alt="profile" />
             </div>
-            <h4 style={{ marginLeft: "5px" }}>
+            <h4
+              style={{ marginLeft: "5px" }}
+              onClick={() => navigateTo("/profile")}
+            >
               {state?.currentUser?.firstName} {state?.currentUser?.lastName}
             </h4>
           </div>
@@ -259,10 +262,20 @@ const Home = () => {
                   <div className="postsec-1">
                     <div className="post-user">
                       <div className="post-img">
-                        <img src={post?.userImage} alt="post-img" />
+                        <img
+                          src={post?.userImage}
+                          alt="post-img"
+                          onClick={() =>
+                            navigateTo(`/friend-profile/${post?.userId}`)
+                          }
+                        />
                       </div>
                       <div className="post-details">
-                        <h4>
+                        <h4
+                          onClick={() =>
+                            navigateTo(`/friend-profile/${post?.userId}`)
+                          }
+                        >
                           {post?.userFirstName} {post?.userLastName}
                         </h4>
                         <p>

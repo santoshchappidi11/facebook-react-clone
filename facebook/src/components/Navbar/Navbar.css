@@ -182,7 +182,7 @@
 }
 
 #popup-profile-img {
-  height: 100%;
+  height: 45px;
   width: 45px;
   margin: 0 10px 0 0;
 }
@@ -190,8 +190,9 @@
 #popup-profile-img > img {
   height: 100%;
   width: 100%;
-  border-radius: 50%;
   object-fit: contain;
+  border-radius: 50%;
+  background-color: rgb(228, 230, 235);
 }
 
 #sidepopup > #sidepopup-header > #popup-header > h4 {

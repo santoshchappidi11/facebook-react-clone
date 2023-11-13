@@ -11,6 +11,8 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import ProfilePosts from "./ProfilePosts";
 import ProfileAbout from "./ProfileAbout";
 import ProfileFriends from "./ProfileFriends";
+import ProfilePhotos from "./ProfilePhotos";
+import ProfileVideos from "./ProfileVideos";
 // import like from "./../../images/like.JPG";
 
 const Profile = () => {
@@ -21,9 +23,11 @@ const Profile = () => {
   const [bioData, setBioData] = useState("");
   const [allPosts, setAllPosts] = useState([]);
   const [searchUser, setSearchUser] = useState({});
-  const [isShowPosts, setIsShowPosts] = useState(false);
+  const [isShowPosts, setIsShowPosts] = useState(true);
   const [isShowAbout, setIsShowAbout] = useState(false);
-  const [isShowFriends, setIsShowFriends] = useState(true);
+  const [isShowFriends, setIsShowFriends] = useState(false);
+  const [isShowPhotos, setIsShowPhotos] = useState(false);
+  const [isShowVideos, setIsShowVideos] = useState(false);
 
   const openEditProfilePopup = () => {
     setIsShowEditProfile(true);
@@ -38,15 +42,37 @@ const Profile = () => {
       setIsShowPosts(true);
       setIsShowAbout(false);
       setIsShowFriends(false);
+      setIsShowPhotos(false);
+      setIsShowVideos(false);
     }
     if (e.target.innerText == "About") {
       setIsShowAbout(true);
       setIsShowPosts(false);
       setIsShowFriends(false);
+      setIsShowPhotos(false);
+      setIsShowVideos(false);
     }
 
     if (e.target.innerText == "Friends") {
       setIsShowFriends(true);
+      setIsShowPosts(false);
+      setIsShowAbout(false);
+      setIsShowPhotos(false);
+      setIsShowVideos(false);
+    }
+
+    if (e.target.innerText == "Photos") {
+      setIsShowPhotos(true);
+      setIsShowFriends(false);
+      setIsShowPosts(false);
+      setIsShowAbout(false);
+      setIsShowVideos(false);
+    }
+
+    if (e.target.innerText == "Videos") {
+      setIsShowVideos(true);
+      setIsShowPhotos(false);
+      setIsShowFriends(false);
       setIsShowPosts(false);
       setIsShowAbout(false);
     }
@@ -181,7 +207,9 @@ const Profile = () => {
           </div>
         </div>
         <div id="profile-actions">
-          <h2>Santosh Chappidi</h2>
+          <h2>
+            {searchUser?.firstName} {searchUser?.lastName}
+          </h2>
           <div id="actions">
             <button id="profile-story-btn">
               <i class="fa-solid fa-plus"></i> Add to story
@@ -217,8 +245,18 @@ const Profile = () => {
             >
               Friends
             </h4>
-            <h4>Photos</h4>
-            <h4>Videos</h4>
+            <h4
+              onClick={handleMultiplePages}
+              className={`${isShowPhotos ? "profile-down-active" : ""}`}
+            >
+              Photos
+            </h4>
+            <h4
+              onClick={handleMultiplePages}
+              className={`${isShowVideos ? "profile-down-active" : ""}`}
+            >
+              Videos
+            </h4>
             <h4>More</h4>
           </div>
           <div id="profile-down-right">
@@ -233,6 +271,8 @@ const Profile = () => {
         )}
         {isShowAbout && <ProfileAbout searchUser={searchUser} />}
         {isShowFriends && <ProfileFriends />}
+        {isShowPhotos && <ProfilePhotos allPosts={allPosts} />}
+        {isShowVideos && <ProfileVideos allPosts={allPosts} />}
       </div>
 
       {/* -------------------------edit-profile---------------------- */}

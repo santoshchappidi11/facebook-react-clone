@@ -1,0 +1,168 @@
+#friend-friends {
+  position: relative;
+  width: 65%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  /* align-items: center; */
+  border-radius: 6px;
+  padding: 15px 20px 20px 15px;
+  background-color: white;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+#friend-friends-up {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 0 20px 0;
+  /* border: 1px solid red; */
+}
+
+#friend-up-left > h2 {
+  font-size: 20px;
+}
+
+#friend-up-middle {
+  width: 35%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+#friend-up-middle > p {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 15px;
+  border-radius: 6px;
+  color: rgb(8, 102, 255);
+}
+
+#friend-up-middle > p:hover {
+  cursor: pointer;
+  background-color: rgb(233, 233, 233);
+}
+
+#friend-up-right {
+  width: 25%;
+  /* border: 1px solid black; */
+}
+
+#friend-up-search {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 15px;
+  background-color: rgb(240, 242, 245);
+  /* border: 1px solid red; */
+}
+
+#friend-up-search > input {
+  height: 35px;
+  width: 80%;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+#friend-up-search > .search-icon {
+  margin: 0 4px 0 10px;
+}
+
+#friend-friends-middle {
+  display: flex;
+  margin: 0 0 15px 0;
+  /* border: 1px solid red; */
+}
+
+#friend-friends-middle > p {
+  padding: 15px 15px;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 6px;
+  /* border: 1px solid black; */
+}
+
+#friend-friends-middle > p:hover {
+  cursor: pointer;
+  background-color: rgb(231, 231, 231);
+}
+
+#friend-friends-down {
+  width: 100%;
+  /* border: 1px solid blue; */
+}
+
+#friend-down-followers,
+#friend-down-followings {
+  width: 50%;
+  /* border: 1px solid black; */
+}
+
+.friend-follower,
+.friend-following {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 12px 4px;
+  margin: 15px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid rgb(230, 230, 230);
+}
+
+.friend-follower:hover {
+  background-color: rgb(250, 250, 250);
+}
+
+.friend-following:hover {
+  background-color: rgb(250, 250, 250);
+}
+
+.friend-follower > h3 {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.friend-following > h3 {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.friend-follower > .follower-img {
+  height: 80px;
+  width: 85px;
+  border-radius: 12px;
+  margin: 0 10px;
+  border: 1px solid red;
+}
+
+.follower-img > img {
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  /* border: 1px solid black; */
+}
+
+.friend-following > .following-img {
+  height: 80px;
+  width: 85px;
+  border-radius: 12px;
+  margin: 0 10px;
+  border: 1px solid red;
+}
+
+.following-img > img {
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  /* border: 1px solid black; */
+}
+
+.friend-friends-active {
+  color: rgb(8, 102, 255);
+  /* border-bottom: 1px solid blue; */
+}

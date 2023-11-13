@@ -249,6 +249,7 @@ body {
   border-radius: 50%;
   object-fit: contain;
   cursor: pointer;
+  background-color: rgb(228, 230, 235);
   /* border: 1px solid black; */
 }
 
@@ -259,6 +260,18 @@ body {
 #home > #middle > #posts > .post > .postsec-1 .post-user > .post-details > h4 {
   font-size: 15px;
   font-weight: 700;
+  cursor: pointer;
+}
+
+#home
+  > #middle
+  > #posts
+  > .post
+  > .postsec-1
+  .post-user
+  > .post-details
+  > h4:hover {
+  text-decoration: underline;
 }
 
 #home > #middle > #posts > .post > .postsec-1 .post-user > .post-details > p {
@@ -689,6 +702,7 @@ label {
   width: 100%;
   object-fit: contain;
   border-radius: 50%;
+  background-color: rgb(228, 230, 235);
 }
 
 #left-profile-img {

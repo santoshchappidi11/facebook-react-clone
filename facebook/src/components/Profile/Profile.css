@@ -113,6 +113,7 @@
   width: 100%;
   object-fit: contain;
   border-radius: 50%;
+  background-color: rgb(0, 0, 0);
 }
 
 #profile > #profile-up > #profile-cover-img > #profile-img > .fa-camera {

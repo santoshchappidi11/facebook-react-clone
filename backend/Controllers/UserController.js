@@ -228,3 +228,44 @@ export const getProfileResult = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const getFriendProfile = async (req, res) => {
+  try {
+    const { token, profileId } = req.body;
+
+    if (!token || !profileId)
+      return res
+        .status(404)
+        .json({ success: false, message: "Token and Profile Id is required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (user) {
+      const friendProfile = await UserModel.findById(profileId);
+
+      const friendPosts = await PostModel.find({ userId: profileId });
+
+      return res.status(200).json({
+        success: true,
+        user: friendProfile,
+        posts: friendPosts,
+        bioData: friendProfile.bioData,
+        profileImg: friendProfile.profileImg,
+        coverImg: friendProfile.coverImg,
+      });
+    }
+
+    return res.status(404).json({ success: false, message: "No user found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
