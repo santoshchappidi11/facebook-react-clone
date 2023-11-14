@@ -43,6 +43,9 @@ const userSchema = new Schema({
   yourFriends: {
     type: [String],
   },
+  yourStories: {
+    type: [Object],
+  },
 });
 
 export default mongoose.model("User", userSchema);

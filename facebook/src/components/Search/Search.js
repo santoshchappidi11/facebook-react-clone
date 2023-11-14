@@ -12,15 +12,24 @@ import { faCircleInfo, faCreditCard } from "@fortawesome/free-solid-svg-icons";
 // import { faMessage } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate, useParams } from "react-router-dom";
 import like from "./../../images/like.JPG";
+import { AuthContexts } from "../../Context/AuthContext";
 
 const Search = () => {
-  // const { state } = useContext(AuthContexts);
+  const { state } = useContext(AuthContexts);
   const [searchUser, setSearchUser] = useState({});
   const [allPosts, setAllPosts] = useState([]);
   const navigateTo = useNavigate();
   const { searchId } = useParams();
 
   // console.log(searchUser, "search user here");
+
+  const navigateToProfile = (Id) => {
+    if (state?.currentUser?.userId == Id) {
+      navigateTo("/profile");
+    } else {
+      navigateTo(`/friend-profile/${Id}`);
+    }
+  };
 
   useEffect(() => {
     const getSearchResults = async () => {
@@ -97,10 +106,14 @@ const Search = () => {
         <div id="middle-header">
           <div id="middle-header-up">
             <div id="middle-header-img">
-              <img src={searchUser?.profileImg} alt="search" />
+              <img
+                src={searchUser?.profileImg}
+                alt="search"
+                onClick={() => navigateToProfile(searchUser?._id)}
+              />
             </div>
             <div id="middle-header-name">
-              <h4>
+              <h4 onClick={() => navigateToProfile(searchUser?._id)}>
                 {searchUser?.firstName} {searchUser?.lastName}
               </h4>
               <span>27M followers</span>
@@ -135,10 +148,14 @@ const Search = () => {
                   <div className="postsec-1">
                     <div className="post-user">
                       <div className="post-img">
-                        <img src={post?.userImage} alt="post-img" />
+                        <img
+                          src={post?.userImage}
+                          alt="post-img"
+                          onClick={() => navigateToProfile(post?.userId)}
+                        />
                       </div>
                       <div className="post-details">
-                        <h4>
+                        <h4 onClick={() => navigateToProfile(post?.userId)}>
                           {post?.userFirstName} {post?.userLastName}
                         </h4>
                         <p>

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./SinglePost.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../../ApiConfig";
 import toast from "react-hot-toast";
 import Navbar from "../Navbar/Navbar";
@@ -12,15 +12,26 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import LikePost from "../Home/LikePost";
 import CommentBox from "../Home/CommentBox";
+import { AuthContexts } from "../../Context/AuthContext";
 
 const SinglePost = () => {
+  const { state } = useContext(AuthContexts);
   const { postId } = useParams();
+  const navigateTo = useNavigate();
   const [singlePost, setSinglePost] = useState({});
   const [editComment, setEditComment] = useState("");
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [updatedComment, setUpdatedComment] = useState("");
   const [isShowCommentBox, setIsShowCommentBox] = useState(false);
   // console.log(editComment, "edit comment");
+
+  const navigateToProfile = (Id) => {
+    if (state?.currentUser?.userId == Id) {
+      navigateTo("/profile");
+    } else {
+      navigateTo(`/friend-profile/${Id}`);
+    }
+  };
 
   const handleUpdatedCommentValue = (e) => {
     setUpdatedComment(e.target.value);
@@ -148,10 +159,14 @@ const SinglePost = () => {
             <div id="user-up">
               <div id="post-user">
                 <div id="post-user-img">
-                  <img src={singlePost?.userImage} alt="post-img" />
+                  <img
+                    src={singlePost?.userImage}
+                    alt="post-img"
+                    onClick={() => navigateToProfile(singlePost?.userId)}
+                  />
                 </div>
                 <div id="post-user-details">
-                  <h4>
+                  <h4 onClick={() => navigateToProfile(singlePost?.userId)}>
                     {singlePost?.userFirstName} {singlePost?.userLastName}
                   </h4>
                   <p>
@@ -213,11 +228,15 @@ const SinglePost = () => {
               singlePost?.comments?.map((item) => (
                 <div className="comment" key={item.commentId}>
                   <div className="comment-img">
-                    <img src={item.profileImg} alt="comment" />
+                    <img
+                      src={item.profileImg}
+                      alt="comment"
+                      onClick={() => navigateToProfile(item?.userId)}
+                    />
                   </div>
                   <div className="comment-details">
                     <div className="details">
-                      <h5>
+                      <h5 onClick={() => navigateToProfile(item?.userId)}>
                         {item.firstName} {item.lastName}
                       </h5>
                       <div className="main-comment">

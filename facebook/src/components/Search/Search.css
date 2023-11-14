@@ -123,6 +123,7 @@
   width: 100%;
   border-radius: 50%;
   object-fit: contain;
+  cursor: pointer;
 }
 
 #middle-header-name {
@@ -132,6 +133,11 @@
 #middle-header-name > h4 {
   font-weight: 500;
   font-size: 18px;
+}
+
+#middle-header-name > h4:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 #middle-header-name > span {
@@ -256,6 +262,11 @@
 #posts > .post > .postsec-1 .post-user > .post-details > h4 {
   font-size: 15px;
   font-weight: 700;
+}
+
+#posts > .post > .postsec-1 .post-user > .post-details > h4:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 #posts > .post > .postsec-1 .post-user > .post-details > p {

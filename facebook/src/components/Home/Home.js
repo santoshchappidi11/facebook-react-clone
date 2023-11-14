@@ -37,6 +37,14 @@ const Home = () => {
 
   // console.log(allPosts);
 
+  const navigateToProfile = (Id) => {
+    if (state?.currentUser?.userId == Id) {
+      navigateTo("/profile");
+    } else {
+      navigateTo(`/friend-profile/${Id}`);
+    }
+  };
+
   const openCreatePostPopup = () => {
     setIsShowCreatePost(true);
   };
@@ -69,6 +77,17 @@ const Home = () => {
 
     getAllPosts();
   }, []);
+
+  // useEffect(() => {
+  //   const getRandomPosts = (allPosts) => {
+  //     if (allPosts) {
+  //       const newAllPosts = allPosts.sort(() => Math.random() - 0.5);
+  //       setAllPosts(newAllPosts);
+  //     }
+  //   };
+
+  //   getRandomPosts(allPosts);
+  // }, [allPosts]);
 
   useEffect(() => {
     const getProfileDetails = async () => {
@@ -145,10 +164,6 @@ const Home = () => {
     }
   };
 
-  // const handleShowCommentbox = () => {
-  //   setIsShowCommentBox(!isShowCommentBox);
-  // };
-
   return (
     <>
       <div id="home">
@@ -224,7 +239,11 @@ const Home = () => {
           <div id="post-something">
             <div id="top">
               <div id="post-profile-img">
-                <img src={profileImg} alt="profile" />
+                <img
+                  src={profileImg}
+                  alt="profile"
+                  onClick={() => navigateTo("/profile")}
+                />
               </div>
               <button onClick={openCreatePostPopup}>
                 What's on your mind, Santosh?
@@ -265,17 +284,11 @@ const Home = () => {
                         <img
                           src={post?.userImage}
                           alt="post-img"
-                          onClick={() =>
-                            navigateTo(`/friend-profile/${post?.userId}`)
-                          }
+                          onClick={() => navigateToProfile(post?.userId)}
                         />
                       </div>
                       <div className="post-details">
-                        <h4
-                          onClick={() =>
-                            navigateTo(`/friend-profile/${post?.userId}`)
-                          }
-                        >
+                        <h4 onClick={() => navigateToProfile(post?.userId)}>
                           {post?.userFirstName} {post?.userLastName}
                         </h4>
                         <p>
