@@ -21,6 +21,7 @@ import CommentBox from "./CommentBox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { faMessage } from "@fortawesome/free-regular-svg-icons";
+import StoryPreview from "./StoryPreview";
 // import heart from "./../../images/heart.JPG";
 
 const Home = () => {
@@ -33,9 +34,9 @@ const Home = () => {
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
   const [allPosts, setAllPosts] = useState([]);
-  // const [isShowCommentBox, setIsShowCommentBox] = useState(false);
+  const [allStoryUsers, setAllStoryUsers] = useState();
 
-  // console.log(allPosts);
+  // console.log(allStoryUsers, "story users");
 
   const navigateToProfile = (Id) => {
     if (state?.currentUser?.userId == Id) {
@@ -61,6 +62,28 @@ const Home = () => {
   }, [state, navigateTo]);
 
   useEffect(() => {
+    const getAllStories = async () => {
+      const token = JSON.parse(localStorage.getItem("Token"));
+
+      if (token) {
+        try {
+          const response = await api.post("/get-all-stories", { token });
+
+          if (response.data.success) {
+            setAllStoryUsers(response.data.storyUsers);
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          console.log(error.response.data.message);
+        }
+      }
+    };
+
+    getAllStories();
+  }, []);
+
+  useEffect(() => {
     const getAllPosts = async () => {
       try {
         const response = await api.get("/get-all-posts");
@@ -77,17 +100,6 @@ const Home = () => {
 
     getAllPosts();
   }, []);
-
-  // useEffect(() => {
-  //   const getRandomPosts = (allPosts) => {
-  //     if (allPosts) {
-  //       const newAllPosts = allPosts.sort(() => Math.random() - 0.5);
-  //       setAllPosts(newAllPosts);
-  //     }
-  //   };
-
-  //   getRandomPosts(allPosts);
-  // }, [allPosts]);
 
   useEffect(() => {
     const getProfileDetails = async () => {
@@ -229,6 +241,40 @@ const Home = () => {
           </div>
         </div>
         <div id="middle">
+          <StoryPreview allStoryUsers={allStoryUsers} />
+          {/* <div id="middle-story-structure">
+            <div id="story-structure">
+              {allStoryUsers?.length ? (
+                allStoryUsers?.map((item) => (
+                  <>
+                    {" "}
+                    <div className="single-story" key={item._id}>
+                      {item?.yourStories && (
+                        <>
+                          <div className="story-preview">
+                            <img
+                              src={item.yourStories[0].storyImg}
+                              alt="story"
+                            />
+                          </div>
+                        </>
+                      )}
+                      <div className="story-user">
+                        <div className="user-img">
+                          <img src={item.profileImg} alt="user" />
+                        </div>
+                        <p>{item.firstName}</p>
+                      </div>
+                    </div>
+                  </>
+                ))
+              ) : (
+                <>
+                  <p>No Stories!</p>
+                </>
+              )}
+            </div>
+          </div> */}
           <div id="story" onClick={() => navigateTo("/create-story")}>
             <i class="fa-solid fa-plus"></i>
             <div id="create-story-home">

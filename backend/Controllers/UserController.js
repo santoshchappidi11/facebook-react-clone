@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import UserModel from "../Models/UserModel.js";
 import PostModel from "../Models/PostModel.js";
+import { v4 as uuidv4 } from "uuid";
 
 export const register = async (req, res) => {
   try {
@@ -262,6 +263,96 @@ export const getFriendProfile = async (req, res) => {
         profileImg: friendProfile.profileImg,
         coverImg: friendProfile.coverImg,
       });
+    }
+
+    return res.status(404).json({ success: false, message: "No user found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const addStory = async (req, res) => {
+  try {
+    const { token, storyImg, caption } = req.body;
+
+    if (!token)
+      return res
+        .status(404)
+        .json({ success: false, message: "Token is required!" });
+
+    if (!storyImg || !caption)
+      return res
+        .status(404)
+        .json({ success: false, message: "All Fields are required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (user) {
+      const randomId = uuidv4();
+      const storyId = randomId.slice(0, 10);
+
+      const storyObj = {
+        storyId,
+        userId: user._id,
+        profileImg: user.profileImg,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        caption,
+        storyImg,
+      };
+
+      user?.yourStories?.push(storyObj);
+      await user?.save();
+      return res
+        .status(200)
+        .json({ success: true, message: "Your Story Added!" });
+    }
+
+    return res.status(404).json({ success: false, message: "No user found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const getAllStories = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token)
+      return res
+        .status(404)
+        .json({ success: false, message: "Token is required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (user) {
+      const allUsers = await UserModel.find({});
+
+      let storyUsers = [];
+      for (let i = 0; i < allUsers?.length; i++) {
+        if (allUsers[i].yourStories.length > 0) {
+          storyUsers.push(allUsers[i]);
+        }
+      }
+      return res.status(200).json({ success: true, storyUsers });
     }
 
     return res.status(404).json({ success: false, message: "No user found!" });

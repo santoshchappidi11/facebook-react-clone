@@ -25,11 +25,55 @@ const CreateStory = () => {
     }
   };
 
-  const handleProfileImg = () => {};
+  const handleStoryImg = (e) => {
+    const reader = new FileReader();
 
-  const handleCaptionValue = () => {};
+    const fileData = e.target.files[0];
 
-  const handleCreatePostSubmit = () => {};
+    if (fileData) {
+      reader.readAsDataURL(fileData);
+    }
+
+    reader.onload = () => {
+      setStoryImg(reader.result);
+      // console.log(reader.result, "URL");
+    };
+  };
+
+  const handleCaptionValue = (e) => {
+    setCaption(e.target.value);
+  };
+
+  const handleCreateStorySubmit = async (e) => {
+    e.preventDefault();
+
+    if (storyImg && caption) {
+      const token = JSON.parse(localStorage.getItem("Token"));
+
+      if (token) {
+        try {
+          const response = await api.post("/add-story", {
+            token,
+            storyImg,
+            caption,
+          });
+
+          if (response.data.success) {
+            toast.success(response.data.message);
+            setCaption("");
+            setStoryImg("");
+            setIsShowCreateStory(false);
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          console.log(error.response.data.message);
+        }
+      }
+    } else {
+      toast.error("please select caption and image to create story!");
+    }
+  };
 
   const openCreateStoryPopup = () => {
     setIsShowCreateStory(true);
@@ -133,7 +177,7 @@ const CreateStory = () => {
               ></i>
             </div>
             <div id="create-story-body">
-              <form onSubmit={handleCreatePostSubmit}>
+              <form onSubmit={handleCreateStorySubmit}>
                 <div id="story-body-1">
                   {/* <i class="fa-solid fa-circle-user"></i> */}
                   <div id="story-profile-img">
@@ -180,7 +224,7 @@ const CreateStory = () => {
                         src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/Ivw7nhRtXyo.png"
                         alt="story"
                       />
-                      <input type="file" onClick={handleProfileImg} />
+                      <input type="file" onClick={handleStoryImg} />
                     </label>
                     <img
                       src="https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/b37mHA1PjfK.png"
