@@ -1,7 +1,12 @@
 import React from "react";
 import "./StoryPreview.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
-const StoryPreview = ({ allStoryUsers }) => {
+const StoryPreview = ({ allStoryUsers, incrementPage, decrementPage }) => {
+  const navigateTo = useNavigate();
+
   return (
     <>
       <div id="middle-story-structure">
@@ -10,7 +15,11 @@ const StoryPreview = ({ allStoryUsers }) => {
             allStoryUsers?.map((item) => (
               <>
                 {" "}
-                <div className="single-story" key={item._id}>
+                <div
+                  className="single-story"
+                  key={item._id}
+                  onClick={() => navigateTo(`/view-story/${item._id}`)}
+                >
                   {item?.yourStories && (
                     <>
                       <div className="story-preview">
@@ -32,6 +41,15 @@ const StoryPreview = ({ allStoryUsers }) => {
               <p>No Stories!</p>
             </>
           )}
+        </div>
+
+        <div id="story-arrows">
+          <div className="arrow-left" onClick={decrementPage}>
+            <FontAwesomeIcon icon={faArrowLeft} />
+          </div>
+          <div className="arrow-right" onClick={incrementPage}>
+            <FontAwesomeIcon icon={faArrowRight} />
+          </div>
         </div>
       </div>
     </>

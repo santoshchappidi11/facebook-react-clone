@@ -35,8 +35,33 @@ const Home = () => {
   const [userLastName, setUserLastName] = useState("");
   const [allPosts, setAllPosts] = useState([]);
   const [allStoryUsers, setAllStoryUsers] = useState();
+  const [storyCount, setStoryCount] = useState();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState();
+  const [pageCount, setPageCount] = useState();
 
-  // console.log(allStoryUsers, "story users");
+  useEffect(() => {
+    const totalPageCount = Math.ceil(storyCount / pageSize);
+    setPageCount(totalPageCount);
+  }, [storyCount, pageSize]);
+
+  const incrementPage = () => {
+  
+    if (page == pageCount) {
+      setPage(1);
+    } else {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const decrementPage = () => {
+    console.log("clicked decrement");
+    if (page == 1) {
+      setPage(pageCount);
+    } else {
+      setPage((prev) => prev - 1);
+    }
+  };
 
   const navigateToProfile = (Id) => {
     if (state?.currentUser?.userId == Id) {
@@ -67,10 +92,12 @@ const Home = () => {
 
       if (token) {
         try {
-          const response = await api.post("/get-all-stories", { token });
+          const response = await api.post("/get-all-stories", { token, page });
 
           if (response.data.success) {
             setAllStoryUsers(response.data.storyUsers);
+            setStoryCount(response.data.storyCount);
+            setPageSize(response.data.limit);
           } else {
             toast.error(response.data.message);
           }
@@ -81,7 +108,7 @@ const Home = () => {
     };
 
     getAllStories();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     const getAllPosts = async () => {
@@ -241,7 +268,11 @@ const Home = () => {
           </div>
         </div>
         <div id="middle">
-          <StoryPreview allStoryUsers={allStoryUsers} />
+          <StoryPreview
+            allStoryUsers={allStoryUsers}
+            incrementPage={incrementPage}
+            decrementPage={decrementPage}
+          />
           {/* <div id="middle-story-structure">
             <div id="story-structure">
               {allStoryUsers?.length ? (

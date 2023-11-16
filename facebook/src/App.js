@@ -10,6 +10,7 @@ import Search from "./components/Search/Search";
 import NewUserProfile from "./components/Profile/NewUserProfile";
 import SinglePost from "./components/Posts/SinglePost";
 import FriendProfile from "./components/FriendProfile/FriendProfile";
+import ViewStory from "./components/stories/ViewStory";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           path="/friend-profile/:profileId"
           element={<FriendProfile />}
         />
+        <Route exact path="/view-story/:storyUserId" element={<ViewStory />} />
       </Routes>
     </div>
   );

@@ -46,6 +46,10 @@ const userSchema = new Schema({
   yourStories: {
     type: [Object],
   },
+  isStoryAdded: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export default mongoose.model("User", userSchema);

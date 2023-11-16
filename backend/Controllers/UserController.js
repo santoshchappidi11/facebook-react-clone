@@ -311,6 +311,7 @@ export const addStory = async (req, res) => {
       };
 
       user?.yourStories?.push(storyObj);
+      user.isStoryAdded = true;
       await user?.save();
       return res
         .status(200)
@@ -325,7 +326,10 @@ export const addStory = async (req, res) => {
 
 export const getAllStories = async (req, res) => {
   try {
-    const { token } = req.body;
+    const { token, page, limit = 2 } = req.body;
+
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    const limitValue = parseInt(limit);
 
     if (!token)
       return res
@@ -344,15 +348,62 @@ export const getAllStories = async (req, res) => {
     const user = await UserModel.findById(userId);
 
     if (user) {
-      const allUsers = await UserModel.find({});
+      const storyUsers = await UserModel.find({ isStoryAdded: true })
+        .skip(skip)
+        .limit(limitValue)
+        .lean();
 
-      let storyUsers = [];
-      for (let i = 0; i < allUsers?.length; i++) {
-        if (allUsers[i].yourStories.length > 0) {
-          storyUsers.push(allUsers[i]);
-        }
-      }
-      return res.status(200).json({ success: true, storyUsers });
+      const allStoryUsers = await UserModel.find({ isStoryAdded: true });
+
+      // let storyUsers = [];
+      // for (let i = 0; i < allUsers?.length; i++) {
+      //   if (allUsers[i].yourStories.length > 0) {
+      //     storyUsers.push(allUsers[i]);
+      //   }
+      // }
+      return res.status(200).json({
+        success: true,
+        storyUsers,
+        limit,
+        storyCount: allStoryUsers.length,
+      });
+    }
+
+    return res.status(404).json({ success: false, message: "No user found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const getUserStory = async (req, res) => {
+  try {
+    const { token, storyUserId } = req.body;
+
+    if (!token)
+      return res
+        .status(404)
+        .json({ success: false, message: "Token is required!" });
+
+    if (!storyUserId)
+      return res
+        .status(404)
+        .json({ success: false, message: "Story Id is required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (user) {
+      return res
+        .status(200)
+        .json({ success: true, userStory: user.yourStories });
     }
 
     return res.status(404).json({ success: false, message: "No user found!" });

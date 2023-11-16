@@ -1,0 +1,215 @@
+#view-story {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  /* border: 1px solid red; */
+}
+
+#view-story > #left {
+  width: 25%;
+  height: 100%;
+  background-color: white;
+  /* border: 1px solid black; */
+}
+
+#view-story > #left > #left-main {
+  height: 35%;
+  width: 100%;
+  /* border: 1px solid blue; */
+}
+
+#view-story > #left > #left-main > #left-header {
+  height: 25%;
+  width: 100%;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 0px 5px 0px;
+  /* border: 2px solid black; */
+}
+
+#view-story > #left > #left-main > #left-header > .fa-xmark {
+  height: 72%;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin: 0 3px 0 15px;
+  cursor: pointer;
+  color: white;
+  background-color: rgb(153, 153, 153);
+  /* border: 1px solid red; */
+}
+
+#view-story > #left > #left-main > #left-header > img {
+  cursor: pointer;
+}
+
+#view-story > #left > #left-main > #left-body {
+  height: 75%;
+  width: 100%;
+  border-bottom: 1px solid rgb(226, 226, 226);
+}
+
+#view-story > #left > #left-main > #left-body > #body-header {
+  height: 40%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  /* border: 1px solid green; */
+}
+
+#view-story > #left > #left-main > #left-body > #body-header > h2 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+#view-story > #left > #left-main > #left-body > #body-header > .fa-gear {
+  height: 52%;
+  width: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin: 0 3px 0 15px;
+  cursor: pointer;
+  background-color: rgb(235, 235, 235);
+  /* border: 1px solid black; */
+}
+
+#view-story > #left > #left-main > #left-body > #body-main {
+  height: 60%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 0 20px 0;
+  /* border: 1px solid black; */
+}
+
+#body-main > #body-user-img {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  margin: 0 10px;
+}
+
+#body-main > #body-user-img > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+/* #view-story > #left > #left-main > #left-body > #body-main > .fa-circle-user {
+    font-size: 60px;
+    margin: 0 8px 0 15px;
+  } */
+
+#view-story > #left > #left-main > #left-body > #body-main > h4 {
+  font-weight: 600;
+  font-size: 22px;
+}
+
+#view-story > #left > #left-main > #left-body > #body-main > h4:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#view-story > #right {
+  height: 100%;
+  width: 75%;
+}
+
+#view-story > #right > #right-header {
+  height: 8%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 20px 0 0;
+  background-color: black;
+  /* border: 1px solid black; */
+}
+
+#story-right-img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+#story-right-img > img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+#view-story > #right > #right-header > div {
+  height: 78%;
+  width: 40px;
+  margin: 0 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  background-color: rgb(228, 230, 235);
+  cursor: pointer;
+}
+
+#view-story > #right > #right-header > .fa-circle-user {
+  margin: 0 4px;
+  font-size: 38px;
+  cursor: pointer;
+}
+
+#view-story > #right > #right-body {
+  height: 92%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  /* border: 1px solid black; */
+}
+
+#story-img {
+  height: 100%;
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  border: 1px solid white;
+}
+
+#story-img > #story-up {
+  height: 20%;
+  width: 100%;
+  border: 1px solid white;
+}
+
+#story-img > #main-img {
+  height: 50%;
+  width: 100%;
+  border: 1px solid white;
+}
+
+#story-img > #main-img > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+#story-img > #story-down {
+  height: 20%;
+  width: 100%;
+  border: 1px solid white;
+}

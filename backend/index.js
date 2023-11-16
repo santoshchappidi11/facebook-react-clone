@@ -10,6 +10,7 @@ import {
   getFriendProfile,
   getProfileDetails,
   getProfileResult,
+  getUserStory,
   login,
   newUserProfileDetails,
   register,
@@ -54,6 +55,7 @@ app.post("/get-profile-result", getProfileResult);
 app.post("/get-friend-profile", getFriendProfile);
 app.post("/add-story", addStory);
 app.post("/get-all-stories", getAllStories);
+app.post("/get-single-story", getUserStory);
 
 mongoose
   .connect(process.env.MONGO_URL)
