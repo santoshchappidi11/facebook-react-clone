@@ -46,7 +46,6 @@ const Home = () => {
   }, [storyCount, pageSize]);
 
   const incrementPage = () => {
-  
     if (page == pageCount) {
       setPage(1);
     } else {
@@ -323,7 +322,7 @@ const Home = () => {
                 />
               </div>
               <button onClick={openCreatePostPopup}>
-                What's on your mind, Santosh?
+                What's on your mind, {state?.currentUser?.firstName}?
               </button>
               {/* <input type="text" placeholder="What's on your mind, Santosh?" /> */}
             </div>
@@ -480,7 +479,7 @@ const Home = () => {
                     <input
                       type="text"
                       name="caption"
-                      placeholder="What's on your mind, Santosh?"
+                      placeholder={`What's on your mind, ${state?.currentUser?.firstName}`}
                       onChange={handleCaptionValue}
                       value={caption}
                     />

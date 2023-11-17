@@ -199,7 +199,7 @@ const CreateStory = () => {
                   <input
                     type="text"
                     name="caption"
-                    placeholder="What's on your mind, Santosh?"
+                    placeholder={`What's on your mind, ${state?.currentUser?.firstName}`}
                     onChange={handleCaptionValue}
                     value={caption}
                   />

@@ -366,6 +366,7 @@ export const getAllStories = async (req, res) => {
         storyUsers,
         limit,
         storyCount: allStoryUsers.length,
+        viewUsers: allStoryUsers,
       });
     }
 
@@ -398,12 +399,12 @@ export const getUserStory = async (req, res) => {
 
     const userId = decodedData?.userId;
 
-    const user = await UserModel.findById(userId);
+    const user = await UserModel.findById(storyUserId);
 
     if (user) {
       return res
         .status(200)
-        .json({ success: true, userStory: user.yourStories });
+        .json({ success: true, userStory: user.yourStories, storyUser: user });
     }
 
     return res.status(404).json({ success: false, message: "No user found!" });

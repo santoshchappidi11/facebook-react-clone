@@ -6,7 +6,12 @@ import { AuthContexts } from "../../Context/AuthContext";
 import toast from "react-hot-toast";
 import api from "../../ApiConfig";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronUp, faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronUp,
+  faEllipsis,
+  faChevronRight,
+  faChevronLeft,
+} from "@fortawesome/free-solid-svg-icons";
 
 const ViewStory = () => {
   const { storyUserId } = useParams();
@@ -14,7 +19,25 @@ const ViewStory = () => {
   const { state } = useContext(AuthContexts);
   const [searchUser, setSearchUser] = useState();
   const [userStory, setUserStory] = useState([]);
-  //   console.log(userStory.yourStories[0].storyImg, "user story here");
+  const [storyUser, setStoryUser] = useState();
+  const [storyNumber, setStoryNumber] = useState(0);
+  const [allStoryUsers, setAllStoryUsers] = useState([]);
+
+  const incrementPage = () => {
+    if (storyNumber == userStory.length - 1) {
+      setStoryNumber(0);
+    } else {
+      setStoryNumber((prev) => prev + 1);
+    }
+  };
+
+  const decrementPage = () => {
+    if (storyNumber == 0) {
+      setStoryNumber(userStory.length - 1);
+    } else {
+      setStoryNumber((prev) => prev - 1);
+    }
+  };
 
   const navigateToProfile = (Id) => {
     if (state?.currentUser?.userId == Id) {
@@ -49,6 +72,28 @@ const ViewStory = () => {
   }, []);
 
   useEffect(() => {
+    const getAllStories = async () => {
+      const token = JSON.parse(localStorage.getItem("Token"));
+
+      if (token) {
+        try {
+          const response = await api.post("/get-all-stories", { token });
+
+          if (response.data.success) {
+            setAllStoryUsers(response.data.viewUsers);
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          console.log(error.response.data.message);
+        }
+      }
+    };
+
+    getAllStories();
+  }, []);
+
+  useEffect(() => {
     const getSingleUserStory = async () => {
       const token = JSON.parse(localStorage.getItem("Token"));
 
@@ -61,6 +106,7 @@ const ViewStory = () => {
 
           if (response.data.success) {
             setUserStory(response.data.userStory);
+            setStoryUser(response.data.storyUser);
           } else {
             toast.error(response.data.message);
           }
@@ -87,10 +133,41 @@ const ViewStory = () => {
             </div>
             <div id="left-body">
               <div id="body-header">
-                <h2>Your story</h2>
+                <h2>Stories</h2>
                 <i class="fa-solid fa-gear fa-lg"></i>
               </div>
-              <div id="body-main"></div>
+              <div id="body-main">
+                <div id="your-story">
+                  <h4>Your Story</h4>
+                </div>
+                <div id="all-stories">
+                  <h4>All Stories</h4>
+                  <div id="all-user-stories">
+                    {allStoryUsers?.length ? (
+                      allStoryUsers?.map((item) => (
+                        <>
+                          <div
+                            className="user-story"
+                            key={item?._id}
+                            onClick={() =>
+                              navigateTo(`/view-story/${item._id}`)
+                            }
+                          >
+                            <div className="story-img">
+                              <img src={item?.profileImg} alt="story" />
+                            </div>
+                            <h4>
+                              {item?.firstName} {item?.lastName}
+                            </h4>
+                          </div>
+                        </>
+                      ))
+                    ) : (
+                      <>No Stories</>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -115,18 +192,31 @@ const ViewStory = () => {
               <div id="story-up">
                 <div id="story-profile">
                   <div id="story-profile-img">
-                    <img src="" alt="profile" />
+                    <img src={storyUser?.profileImg} alt="profile" />
                   </div>
-                  <p>Santosh Chappidi</p>
+                  <p>
+                    {storyUser?.firstName} {storyUser?.lastName}
+                  </p>
                 </div>
                 <FontAwesomeIcon icon={faEllipsis} />
               </div>
               <div id="main-img">
-                <img src="" alt="story" />
+                <img src={userStory[`${storyNumber}`]?.storyImg} alt="story" />
               </div>
               <div id="story-down">
-                <p>No Views Yet</p>
                 <FontAwesomeIcon icon={faChevronUp} />
+                <p>No Viewers Yet</p>
+              </div>
+            </div>
+            <div id="main-story-arrows">
+              <div className="main-story-arrow-left" onClick={decrementPage}>
+                <FontAwesomeIcon icon={faChevronLeft} className="left-arrow" />
+              </div>
+              <div className="main-story-arrow-right" onClick={incrementPage}>
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  className="right-arrow"
+                />
               </div>
             </div>
           </div>
