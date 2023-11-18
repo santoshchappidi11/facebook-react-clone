@@ -17,21 +17,21 @@ const StoryPreview = ({ allStoryUsers, incrementPage, decrementPage }) => {
                 {" "}
                 <div
                   className="single-story"
-                  key={item._id}
-                  onClick={() => navigateTo(`/view-story/${item._id}`)}
+                  key={item?._id}
+                  onClick={() => navigateTo(`/view-story/${item?._id}`)}
                 >
                   {item?.yourStories && (
                     <>
                       <div className="story-preview">
-                        <img src={item.yourStories[0].storyImg} alt="story" />
+                        <img src={item?.yourStories[0]?.storyImg} alt="story" />
                       </div>
                     </>
                   )}
                   <div className="story-user">
                     <div className="user-img">
-                      <img src={item.profileImg} alt="user" />
+                      <img src={item?.profileImg} alt="user" />
                     </div>
-                    <p>{item.firstName}</p>
+                    <p>{item?.firstName}</p>
                   </div>
                 </div>
               </>

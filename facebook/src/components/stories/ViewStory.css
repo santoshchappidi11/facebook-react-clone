@@ -130,6 +130,48 @@
   margin: 0 10px;
   font-weight: 600;
   font-size: 15px;
+  text-align: center;
+  /* border: 1px solid red; */
+}
+
+#story-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid red; */
+}
+
+#story-actions > .add-story,
+.delete-story {
+  padding: 5px;
+  border-radius: 5px;
+  margin: 0 1px;
+  /* border: 1px solid rgb(230, 230, 230); */
+}
+
+#story-actions > .add-story:hover {
+  background-color: white;
+}
+
+#story-actions > .delete-story:hover {
+  background-color: white;
+}
+
+#no-story-msg {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 1px solid red; */
+}
+
+.no-story-add {
+  padding: 8px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: rgb(22, 131, 255);
+  background-color: rgb(213, 235, 241);
+  /* border: 1px solid grey; */
 }
 
 .user-story > .story-img {

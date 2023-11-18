@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import api from "../../ApiConfig";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ProfilePosts from "./ProfilePosts";
 import ProfileAbout from "./ProfileAbout";
 import ProfileFriends from "./ProfileFriends";
@@ -16,7 +16,7 @@ import ProfileVideos from "./ProfileVideos";
 // import like from "./../../images/like.JPG";
 
 const Profile = () => {
-  // const navigateTo = useNavigate();
+  const navigateTo = useNavigate();
   const [isShowEditProfile, setIsShowEditProfile] = useState(false);
   const [profileImg, setProfileImg] = useState("");
   const [coverImg, setCoverImg] = useState("");
@@ -211,7 +211,10 @@ const Profile = () => {
             {searchUser?.firstName} {searchUser?.lastName}
           </h2>
           <div id="actions">
-            <button id="profile-story-btn">
+            <button
+              id="profile-story-btn"
+              onClick={() => navigateTo("/create-story")}
+            >
               <i class="fa-solid fa-plus"></i> Add to story
             </button>
             <button id="edit-profile-btn" onClick={openEditProfilePopup}>

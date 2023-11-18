@@ -354,6 +354,7 @@ export const getAllStories = async (req, res) => {
         .lean();
 
       const allStoryUsers = await UserModel.find({ isStoryAdded: true });
+      const myStory = await UserModel.findById(userId);
 
       // let storyUsers = [];
       // for (let i = 0; i < allUsers?.length; i++) {
@@ -367,6 +368,7 @@ export const getAllStories = async (req, res) => {
         limit,
         storyCount: allStoryUsers.length,
         viewUsers: allStoryUsers,
+        myStory,
       });
     }
 
@@ -405,6 +407,50 @@ export const getUserStory = async (req, res) => {
       return res
         .status(200)
         .json({ success: true, userStory: user.yourStories, storyUser: user });
+    }
+
+    return res.status(404).json({ success: false, message: "No user found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const deleteStory = async (req, res) => {
+  try {
+    const { token, userID } = req.body;
+
+    if (!token)
+      return res
+        .status(404)
+        .json({ success: false, message: "Token is required!" });
+
+    if (!userID)
+      return res
+        .status(404)
+        .json({ success: false, message: "Something went wrong!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    // const userId = decodedData?.userId;
+
+    const user = await UserModel.findOneAndUpdate(
+      { _id: userID },
+      // { isStoryAdded: false },
+      { yourStories: [] },
+      { new: true }
+    );
+
+    if (user) {
+      user.isStoryAdded = false;
+      await user.save();
+      return res
+        .status(200)
+        .json({ success: true, message: "Your Story Deleted!" });
     }
 
     return res.status(404).json({ success: false, message: "No user found!" });

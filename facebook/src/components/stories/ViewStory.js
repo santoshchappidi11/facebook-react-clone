@@ -11,6 +11,8 @@ import {
   faEllipsis,
   faChevronRight,
   faChevronLeft,
+  faTrashCan,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 const ViewStory = () => {
@@ -22,6 +24,7 @@ const ViewStory = () => {
   const [storyUser, setStoryUser] = useState();
   const [storyNumber, setStoryNumber] = useState(0);
   const [allStoryUsers, setAllStoryUsers] = useState([]);
+  const [myStory, setMyStory] = useState({});
 
   const incrementPage = () => {
     if (storyNumber == userStory.length - 1) {
@@ -36,6 +39,25 @@ const ViewStory = () => {
       setStoryNumber(userStory.length - 1);
     } else {
       setStoryNumber((prev) => prev - 1);
+    }
+  };
+
+  const deleteStory = async (userID) => {
+    const token = JSON.parse(localStorage.getItem("Token"));
+
+    if (token) {
+      try {
+        const response = await api.post("/delete-story", { token, userID });
+
+        if (response.data.success) {
+          navigateTo("/create-story");
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
     }
   };
 
@@ -81,6 +103,7 @@ const ViewStory = () => {
 
           if (response.data.success) {
             setAllStoryUsers(response.data.viewUsers);
+            setMyStory(response.data.myStory);
           } else {
             toast.error(response.data.message);
           }
@@ -139,6 +162,52 @@ const ViewStory = () => {
               <div id="body-main">
                 <div id="your-story">
                   <h4>Your Story</h4>
+                  <div id="all-user-stories">
+                    <>
+                      {myStory?.yourStories?.length ? (
+                        <div className="user-story">
+                          <div
+                            className="story-img"
+                            onClick={() =>
+                              navigateTo(`/view-story/${myStory._id}`)
+                            }
+                          >
+                            <img src={searchUser?.profileImg} alt="story" />
+                          </div>
+                          <h4
+                            onClick={() =>
+                              navigateTo(`/view-story/${myStory._id}`)
+                            }
+                          >
+                            {myStory?.firstName} {myStory?.lastName}(YOU)
+                          </h4>
+                          <div id="story-actions">
+                            <FontAwesomeIcon
+                              icon={faPlus}
+                              className="add-story"
+                              onClick={() => navigateTo("/create-story")}
+                            />
+                            <FontAwesomeIcon
+                              icon={faTrashCan}
+                              className="delete-story"
+                              onClick={() => deleteStory(searchUser?._id)}
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div id="no-story-msg">
+                            <p>No Story Yet!</p>
+                            <FontAwesomeIcon
+                              icon={faPlus}
+                              className="no-story-add"
+                              onClick={() => navigateTo("/create-story")}
+                            />
+                          </div>
+                        </>
+                      )}
+                    </>
+                  </div>
                 </div>
                 <div id="all-stories">
                   <h4>All Stories</h4>
