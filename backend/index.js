@@ -5,6 +5,7 @@ import cors from "cors";
 import morgan from "morgan";
 import {
   addStory,
+  deleteSingleStory,
   deleteStory,
   getAllStories,
   getCurrentUser,
@@ -58,6 +59,7 @@ app.post("/add-story", addStory);
 app.post("/get-all-stories", getAllStories);
 app.post("/get-single-story", getUserStory);
 app.post("/delete-story", deleteStory);
+app.post("/delete-single-story", deleteSingleStory);
 
 mongoose
   .connect(process.env.MONGO_URL)

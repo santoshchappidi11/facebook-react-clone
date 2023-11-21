@@ -61,6 +61,29 @@ const ViewStory = () => {
     }
   };
 
+  const deleteSingleStory = async (singleStoryId) => {
+    const token = JSON.parse(localStorage.getItem("Token"));
+
+    if (token) {
+      try {
+        const response = await api.post("/delete-single-story", {
+          token,
+          singleStoryId,
+        });
+
+        if (response.data.success) {
+          setMyStory(response.data.myStory);
+          setUserStory(response.data.userStory);
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    }
+  };
+
   const navigateToProfile = (Id) => {
     if (state?.currentUser?.userId == Id) {
       navigateTo("/profile");
@@ -207,6 +230,24 @@ const ViewStory = () => {
                         </>
                       )}
                     </>
+                  </div>
+
+                  <div id="your-single-stories">
+                    {myStory?.yourStories &&
+                      myStory?.yourStories?.map((item) => (
+                        <>
+                          <div className="single-story" key={item?.storyId}>
+                            <div className="single-story-img">
+                              <img src={item?.storyImg} alt="story" />
+                            </div>
+                            <FontAwesomeIcon
+                              icon={faTrashCan}
+                              className="delete-single-story"
+                              onClick={() => deleteSingleStory(item?.storyId)}
+                            />
+                          </div>
+                        </>
+                      ))}
                   </div>
                 </div>
                 <div id="all-stories">

@@ -458,3 +458,56 @@ export const deleteStory = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const deleteSingleStory = async (req, res) => {
+  try {
+    const { token, singleStoryId } = req.body;
+    console.log(token, "token", singleStoryId);
+
+    if (!token)
+      return res
+        .status(404)
+        .json({ success: false, message: "Token is required!" });
+
+    if (!singleStoryId)
+      return res
+        .status(404)
+        .json({ success: false, message: "story Id is required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (user) {
+      const updatedStory = await UserModel.findOneAndUpdate(
+        { _id: userId },
+        { $pull: { yourStories: { storyId: singleStoryId } } },
+        { new: true }
+      );
+
+      if (updatedStory) {
+        const story = await UserModel.findById(userId);
+        return (
+          res.status(200),
+          json({
+            success: true,
+            message: "story deleted!",
+            myStory: story,
+            userStory: story.yourStories,
+          })
+        );
+      }
+    }
+
+    return res.status(404).json({ success: false, message: "No user found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};

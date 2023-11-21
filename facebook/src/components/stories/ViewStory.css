@@ -115,8 +115,8 @@
   display: flex;
   /* justify-content: space-between; */
   align-items: center;
-  margin: 10px 0;
-  padding: 5px 5px;
+  /* margin: 10px 0; */
+  padding: 8px 5px;
   border-radius: 6px;
   /* border: 1px solid red; */
 }
@@ -172,6 +172,53 @@
   color: rgb(22, 131, 255);
   background-color: rgb(213, 235, 241);
   /* border: 1px solid grey; */
+}
+
+#your-single-stories {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* border: 1px solid black; */
+}
+
+.single-story {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 6px;
+  padding: 2px 10px;
+  /* border: 1px solid lightgrey; */
+}
+
+.single-story:hover {
+  cursor: pointer;
+  background-color: rgb(240, 240, 240);
+}
+
+.single-story > .single-story-img {
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  padding: 2px;
+}
+
+.single-story > .single-story-img > img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+.delete-single-story {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.delete-single-story:hover {
+  background-color: white;
 }
 
 .user-story > .story-img {
