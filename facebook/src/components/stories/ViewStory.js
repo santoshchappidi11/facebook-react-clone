@@ -50,7 +50,10 @@ const ViewStory = () => {
         const response = await api.post("/delete-story", { token, userID });
 
         if (response.data.success) {
-          navigateTo("/create-story");
+          // navigateTo("/create-story");
+          setMyStory(response.data.myStory);
+          setUserStory(response.data.userStory);
+          setAllStoryUsers(response.data.allStoryUsers);
           toast.success(response.data.message);
         } else {
           toast.error(response.data.message);
@@ -74,6 +77,7 @@ const ViewStory = () => {
         if (response.data.success) {
           setMyStory(response.data.myStory);
           setUserStory(response.data.userStory);
+          setAllStoryUsers(response.data.allStoryUsers);
           toast.success(response.data.message);
         } else {
           toast.error(response.data.message);
@@ -185,12 +189,12 @@ const ViewStory = () => {
               <div id="body-main">
                 <div id="your-story">
                   <h4>Your Story</h4>
-                  <div id="all-user-stories">
+                  <div id="all-your-stories">
                     <>
                       {myStory?.yourStories?.length ? (
-                        <div className="user-story">
+                        <div className="your-story">
                           <div
-                            className="story-img"
+                            className="your-story-img"
                             onClick={() =>
                               navigateTo(`/view-story/${myStory._id}`)
                             }
@@ -298,37 +302,77 @@ const ViewStory = () => {
             </div>
           </div>
           <div id="right-body">
-            <div id="story-img">
-              <div id="story-up">
-                <div id="story-profile">
-                  <div id="story-profile-img">
-                    <img src={storyUser?.profileImg} alt="profile" />
+            {userStory?.length > 0 ? (
+              <>
+                <div id="story-img">
+                  <div id="story-up">
+                    <div id="story-profile">
+                      <div id="story-profile-img">
+                        <img src={storyUser?.profileImg} alt="profile" />
+                      </div>
+                      <p>
+                        {storyUser?.firstName} {storyUser?.lastName}
+                      </p>
+                    </div>
+                    <FontAwesomeIcon icon={faEllipsis} />
                   </div>
-                  <p>
-                    {storyUser?.firstName} {storyUser?.lastName}
-                  </p>
+                  <div id="main-img">
+                    <img
+                      src={userStory[`${storyNumber}`]?.storyImg}
+                      alt="story"
+                    />
+                  </div>
+                  {/* <div id="story-down">
+                    <FontAwesomeIcon icon={faChevronUp} />
+                    <p>No Viewers Yet</p>
+                  </div> */}
+
+                  {state?.currentUser?.userId == storyUser._id && (
+                    <>
+                      <div id="story-down">
+                        <FontAwesomeIcon icon={faChevronUp} />
+                        <p>No Viewers Yet</p>
+                      </div>
+                    </>
+                  )}
                 </div>
-                <FontAwesomeIcon icon={faEllipsis} />
-              </div>
-              <div id="main-img">
-                <img src={userStory[`${storyNumber}`]?.storyImg} alt="story" />
-              </div>
-              <div id="story-down">
-                <FontAwesomeIcon icon={faChevronUp} />
-                <p>No Viewers Yet</p>
-              </div>
-            </div>
-            <div id="main-story-arrows">
-              <div className="main-story-arrow-left" onClick={decrementPage}>
-                <FontAwesomeIcon icon={faChevronLeft} className="left-arrow" />
-              </div>
-              <div className="main-story-arrow-right" onClick={incrementPage}>
+              </>
+            ) : (
+              <div id="main-no-story-msg">
+                <h1>No Story Yet!</h1>
                 <FontAwesomeIcon
-                  icon={faChevronRight}
-                  className="right-arrow"
+                  icon={faPlus}
+                  className="main-no-story-add"
+                  onClick={() => navigateTo("/create-story")}
                 />
               </div>
-            </div>
+            )}
+
+            {userStory?.length > 0 && (
+              <>
+                {" "}
+                <div id="main-story-arrows">
+                  <div
+                    className="main-story-arrow-left"
+                    onClick={decrementPage}
+                  >
+                    <FontAwesomeIcon
+                      icon={faChevronLeft}
+                      className="left-arrow"
+                    />
+                  </div>
+                  <div
+                    className="main-story-arrow-right"
+                    onClick={incrementPage}
+                  >
+                    <FontAwesomeIcon
+                      icon={faChevronRight}
+                      className="right-arrow"
+                    />
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

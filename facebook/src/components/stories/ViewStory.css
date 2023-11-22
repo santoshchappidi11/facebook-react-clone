@@ -10,6 +10,7 @@
 #view-story > #left {
   width: 25%;
   height: 100%;
+  overflow-y: scroll;
   background-color: white;
   /* border: 1px solid black; */
 }
@@ -107,7 +108,51 @@
   margin: 0 0 10px 0;
 }
 
+#all-your-stories {
+  width: 100%;
+  /* border: 1px solid blue; */
+}
+
+#all-your-stories > .your-story {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  /* margin: 10px 0; */
+  padding: 8px 5px;
+  border-radius: 6px;
+  /* border: 1px solid red; */
+}
+
+#all-your-stories > .your-story:hover {
+  cursor: pointer;
+  background-color: rgb(240, 240, 240);
+}
+
+#all-your-stories > .your-story > h4 {
+  margin: 0 4px;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: center;
+  /* border: 1px solid red; */
+}
+
+.your-story > .your-story-img {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  padding: 2px;
+  border: 2px solid blue;
+}
+
+.your-story > .your-story-img > img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
 #all-user-stories {
+  width: 100%;
   /* border: 1px solid blue; */
 }
 
@@ -127,7 +172,7 @@
 }
 
 #all-user-stories > .user-story > h4 {
-  margin: 0 10px;
+  margin: 0 8px;
   font-weight: 600;
   font-size: 15px;
   text-align: center;
@@ -330,7 +375,7 @@
   height: 100%;
   width: 50%;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
   flex-direction: column;
   color: white;
@@ -361,6 +406,7 @@
 #story-img > #main-img {
   height: 50%;
   width: 100%;
+  margin: 40px 0 25px 0;
   /* border: 1px solid white; */
 }
 
@@ -378,6 +424,28 @@
 
 #story-img > #story-down > p {
   font-weight: 500;
+}
+
+#main-no-story-msg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* border: 1px solid white; */
+}
+
+#main-no-story-msg > h1 {
+  color: white;
+  margin: 8px 0;
+}
+
+.main-no-story-add {
+  padding: 12px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: rgb(22, 131, 255);
+  font-size: 25px;
+  background-color: rgb(213, 235, 241);
 }
 
 #main-story-arrows {

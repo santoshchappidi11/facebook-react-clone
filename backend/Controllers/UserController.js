@@ -448,9 +448,17 @@ export const deleteStory = async (req, res) => {
     if (user) {
       user.isStoryAdded = false;
       await user.save();
-      return res
-        .status(200)
-        .json({ success: true, message: "Your Story Deleted!" });
+
+      const story = await UserModel.findById(user._id);
+      const allStoryUsers = await UserModel.find({ isStoryAdded: true });
+
+      return res.status(200).json({
+        success: true,
+        message: "Your Story Deleted!",
+        myStory: story,
+        userStory: story.yourStories,
+        allStoryUsers,
+      });
     }
 
     return res.status(404).json({ success: false, message: "No user found!" });
@@ -462,7 +470,6 @@ export const deleteStory = async (req, res) => {
 export const deleteSingleStory = async (req, res) => {
   try {
     const { token, singleStoryId } = req.body;
-    console.log(token, "token", singleStoryId);
 
     if (!token)
       return res
@@ -493,16 +500,20 @@ export const deleteSingleStory = async (req, res) => {
       );
 
       if (updatedStory) {
-        const story = await UserModel.findById(userId);
-        return (
-          res.status(200),
-          json({
-            success: true,
-            message: "story deleted!",
-            myStory: story,
-            userStory: story.yourStories,
-          })
-        );
+        if (updatedStory.yourStories.length == 0) {
+          user.isStoryAdded = false;
+          await user.save();
+        }
+
+        const finalUpdatedstory = await UserModel.findById(user._id);
+        const allStoryUsers = await UserModel.find({ isStoryAdded: true });
+        return res.status(200).json({
+          success: true,
+          message: "story deleted!",
+          myStory: finalUpdatedstory,
+          userStory: finalUpdatedstory.yourStories,
+          allStoryUsers,
+        });
       }
     }
 
