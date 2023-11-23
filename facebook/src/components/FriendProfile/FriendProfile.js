@@ -103,14 +103,7 @@ const FriendProfile = () => {
             <div id="cover-img">
               <img src={coverImg} alt="cover" />
             </div>
-            {/* <div className="cover-avatar">
-              <i class="fa-solid fa-user-pen"></i>
-              <h4>Create with avatar</h4>
-            </div>
-            <div className="cover-photo">
-              <i class="fa-solid fa-camera"></i>
-              <h4>Add Cover Photo</h4>
-            </div> */}
+          
             <div id="profile-img">
               <img src={profileImg} alt="profile" />
               {/* <i class="fa-solid fa-camera fa-lg"></i> */}
@@ -125,7 +118,7 @@ const FriendProfile = () => {
                 <i class="fa-solid fa-plus"></i> Add Friend
               </button>
               <button id="edit-profile-btn">
-              <i class="fa-brands fa-facebook-messenger fa-lg"></i> Message
+                <i class="fa-brands fa-facebook-messenger fa-lg"></i> Message
               </button>
               <button id="profile-more-btn">
                 <i class="fa-solid fa-angle-up"></i>

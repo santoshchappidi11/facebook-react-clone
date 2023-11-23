@@ -13,15 +13,23 @@ import { faCircleInfo, faCreditCard } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useParams } from "react-router-dom";
 import like from "./../../images/like.JPG";
 import { AuthContexts } from "../../Context/AuthContext";
+import FollowBtn from "./FollowBtn";
 
 const Search = () => {
   const { state } = useContext(AuthContexts);
   const [searchUser, setSearchUser] = useState({});
   const [allPosts, setAllPosts] = useState([]);
+  const [isRequest, setIsRequest] = useState(false);
   const navigateTo = useNavigate();
   const { searchId } = useParams();
 
-  // console.log(searchUser, "search user here");
+  useEffect(() => {
+    for (let i = 0; i < state?.currentUser?.sentRequests?.length; i++) {
+      if (searchId == state?.currentUser?.sentRequests[i]) {
+        setIsRequest(true);
+      }
+    }
+  }, [searchId, state]);
 
   const navigateToProfile = (Id) => {
     if (state?.currentUser?.userId == Id) {
@@ -53,6 +61,28 @@ const Search = () => {
 
     getSearchResults();
   }, [searchId]);
+
+  const sendAndRemoveFriendRequest = async (friendId) => {
+    const token = JSON.parse(localStorage.getItem("Token"));
+
+    if (token) {
+      try {
+        const response = await api.post("/send-remove-friend-request", {
+          token,
+          friendId,
+        });
+
+        if (response.data.success) {
+          toast.success(response.data.message);
+          setIsRequest(response.data.isRequest);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    }
+  };
 
   return (
     <div id="search">
@@ -136,7 +166,11 @@ const Search = () => {
             </p>
           </div>
           <div id="middle-header-down">
-            <button>Follow</button>
+            <FollowBtn
+              isRequest={isRequest}
+              searchUser={searchUser}
+              sendAndRemoveFriendRequest={sendAndRemoveFriendRequest}
+            />
           </div>
         </div>
 

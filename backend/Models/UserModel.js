@@ -40,6 +40,9 @@ const userSchema = new Schema({
   friendRequests: {
     type: [String],
   },
+  sentRequests: {
+    type: [String],
+  },
   yourFriends: {
     type: [String],
   },

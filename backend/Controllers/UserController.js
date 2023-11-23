@@ -24,8 +24,8 @@ export const register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new UserModel({
-      firstName,
-      lastName,
+      firstName: firstName.charAt(0).toUpperCase() + firstName.slice(1),
+      lastName: lastName.charAt(0).toUpperCase() + lastName.slice(1),
       email,
       number,
       password: hashedPassword,
@@ -65,6 +65,7 @@ export const login = async (req, res) => {
           lastName: user.lastName,
           email: user.email,
           number: user.number,
+          sentRequests: user.sentRequests,
         };
 
         return res.status(200).json({
@@ -115,6 +116,7 @@ export const getCurrentUser = async (req, res) => {
         lastName: user.lastName,
         email: user.email,
         number: user.number,
+        sentRequests: user.sentRequests,
       };
 
       return res.status(200).json({ success: true, user: userObj });

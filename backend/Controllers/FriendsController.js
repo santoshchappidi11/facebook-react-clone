@@ -27,10 +27,13 @@ export const sendFriendRequest = async (req, res) => {
 
         if (flag == false) {
           friendUser.friendRequests.push(user._id);
+          user.sentRequests.push(friendId);
+          await user.save();
           await friendUser.save();
           return res.status(200).json({
             success: true,
-            message: `Friend request sent to ${friendUser?.name}`,
+            message: `Request sent to ${friendUser?.firstName} ${friendUser?.lastName}`,
+            isRequest: true,
           });
         }
 
@@ -38,10 +41,18 @@ export const sendFriendRequest = async (req, res) => {
           (item) => item != user._id
         );
         friendUser.friendRequests = removeFriendReq;
+
+        const removeSentReq = user.sentRequests.filter(
+          (item) => item != friendId
+        );
+        user.sentRequests = removeSentReq;
+
         await friendUser.save();
+        await user.save();
         return res.status(200).json({
           success: true,
-          message: `Cancelled friend request to ${friendUser?.name}`,
+          message: `Cancelled request to ${friendUser?.firstName} ${friendUser?.lastName}`,
+          isRequest: false,
         });
       }
 
