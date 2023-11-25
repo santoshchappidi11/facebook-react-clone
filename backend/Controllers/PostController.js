@@ -65,6 +65,61 @@ export const addPost = async (req, res) => {
   }
 };
 
+export const deleteYourPost = async (req, res) => {
+  try {
+    const { token, postId } = req.body;
+
+    console.log(token, "token");
+    console.log(postId, "post id");
+
+    if (!token)
+      return res
+        .status(404)
+        .json({ success: false, message: "Token is required!" });
+
+    if (!postId)
+      return res
+        .status(404)
+        .json({ success: false, message: "Post Id is required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (user) {
+      const postDeleted = await PostModel.findOneAndDelete(
+        { _id: postId },
+        { userId },
+        { new: true }
+      );
+
+      if (postDeleted) {
+        const allMyPosts = await PostModel.find({ userId });
+
+        return res
+          .status(200)
+          .json({ success: true, message: "Post Deleted!", posts: allMyPosts });
+      }
+
+      return res.status(404).json({
+        success: false,
+        message: "Something went wrong! can't delete",
+      });
+    }
+
+    return res.status(404).json({ success: false, message: "User not found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 export const getSinglePost = async (req, res) => {
   try {
     const { token, postId } = req.body;

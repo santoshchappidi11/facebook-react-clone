@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./FriendProfile.css";
 import Navbar from "../Navbar/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +12,7 @@ import FriendVideos from "./FriendVideos";
 import api from "../../ApiConfig";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import { AuthContexts } from "../../Context/AuthContext";
 
 const FriendProfile = () => {
   const { profileId } = useParams();
@@ -24,6 +25,42 @@ const FriendProfile = () => {
   const [isShowFriends, setIsShowFriends] = useState(false);
   const [isShowPhotos, setIsShowPhotos] = useState(false);
   const [isShowVideos, setIsShowVideos] = useState(false);
+  const [isFollow, setIsFollow] = useState(false);
+  const { state, dispatch } = useContext(AuthContexts);
+
+  useEffect(() => {
+    for (let i = 0; i < state?.currentUser?.sentRequests?.length; i++) {
+      if (profileId == state?.currentUser?.sentRequests[i]) {
+        setIsFollow(true);
+      }
+    }
+  }, [profileId, state]);
+
+  const sendRemoveFriendRequest = async (friendId) => {
+    const token = JSON.parse(localStorage.getItem("Token"));
+
+    if (token) {
+      try {
+        const response = await api.post("/send-remove-friend-request", {
+          token,
+          friendId,
+        });
+
+        if (response.data.success) {
+          dispatch({
+            type: "LOGIN",
+            payload: response.data.user,
+          });
+          setIsFollow(response.data.isFollow);
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    }
+  };
 
   const handleMultiplePages = (e) => {
     if (e.target.innerText == "Posts") {
@@ -103,7 +140,7 @@ const FriendProfile = () => {
             <div id="cover-img">
               <img src={coverImg} alt="cover" />
             </div>
-          
+
             <div id="profile-img">
               <img src={profileImg} alt="profile" />
               {/* <i class="fa-solid fa-camera fa-lg"></i> */}
@@ -114,9 +151,27 @@ const FriendProfile = () => {
               {searchUser?.firstName} {searchUser?.lastName}
             </h2>
             <div id="actions">
-              <button id="profile-story-btn">
-                <i class="fa-solid fa-plus"></i> Add Friend
-              </button>
+              {isFollow ? (
+                <button
+                  style={{
+                    backgroundColor: "white",
+                    border: "2px solid rgb(27, 116, 228)",
+                    color: "rgb(27, 116, 228)",
+                    fontWeight: "700",
+                  }}
+                  id="profile-story-btn"
+                  onClick={() => sendRemoveFriendRequest(searchUser._id)}
+                >
+                  Unfollow
+                </button>
+              ) : (
+                <button
+                  id="profile-story-btn"
+                  onClick={() => sendRemoveFriendRequest(searchUser._id)}
+                >
+                  <i class="fa-solid fa-plus"></i> Follow
+                </button>
+              )}
               <button id="edit-profile-btn">
                 <i class="fa-brands fa-facebook-messenger fa-lg"></i> Message
               </button>

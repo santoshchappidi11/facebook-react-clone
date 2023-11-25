@@ -1,11 +1,21 @@
 import React from "react";
 
-const FollowBtn = ({ isRequest, searchUser, sendAndRemoveFriendRequest }) => {
+const FollowBtn = ({ isRequest, searchUserId, sendAndRemoveFriendRequest }) => {
   return (
     <>
-      <button onClick={() => sendAndRemoveFriendRequest(searchUser._id)}>
-        {isRequest ? "Unfollow" : "Follow"}
-      </button>
+      {isRequest ? (
+        <>
+          <button onClick={() => sendAndRemoveFriendRequest(searchUserId)}>
+            Follow
+          </button>
+        </>
+      ) : (
+        <>
+          <button onClick={() => sendAndRemoveFriendRequest(searchUserId)}>
+            Unfollow
+          </button>
+        </>
+      )}
     </>
   );
 };

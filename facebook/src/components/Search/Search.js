@@ -16,17 +16,25 @@ import { AuthContexts } from "../../Context/AuthContext";
 import FollowBtn from "./FollowBtn";
 
 const Search = () => {
-  const { state } = useContext(AuthContexts);
+  const { state, dispatch } = useContext(AuthContexts);
   const [searchUser, setSearchUser] = useState({});
   const [allPosts, setAllPosts] = useState([]);
   const [isRequest, setIsRequest] = useState(false);
   const navigateTo = useNavigate();
   const { searchId } = useParams();
 
+  // console.log(searchId, "search id");
+  // console.log(isRequest, "request");
+  // console.log(state?.currentUser?.sentRequests, "sent requests");
+
   useEffect(() => {
     for (let i = 0; i < state?.currentUser?.sentRequests?.length; i++) {
       if (searchId == state?.currentUser?.sentRequests[i]) {
         setIsRequest(true);
+        console.log(
+          state?.currentUser?.sentRequests[i],
+          "here single id from array"
+        );
       }
     }
   }, [searchId, state]);
@@ -67,14 +75,18 @@ const Search = () => {
 
     if (token) {
       try {
-        const response = await api.post("/send-remove-friend-request", {
+        const response = await api.post("/send-friend-request", {
           token,
           friendId,
         });
 
         if (response.data.success) {
-          toast.success(response.data.message);
+          dispatch({
+            type: "LOGIN",
+            payload: response.data.user,
+          });
           setIsRequest(response.data.isRequest);
+          toast.success(response.data.message);
         } else {
           toast.error(response.data.message);
         }
@@ -168,7 +180,7 @@ const Search = () => {
           <div id="middle-header-down">
             <FollowBtn
               isRequest={isRequest}
-              searchUser={searchUser}
+              searchUserId={searchUser._id}
               sendAndRemoveFriendRequest={sendAndRemoveFriendRequest}
             />
           </div>

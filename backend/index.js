@@ -21,6 +21,7 @@ import {
   addComment,
   addPost,
   deleteComment,
+  deleteYourPost,
   getAllPosts,
   getEditComment,
   getSearchQuery,
@@ -29,7 +30,7 @@ import {
   likeUnlikePost,
   updateComment,
 } from "./Controllers/PostController.js";
-import { sendFriendRequest } from "./Controllers/FriendsController.js";
+import { sendRemoveFriendRequest } from "./Controllers/FriendsController.js";
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.post("/get-profile-details", getProfileDetails);
 // --------------------------------------->
 app.get("/get-all-posts", getAllPosts);
 app.post("/add-post", addPost);
+app.post("/delete-your-post", deleteYourPost);
 app.post("/like-unlike-post", likeUnlikePost);
 app.post("/add-comment", addComment);
 app.post("/delete-comment", deleteComment);
@@ -67,7 +69,7 @@ app.post("/delete-story", deleteStory);
 app.post("/delete-single-story", deleteSingleStory);
 
 // --------------------------------------------------->
-app.post("/send-remove-friend-request", sendFriendRequest);
+app.post("/send-remove-friend-request", sendRemoveFriendRequest);
 
 mongoose
   .connect(process.env.MONGO_URL)

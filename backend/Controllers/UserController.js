@@ -328,7 +328,7 @@ export const addStory = async (req, res) => {
 
 export const getAllStories = async (req, res) => {
   try {
-    const { token, page, limit = 2 } = req.body;
+    const { token, page, limit = 3 } = req.body;
 
     const skip = (parseInt(page) - 1) * parseInt(limit);
     const limitValue = parseInt(limit);

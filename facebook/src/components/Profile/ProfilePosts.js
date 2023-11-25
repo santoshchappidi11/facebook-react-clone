@@ -7,8 +7,10 @@ import {
   faArrowDownShortWide,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+// import api from "../../ApiConfig";
+// import toast from "react-hot-toast";
 
-const ProfilePosts = ({ allPosts, searchUser }) => {
+const ProfilePosts = ({ allPosts, searchUser, deletePost }) => {
   const navigateTo = useNavigate();
 
   return (
@@ -55,8 +57,13 @@ const ProfilePosts = ({ allPosts, searchUser }) => {
                         </div>
                       </div>
                       <div className="options">
-                        <i class="fa-solid fa-ellipsis fa-lg"></i>
-                        <i class="fa-solid fa-xmark fa-xl"></i>
+                        <div>
+                          <i class="fa-solid fa-ellipsis fa-lg"></i>
+                        </div>
+
+                        <div onClick={() => deletePost(post._id)}>
+                          <i class="fa-solid fa-xmark fa-xl"></i>
+                        </div>
                       </div>
                     </div>
                     <div className="profile-post-sec-2">

@@ -126,6 +126,25 @@ const Profile = () => {
     getProfileDetails();
   }, []);
 
+  const deletePost = async (postId) => {
+    const token = JSON.parse(localStorage.getItem("Token"));
+
+    if (token) {
+      try {
+        const response = await api.post("/delete-your-post", { token, postId });
+
+        if (response.data.success) {
+          setAllPosts(response.data.posts);
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    }
+  };
+
   const handleProfileImg = (e) => {
     const reader = new FileReader();
 
@@ -270,7 +289,11 @@ const Profile = () => {
 
       <div id="profile-all-activities">
         {isShowPosts && (
-          <ProfilePosts allPosts={allPosts} searchUser={searchUser} />
+          <ProfilePosts
+            allPosts={allPosts}
+            searchUser={searchUser}
+            deletePost={deletePost}
+          />
         )}
         {isShowAbout && <ProfileAbout searchUser={searchUser} />}
         {isShowFriends && <ProfileFriends />}

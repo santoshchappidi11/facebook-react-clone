@@ -1,7 +1,63 @@
 import UserModel from "../Models/UserModel.js";
 import jwt from "jsonwebtoken";
 
-export const sendFriendRequest = async (req, res) => {
+// export const sendRemoveFriendRequest = async (req, res) => {
+//   try {
+//     const { token, friendId } = req.body;
+//     if (!token || !friendId)
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "All fields are required!" });
+//     const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+//     const userId = decodedData?.userId;
+//     const user = await UserModel.findById(userId);
+//     if (user) {
+//       const friendUser = await UserModel.findById(friendId);
+//       if (friendUser) {
+//         let flag = false;
+//         for (let i = 0; i < friendUser?.friendRequests?.length; i++) {
+//           if (friendUser.friendRequests[i].includes(user._id)) {
+//             flag = true;
+//           }
+//         }
+//         if (flag == false) {
+//           friendUser.friendRequests.push(user._id);
+//           user.sentRequests.push(friendId);
+//           await user.save();
+//           await friendUser.save();
+//           return res.status(200).json({
+//             success: true,
+//             message: `Request sent to ${friendUser?.firstName} ${friendUser?.lastName}`,
+//             isRequest: true,
+//           });
+//         }
+//         const removeFriendReq = friendUser.friendRequests.filter(
+//           (item) => item != user._id
+//         );
+//         friendUser.friendRequests = removeFriendReq;
+//         const removeSentReq = user.sentRequests.filter(
+//           (item) => item != friendId
+//         );
+//         user.sentRequests = removeSentReq;
+//         await friendUser.save();
+//         await user.save();
+//         return res.status(200).json({
+//           success: true,
+//           message: `Cancelled request to ${friendUser?.firstName} ${friendUser?.lastName}`,
+//           isRequest: false,
+//         });
+//       }
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "Can't sent friend request!" });
+//     }
+//     return res.status(404).json({ success: false, message: "user not found!" });
+//   } catch (error) {
+//     return res.status(500).json({ success: false, error: error.message });
+//   }
+// };
+
+export const sendRemoveFriendRequest = async (req, res) => {
   try {
     const { token, friendId } = req.body;
 
@@ -32,8 +88,8 @@ export const sendFriendRequest = async (req, res) => {
           await friendUser.save();
           return res.status(200).json({
             success: true,
-            message: `Request sent to ${friendUser?.firstName} ${friendUser?.lastName}`,
-            isRequest: true,
+            message: `You are now following ${friendUser?.firstName} ${friendUser?.lastName}`,
+            isFollow: true,
           });
         }
 
@@ -51,8 +107,8 @@ export const sendFriendRequest = async (req, res) => {
         await user.save();
         return res.status(200).json({
           success: true,
-          message: `Cancelled request to ${friendUser?.firstName} ${friendUser?.lastName}`,
-          isRequest: false,
+          message: `You unfollowed ${friendUser?.firstName} ${friendUser?.lastName}`,
+          isFollow: false,
         });
       }
 
