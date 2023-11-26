@@ -37,15 +37,21 @@ const userSchema = new Schema({
     type: String,
     default: false,
   },
-  friendRequests: {
+  followers: {
     type: [String],
   },
-  sentRequests: {
+  followings: {
     type: [String],
   },
-  yourFriends: {
-    type: [String],
-  },
+  // friendRequests: {
+  //   type: [String],
+  // },
+  // sentRequests: {
+  //   type: [String],
+  // },
+  // yourFriends: {
+  //   type: [String],
+  // },
   yourStories: {
     type: [Object],
   },

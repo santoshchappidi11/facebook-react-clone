@@ -29,8 +29,8 @@ const FriendProfile = () => {
   const { state, dispatch } = useContext(AuthContexts);
 
   useEffect(() => {
-    for (let i = 0; i < state?.currentUser?.sentRequests?.length; i++) {
-      if (profileId == state?.currentUser?.sentRequests[i]) {
+    for (let i = 0; i < state?.currentUser?.followings?.length; i++) {
+      if (profileId == state?.currentUser?.followings[i]) {
         setIsFollow(true);
       }
     }
@@ -41,7 +41,7 @@ const FriendProfile = () => {
 
     if (token) {
       try {
-        const response = await api.post("/send-remove-friend-request", {
+        const response = await api.post("/send-remove-follow-request", {
           token,
           friendId,
         });
@@ -49,7 +49,7 @@ const FriendProfile = () => {
         if (response.data.success) {
           dispatch({
             type: "LOGIN",
-            payload: response.data.user,
+            payload: response.data.currentUser,
           });
           setIsFollow(response.data.isFollow);
           toast.success(response.data.message);
@@ -228,7 +228,7 @@ const FriendProfile = () => {
             <FriendPosts allPosts={allPosts} searchUser={searchUser} />
           )}
           {isShowAbout && <FriendAbout searchUser={searchUser} />}
-          {isShowFriends && <FriendFriends />}
+          {isShowFriends && <FriendFriends profileId={profileId} />}
           {isShowPhotos && <FriendPhotos allPosts={allPosts} />}
           {isShowVideos && <FriendVideos allPosts={allPosts} />}
         </div>

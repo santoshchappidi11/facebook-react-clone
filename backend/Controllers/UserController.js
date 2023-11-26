@@ -65,7 +65,7 @@ export const login = async (req, res) => {
           lastName: user.lastName,
           email: user.email,
           number: user.number,
-          sentRequests: user.sentRequests,
+          followings: user.followings,
         };
 
         return res.status(200).json({
@@ -116,7 +116,7 @@ export const getCurrentUser = async (req, res) => {
         lastName: user.lastName,
         email: user.email,
         number: user.number,
-        sentRequests: user.sentRequests,
+        followings: user.followings,
       };
 
       return res.status(200).json({ success: true, user: userObj });
@@ -219,11 +219,36 @@ export const getProfileResult = async (req, res) => {
     const currentUser = await UserModel.findById(userId);
 
     if (currentUser) {
+      let userFollowers = [];
+      let userFollowings = [];
+
+      for (let i = 0; i < currentUser.followers.length; i++) {
+        const follower = await UserModel.findById(currentUser.followers[i]);
+
+        if (follower) {
+          userFollowers.push(follower);
+        }
+      }
+
+      for (let i = 0; i < currentUser.followings.length; i++) {
+        const following = await UserModel.findById(currentUser.followings[i]);
+
+        if (following) {
+          userFollowings.push(following);
+        }
+      }
+
       const userPosts = await PostModel.find({ userId });
 
       return res
         .status(200)
-        .json({ success: true, user: currentUser, posts: userPosts });
+        .json({
+          success: true,
+          user: currentUser,
+          posts: userPosts,
+          followers: userFollowers,
+          followings: userFollowings,
+        });
     }
 
     return res.status(404).json({ success: false, message: "No user found!" });
@@ -257,6 +282,25 @@ export const getFriendProfile = async (req, res) => {
 
       const friendPosts = await PostModel.find({ userId: profileId });
 
+      let friendFollowers = [];
+      let friendFollowings = [];
+
+      for (let i = 0; i < friendProfile.followers.length; i++) {
+        const follower = await UserModel.findById(friendProfile.followers[i]);
+
+        if (follower) {
+          friendFollowers.push(follower);
+        }
+      }
+
+      for (let i = 0; i < friendProfile.followings.length; i++) {
+        const following = await UserModel.findById(friendProfile.followings[i]);
+
+        if (following) {
+          friendFollowings.push(following);
+        }
+      }
+
       return res.status(200).json({
         success: true,
         user: friendProfile,
@@ -264,6 +308,8 @@ export const getFriendProfile = async (req, res) => {
         bioData: friendProfile.bioData,
         profileImg: friendProfile.profileImg,
         coverImg: friendProfile.coverImg,
+        followers: friendFollowers,
+        followings: friendFollowings,
       });
     }
 

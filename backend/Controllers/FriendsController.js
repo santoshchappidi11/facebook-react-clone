@@ -57,7 +57,7 @@ import jwt from "jsonwebtoken";
 //   }
 // };
 
-export const sendRemoveFriendRequest = async (req, res) => {
+export const followUnfollowRequest = async (req, res) => {
   try {
     const { token, friendId } = req.body;
 
@@ -75,33 +75,34 @@ export const sendRemoveFriendRequest = async (req, res) => {
 
       if (friendUser) {
         let flag = false;
-        for (let i = 0; i < friendUser?.friendRequests?.length; i++) {
-          if (friendUser.friendRequests[i].includes(user._id)) {
+        for (let i = 0; i < friendUser?.followers?.length; i++) {
+          if (friendUser.followers[i].includes(user._id)) {
             flag = true;
           }
         }
 
         if (flag == false) {
-          friendUser.friendRequests.push(user._id);
-          user.sentRequests.push(friendId);
+          friendUser.followers.push(user._id);
+          user.followings.push(friendId);
           await user.save();
           await friendUser.save();
           return res.status(200).json({
             success: true,
             message: `You are now following ${friendUser?.firstName} ${friendUser?.lastName}`,
             isFollow: true,
+            currentUser: user,
           });
         }
 
-        const removeFriendReq = friendUser.friendRequests.filter(
+        const removeFriendReq = friendUser.followers.filter(
           (item) => item != user._id
         );
-        friendUser.friendRequests = removeFriendReq;
+        friendUser.followers = removeFriendReq;
 
-        const removeSentReq = user.sentRequests.filter(
+        const removeSentReq = user.followings.filter(
           (item) => item != friendId
         );
-        user.sentRequests = removeSentReq;
+        user.followings = removeSentReq;
 
         await friendUser.save();
         await user.save();
@@ -109,6 +110,7 @@ export const sendRemoveFriendRequest = async (req, res) => {
           success: true,
           message: `You unfollowed ${friendUser?.firstName} ${friendUser?.lastName}`,
           isFollow: false,
+          currentUser: user,
         });
       }
 

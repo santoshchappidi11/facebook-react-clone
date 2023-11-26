@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ProfileFriends.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import toast from "react-hot-toast";
+import api from "../../ApiConfig";
 
 const ProfileFriends = () => {
   const [isShowFollowers, setIsShowFollowers] = useState(true);
   const [isShowFollowings, setIsShowFollowings] = useState(false);
+  const [friendFollowers, setFriendFollowers] = useState([]);
+  const [friendFollowings, setFriendFollowings] = useState([]);
 
   const handleFriends = (e) => {
     if (e.target.innerText == "Followers") {
@@ -18,6 +22,31 @@ const ProfileFriends = () => {
       setIsShowFollowers(false);
     }
   };
+
+  useEffect(() => {
+    const getSearchResults = async () => {
+      const token = JSON.parse(localStorage.getItem("Token"));
+
+      if (token) {
+        try {
+          const response = await api.post("/get-profile-result", {
+            token,
+          });
+
+          if (response.data.success) {
+            setFriendFollowers(response.data.followers);
+            setFriendFollowings(response.data.followings);
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          console.log(error.response.data.message);
+        }
+      }
+    };
+
+    getSearchResults();
+  }, []);
 
   return (
     <>
@@ -57,22 +86,46 @@ const ProfileFriends = () => {
         <div id="profile-friends-down">
           {isShowFollowers && (
             <div id="profile-down-followers">
-              <div className="profile-follower">
-                <div className="follower-img">
-                  <img src="" alt="follower" />
+              {friendFollowers?.length ? (
+                friendFollowers?.map((item) => (
+                  <>
+                    <div className="profile-follower" key={item?._id}>
+                      <div className="follower-img">
+                        <img src={item?.profileImg} alt="follower" />
+                      </div>
+                      <h3>
+                        {item?.firstName} {item?.lastName}
+                      </h3>
+                    </div>
+                  </>
+                ))
+              ) : (
+                <div className="no-follow-msg">
+                  <p>No Followers!</p>
                 </div>
-                <h3>MS Dhoni</h3>
-              </div>
+              )}
             </div>
           )}
           {isShowFollowings && (
             <div id="profile-down-followings">
-              <div className="profile-following">
-                <div className="following-img">
-                  <img src="" alt="following" />
+              {friendFollowings?.length ? (
+                friendFollowings?.map((item) => (
+                  <>
+                    <div className="profile-following" key={item?._id}>
+                      <div className="following-img">
+                        <img src={item?.profileImg} alt="following" />
+                      </div>
+                      <h3>
+                        {item?.firstName} {item?.lastName}
+                      </h3>
+                    </div>
+                  </>
+                ))
+              ) : (
+                <div className="no-follow-msg">
+                  <p>No Followings!</p>
                 </div>
-                <h3>Virat Kholi</h3>
-              </div>
+              )}
             </div>
           )}
         </div>

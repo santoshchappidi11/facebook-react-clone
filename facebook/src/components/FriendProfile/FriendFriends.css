@@ -134,35 +134,47 @@
 
 .friend-follower > .follower-img {
   height: 80px;
-  width: 85px;
+  width: 80px;
   border-radius: 12px;
   margin: 0 10px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 .follower-img > img {
   height: 100%;
   width: 100%;
   border-radius: 12px;
+  object-fit: contain;
+  border: 1px solid rgb(233, 233, 233);
   /* border: 1px solid black; */
 }
 
 .friend-following > .following-img {
   height: 80px;
-  width: 85px;
+  width: 80px;
   border-radius: 12px;
   margin: 0 10px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 .following-img > img {
   height: 100%;
   width: 100%;
   border-radius: 12px;
+  object-fit: contain;
+  border: 1px solid rgb(233, 233, 233);
   /* border: 1px solid black; */
 }
 
 .friend-friends-active {
   color: rgb(8, 102, 255);
   /* border-bottom: 1px solid blue; */
+}
+
+.no-follow-msg {
+  /* border: 1px solid black; */
+}
+
+.no-follow-msg > p {
+  margin: 0 20px;
 }

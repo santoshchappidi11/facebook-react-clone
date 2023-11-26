@@ -17,6 +17,46 @@ export const getAllPosts = async (req, res) => {
   }
 };
 
+export const getFollowingPosts = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token)
+      return res
+        .status(404)
+        .json({ success: false, message: "Token is required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+
+    if (user) {
+      let followingPosts = [];
+
+      for (var i = 0; i < user.followings.length; i++) {
+        const post = await PostModel.findOne({ userId: user.followings[i] });
+
+        if (post) {
+          followingPosts.push(post);
+        }
+      }
+
+      return res.status(200).json({ success: true, posts: followingPosts });
+    }
+
+    return res.status(404).json({ success: false, message: "User not found!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 export const addPost = async (req, res) => {
   try {
     const { token, postImg, caption, profileImg, userFirstName, userLastName } =

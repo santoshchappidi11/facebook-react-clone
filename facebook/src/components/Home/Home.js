@@ -1,16 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
-import findfriends from "./../../images/findfriends.jpg";
-import welcome from "./../../images/welcome.jpg";
-import memories from "./../../images/memories.jpg";
-import saved from "./../../images/saved.jpg";
-import groups from "./../../images/groups.jpg";
-import video from "./../../images/video.jpg";
-import market from "./../../images/market.jpg";
-import feeds from "./../../images/feeds.jpg";
-import events from "./../../images/events.jpg";
-import ads from "./../../images/ads.jpg";
+
 import like from "./../../images/like.JPG";
 import Navbar from "../Navbar/Navbar";
 import toast from "react-hot-toast";
@@ -22,6 +13,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShare } from "@fortawesome/free-solid-svg-icons";
 import { faMessage } from "@fortawesome/free-regular-svg-icons";
 import StoryPreview from "./StoryPreview";
+import HomeLeft from "./HomeLeft";
+import HomeRight from "./HomeRight";
 // import heart from "./../../images/heart.JPG";
 
 const Home = () => {
@@ -34,11 +27,17 @@ const Home = () => {
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
   const [allPosts, setAllPosts] = useState([]);
+  const [followingPosts, setFollowingPosts] = useState();
   const [allStoryUsers, setAllStoryUsers] = useState();
   const [storyCount, setStoryCount] = useState();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState();
   const [pageCount, setPageCount] = useState();
+  const [isShowFeedPosts, setIsShowFeedPosts] = useState(true);
+  const [isShowFollowingPosts, setIsShowFollowingPosts] = useState(false);
+
+  console.log(followingPosts, "following posts");
+  console.log(allPosts, "all posts");
 
   useEffect(() => {
     const totalPageCount = Math.ceil(storyCount / pageSize);
@@ -59,6 +58,18 @@ const Home = () => {
       setPage(pageCount);
     } else {
       setPage((prev) => prev - 1);
+    }
+  };
+
+  const handleFeedPostsActive = (e) => {
+    if (e.target.innerText == "For You") {
+      setIsShowFeedPosts(true);
+      setIsShowFollowingPosts(false);
+    }
+
+    if (e.target.innerText == "Following") {
+      setIsShowFollowingPosts(true);
+      setIsShowFeedPosts(false);
     }
   };
 
@@ -125,6 +136,28 @@ const Home = () => {
     };
 
     getAllPosts();
+  }, []);
+
+  useEffect(() => {
+    const followingUserPosts = async () => {
+      const token = JSON.parse(localStorage.getItem("Token"));
+
+      if (token) {
+        try {
+          const response = await api.post("/get-following-posts", { token });
+
+          if (response.data.success) {
+            setFollowingPosts(response.data.posts);
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          console.log(error.response.data.message);
+        }
+      }
+    };
+
+    followingUserPosts();
   }, []);
 
   useEffect(() => {
@@ -206,66 +239,8 @@ const Home = () => {
     <>
       <div id="home">
         <Navbar />
-        <div id="left">
-          <div className="left-sec">
-            <div id="left-profile-img">
-              <img src={profileImg} alt="profile" />
-            </div>
-            <h4
-              style={{ marginLeft: "5px" }}
-              onClick={() => navigateTo("/profile")}
-            >
-              {state?.currentUser?.firstName} {state?.currentUser?.lastName}
-            </h4>
-          </div>
-          <div className="left-sec">
-            <img src={findfriends} alt="left" />
-            <h4>Find Friends</h4>
-          </div>
-          <div className="left-sec">
-            <img src={welcome} alt="left" />
-            <h4>Welcome</h4>
-          </div>
-          <div className="left-sec">
-            <img src={memories} alt="left" />
-            <h4>Memories</h4>
-          </div>
-          <div className="left-sec">
-            <img src={saved} style={{ marginLeft: "5px" }} alt="left" />
-            <h4 style={{ marginLeft: "5px" }}>Saved</h4>
-          </div>
-          <div className="left-sec">
-            <img src={groups} alt="left" />
-            <h4>Groups</h4>
-          </div>
-          <div className="left-sec">
-            <img src={video} alt="left" />
-            <h4>Video</h4>
-          </div>
-          <div className="left-sec">
-            <img src={market} alt="left" />
-            <h4>Market Place</h4>
-          </div>
-          <div className="left-sec">
-            <img src={feeds} alt="left" />
-            <h4>feeds</h4>
-          </div>
-          <div className="left-sec">
-            <img src={events} alt="left" />
-            <h4>Events</h4>
-          </div>
-          <div className="left-sec">
-            <img src={ads} alt="left" />
-            <h4>Adds Manager</h4>
-          </div>
-          <div className="left-sec">
-            <i
-              class="fa-solid fa-angle-down"
-              style={{ marginRight: "5px" }}
-            ></i>
-            <h4 style={{ marginLeft: "5px" }}>See more</h4>
-          </div>
-        </div>
+        <HomeLeft state={state} profileImg={profileImg} />
+
         <div id="middle">
           <StoryPreview
             allStoryUsers={allStoryUsers}
@@ -324,7 +299,6 @@ const Home = () => {
               <button onClick={openCreatePostPopup}>
                 What's on your mind, {state?.currentUser?.firstName}?
               </button>
-              {/* <input type="text" placeholder="What's on your mind, Santosh?" /> */}
             </div>
             <div id="down">
               <div>
@@ -350,99 +324,207 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div id="posts">
-            {allPosts?.length ? (
-              allPosts?.map((post) => (
-                <div className="post" key={post._id}>
-                  <div className="postsec-1">
-                    <div className="post-user">
-                      <div className="post-img">
-                        <img
-                          src={post?.userImage}
-                          alt="post-img"
-                          onClick={() => navigateToProfile(post?.userId)}
+
+          <div id="filter-feed-posts" onClick={handleFeedPostsActive}>
+            <div className="feed-posts">
+              <button
+                className={isShowFeedPosts ? `${"feed-active"}` : ""}
+                style={{
+                  backgroundColor: `${isShowFeedPosts ? "white" : ""}`,
+                }}
+              >
+                For You
+              </button>
+            </div>
+            <div className="feed-posts">
+              <button
+                className={isShowFollowingPosts ? `${"feed-active"}` : ""}
+                style={{
+                  backgroundColor: `${isShowFollowingPosts ? "white" : ""}`,
+                }}
+              >
+                Following
+              </button>
+            </div>
+          </div>
+
+          {isShowFeedPosts && (
+            <div id="posts">
+              {allPosts?.length ? (
+                allPosts?.map((post) => (
+                  <div className="post" key={post._id}>
+                    <div className="postsec-1">
+                      <div className="post-user">
+                        <div className="post-img">
+                          <img
+                            src={post?.userImage}
+                            alt="post-img"
+                            onClick={() => navigateToProfile(post?.userId)}
+                          />
+                        </div>
+                        <div className="post-details">
+                          <h4 onClick={() => navigateToProfile(post?.userId)}>
+                            {post?.userFirstName} {post?.userLastName}
+                          </h4>
+                          <p>
+                            2 d · <i class="fa-solid fa-earth-asia"></i>
+                          </p>
+                        </div>
+                      </div>
+                      <div className="options">
+                        <i class="fa-solid fa-ellipsis fa-lg"></i>
+                        <i class="fa-solid fa-xmark fa-xl"></i>
+                      </div>
+                    </div>
+                    <div className="postsec-2">
+                      <div className="caption">
+                        <p>{post.caption} 😂🤗</p>
+                      </div>
+                    </div>
+                    <div
+                      className="postsec-3"
+                      onClick={() => navigateTo(`/single-post/${post._id}`)}
+                    >
+                      <div className="img">
+                        <img src={post?.image} alt="postimage" />
+                      </div>
+                    </div>
+                    <div className="postsec-4">
+                      <div className="post-activity">
+                        <div className="activity-left">
+                          <img src={like} alt="like" />
+                          <p>{post?.likes ? post?.likes?.length : "0"}</p>
+                          {/* <img src={heart} alt="heart" /> */}
+                        </div>
+                        <div className="activity-right">
+                          <p>
+                            {post?.comments ? post?.comments?.length : "0"}{" "}
+                            {post?.comments?.length > 1
+                              ? "comments"
+                              : "comment"}
+                          </p>
+                          <p>112 shares</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="postsec-5">
+                      <div>
+                        <LikePost
+                          postId={post._id}
+                          likes={post?.likes}
+                          setAllPosts={setAllPosts}
                         />
+                        <p>Like</p>
                       </div>
-                      <div className="post-details">
-                        <h4 onClick={() => navigateToProfile(post?.userId)}>
-                          {post?.userFirstName} {post?.userLastName}
-                        </h4>
-                        <p>
-                          2 d · <i class="fa-solid fa-earth-asia"></i>
-                        </p>
+                      <div id="sec-5-comment">
+                        <FontAwesomeIcon icon={faMessage} />
+                        <p>Comment</p>
                       </div>
-                    </div>
-                    <div className="options">
-                      <i class="fa-solid fa-ellipsis fa-lg"></i>
-                      <i class="fa-solid fa-xmark fa-xl"></i>
-                    </div>
-                  </div>
-                  <div className="postsec-2">
-                    <div className="caption">
-                      <p>{post.caption} 😂🤗</p>
-                    </div>
-                  </div>
-                  <div
-                    className="postsec-3"
-                    onClick={() => navigateTo(`/single-post/${post._id}`)}
-                  >
-                    <div className="img">
-                      <img src={post?.image} alt="postimage" />
-                    </div>
-                  </div>
-                  <div className="postsec-4">
-                    <div className="post-activity">
-                      <div className="activity-left">
-                        <img src={like} alt="like" />
-                        <p>{post?.likes ? post?.likes?.length : "0"}</p>
-                        {/* <img src={heart} alt="heart" /> */}
-                      </div>
-                      <div className="activity-right">
-                        <p>
-                          {post?.comments ? post?.comments?.length : "0"}{" "}
-                          {post?.comments?.length > 1 ? "comments" : "comment"}
-                        </p>
-                        <p>112 shares</p>
+                      <div>
+                        <FontAwesomeIcon icon={faShare} />
+                        <p>Share</p>
                       </div>
                     </div>
+                    {<CommentBox postId={post._id} setAllPosts={setAllPosts} />}
                   </div>
-                  <div className="postsec-5">
-                    <div>
-                      <LikePost
-                        postId={post._id}
-                        likes={post?.likes}
-                        setAllPosts={setAllPosts}
-                      />
-                      <p>Like</p>
-                    </div>
-                    <div id="sec-5-comment">
-                      <FontAwesomeIcon icon={faMessage} />
-                      <p>Comment</p>
-                    </div>
-                    <div>
-                      <FontAwesomeIcon icon={faShare} />
-                      <p>Share</p>
-                    </div>
-                  </div>
-                  {<CommentBox postId={post._id} setAllPosts={setAllPosts} />}
+                ))
+              ) : (
+                <div id="no-post-msg">
+                  <h3>No Posts to show!</h3>
                 </div>
-              ))
-            ) : (
-              <div id="no-post-msg">
-                <h3>No Posts to show!</h3>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
+
+          {isShowFollowingPosts && (
+            <div id="posts">
+              {followingPosts?.length ? (
+                followingPosts?.map((post) => (
+                  <div className="post" key={post._id}>
+                    <div className="postsec-1">
+                      <div className="post-user">
+                        <div className="post-img">
+                          <img
+                            src={post?.userImage}
+                            alt="post-img"
+                            onClick={() => navigateToProfile(post?.userId)}
+                          />
+                        </div>
+                        <div className="post-details">
+                          <h4 onClick={() => navigateToProfile(post?.userId)}>
+                            {post?.userFirstName} {post?.userLastName}
+                          </h4>
+                          <p>
+                            2 d · <i class="fa-solid fa-earth-asia"></i>
+                          </p>
+                        </div>
+                      </div>
+                      <div className="options">
+                        <i class="fa-solid fa-ellipsis fa-lg"></i>
+                        <i class="fa-solid fa-xmark fa-xl"></i>
+                      </div>
+                    </div>
+                    <div className="postsec-2">
+                      <div className="caption">
+                        <p>{post.caption} 😂🤗</p>
+                      </div>
+                    </div>
+                    <div
+                      className="postsec-3"
+                      onClick={() => navigateTo(`/single-post/${post._id}`)}
+                    >
+                      <div className="img">
+                        <img src={post?.image} alt="postimage" />
+                      </div>
+                    </div>
+                    <div className="postsec-4">
+                      <div className="post-activity">
+                        <div className="activity-left">
+                          <img src={like} alt="like" />
+                          <p>{post?.likes ? post?.likes?.length : "0"}</p>
+                          {/* <img src={heart} alt="heart" /> */}
+                        </div>
+                        <div className="activity-right">
+                          <p>
+                            {post?.comments ? post?.comments?.length : "0"}{" "}
+                            {post?.comments?.length > 1
+                              ? "comments"
+                              : "comment"}
+                          </p>
+                          <p>112 shares</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="postsec-5">
+                      <div>
+                        <LikePost
+                          postId={post._id}
+                          likes={post?.likes}
+                          setAllPosts={setAllPosts}
+                        />
+                        <p>Like</p>
+                      </div>
+                      <div id="sec-5-comment">
+                        <FontAwesomeIcon icon={faMessage} />
+                        <p>Comment</p>
+                      </div>
+                      <div>
+                        <FontAwesomeIcon icon={faShare} />
+                        <p>Share</p>
+                      </div>
+                    </div>
+                    {<CommentBox postId={post._id} setAllPosts={setAllPosts} />}
+                  </div>
+                ))
+              ) : (
+                <div id="no-post-msg">
+                  <h3>No Posts to show!</h3>
+                </div>
+              )}
+            </div>
+          )}
         </div>
-        <div id="right">
-          <div id="header">
-            <h4>Group conversations</h4>
-          </div>
-          <div id="new-group">
-            <i class="fa-solid fa-plus"></i>
-            <p>Create New Group</p>
-          </div>
-        </div>
+        <HomeRight />
 
         {/* -------------------------------------create-post---------------------------------------- */}
 
