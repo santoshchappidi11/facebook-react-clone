@@ -91,6 +91,8 @@ export const followUnfollowRequest = async (req, res) => {
             message: `You are now following ${friendUser?.firstName} ${friendUser?.lastName}`,
             isFollow: true,
             currentUser: user,
+            followings: user.followings,
+            followers: user.followers,
           });
         }
 
@@ -111,6 +113,8 @@ export const followUnfollowRequest = async (req, res) => {
           message: `You unfollowed ${friendUser?.firstName} ${friendUser?.lastName}`,
           isFollow: false,
           currentUser: user,
+          followings: user.followings,
+          followers: user.followers,
         });
       }
 

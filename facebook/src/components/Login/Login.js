@@ -8,7 +8,7 @@ import { AuthContexts } from "../../Context/AuthContext";
 const Login = () => {
   const navigateTo = useNavigate();
   const [userData, setUserData] = useState({ email: "", password: "" });
-  const { Login } = useContext(AuthContexts);
+  const { Login, UserFollowings, UserFollowers } = useContext(AuthContexts);
 
   const handleChangeValues = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -23,6 +23,8 @@ const Login = () => {
 
         if (response.data.success) {
           Login(response.data);
+          UserFollowings(response.data.followings);
+          UserFollowers(response.data.followers);
           toast.success(response.data.message);
           navigateTo("/new-user-profile");
         } else {

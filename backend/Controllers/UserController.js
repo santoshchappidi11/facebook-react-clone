@@ -73,6 +73,8 @@ export const login = async (req, res) => {
           message: "Login Successfull!",
           token,
           user: userObj,
+          followings: user.followings,
+          followers: user.followers,
         });
       }
 
@@ -119,7 +121,12 @@ export const getCurrentUser = async (req, res) => {
         followings: user.followings,
       };
 
-      return res.status(200).json({ success: true, user: userObj });
+      return res.status(200).json({
+        success: true,
+        user: userObj,
+        followings: user.followings,
+        followers: user.followers,
+      });
     }
 
     return res.status(404).json({ success: false, message: "No user found!" });
@@ -240,15 +247,13 @@ export const getProfileResult = async (req, res) => {
 
       const userPosts = await PostModel.find({ userId });
 
-      return res
-        .status(200)
-        .json({
-          success: true,
-          user: currentUser,
-          posts: userPosts,
-          followers: userFollowers,
-          followings: userFollowings,
-        });
+      return res.status(200).json({
+        success: true,
+        user: currentUser,
+        posts: userPosts,
+        followers: userFollowers,
+        followings: userFollowings,
+      });
     }
 
     return res.status(404).json({ success: false, message: "No user found!" });
@@ -404,12 +409,6 @@ export const getAllStories = async (req, res) => {
       const allStoryUsers = await UserModel.find({ isStoryAdded: true });
       const myStory = await UserModel.findById(userId);
 
-      // let storyUsers = [];
-      // for (let i = 0; i < allUsers?.length; i++) {
-      //   if (allUsers[i].yourStories.length > 0) {
-      //     storyUsers.push(allUsers[i]);
-      //   }
-      // }
       return res.status(200).json({
         success: true,
         storyUsers,

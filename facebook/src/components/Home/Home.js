@@ -36,8 +36,8 @@ const Home = () => {
   const [isShowFeedPosts, setIsShowFeedPosts] = useState(true);
   const [isShowFollowingPosts, setIsShowFollowingPosts] = useState(false);
 
-  console.log(followingPosts, "following posts");
-  console.log(allPosts, "all posts");
+  // console.log(followingPosts, "following posts");
+  // console.log(allPosts, "all posts");
 
   useEffect(() => {
     const totalPageCount = Math.ceil(storyCount / pageSize);

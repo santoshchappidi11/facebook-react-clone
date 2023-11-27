@@ -3,7 +3,6 @@ import "./Search.css";
 import Navbar from "../Navbar/Navbar";
 import toast from "react-hot-toast";
 import api from "../../ApiConfig";
-// import { AuthContexts } from "../../Context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faCreditCard } from "@fortawesome/free-solid-svg-icons";
 // import LikePost from "../Home/LikePost";
@@ -16,25 +15,18 @@ import { AuthContexts } from "../../Context/AuthContext";
 import FollowBtn from "./FollowBtn";
 
 const Search = () => {
-  const { state, dispatch } = useContext(AuthContexts);
+  const { state, dispatch, UserFollowings, UserFollowers } =
+    useContext(AuthContexts);
   const [searchUser, setSearchUser] = useState({});
   const [allPosts, setAllPosts] = useState([]);
-  const [isRequest, setIsRequest] = useState(false);
+  const [isFollow, setIsFollow] = useState(false);
   const navigateTo = useNavigate();
   const { searchId } = useParams();
 
-  // console.log(searchId, "search id");
-  // console.log(isRequest, "request");
-  // console.log(state?.currentUser?.sentRequests, "sent requests");
-
   useEffect(() => {
-    for (let i = 0; i < state?.currentUser?.sentRequests?.length; i++) {
-      if (searchId == state?.currentUser?.sentRequests[i]) {
-        setIsRequest(true);
-        console.log(
-          state?.currentUser?.sentRequests[i],
-          "here single id from array"
-        );
+    for (let i = 0; i < state?.followings?.length; i++) {
+      if (searchId == state?.followings[i]) {
+        setIsFollow(true);
       }
     }
   }, [searchId, state]);
@@ -75,17 +67,15 @@ const Search = () => {
 
     if (token) {
       try {
-        const response = await api.post("/send-friend-request", {
+        const response = await api.post("/send-remove-follow-request", {
           token,
           friendId,
         });
 
         if (response.data.success) {
-          dispatch({
-            type: "LOGIN",
-            payload: response.data.user,
-          });
-          setIsRequest(response.data.isRequest);
+          UserFollowings(response.data.followings);
+          UserFollowers(response.data.followers);
+          setIsFollow(response.data.isFollow);
           toast.success(response.data.message);
         } else {
           toast.error(response.data.message);
@@ -179,7 +169,7 @@ const Search = () => {
           </div>
           <div id="middle-header-down">
             <FollowBtn
-              isRequest={isRequest}
+              isFollow={isFollow}
               searchUserId={searchUser._id}
               sendAndRemoveFriendRequest={sendAndRemoveFriendRequest}
             />

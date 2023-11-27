@@ -7,6 +7,8 @@ export const AuthContexts = createContext();
 
 const initialState = {
   currentUser: null,
+  followings: null,
+  followers: null,
 };
 
 const reducer = (state, action) => {
@@ -16,6 +18,12 @@ const reducer = (state, action) => {
 
     case "LOGOUT":
       return { ...state, currentUser: null };
+
+    case "FOLLOWINGS":
+      return { ...state, followings: action.payload };
+
+    case "FOLLOWERS":
+      return { ...state, followers: action.payload };
 
     default:
       return state;
@@ -44,6 +52,20 @@ const AuthProvider = ({ children }) => {
     });
   };
 
+  const UserFollowings = (userAllFollowings) => {
+    dispatch({
+      type: "FOLLOWINGS",
+      payload: userAllFollowings,
+    });
+  };
+
+  const UserFollowers = (userAllFollowers) => {
+    dispatch({
+      type: "FOLLOWERS",
+      payload: userAllFollowers,
+    });
+  };
+
   useEffect(() => {
     const getCurrentUser = async () => {
       const token = JSON.parse(localStorage.getItem("Token"));
@@ -56,6 +78,14 @@ const AuthProvider = ({ children }) => {
             dispatch({
               type: "LOGIN",
               payload: response.data.user,
+            });
+            dispatch({
+              type: "FOLLOWINGS",
+              payload: response.data.followings,
+            });
+            dispatch({
+              type: "FOLLOWERS",
+              payload: response.data.followers,
             });
           } else {
             toast.error(response.data.message);
@@ -70,7 +100,9 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContexts.Provider value={{ state, Login, Logout, dispatch }}>
+    <AuthContexts.Provider
+      value={{ state, Login, Logout, dispatch, UserFollowings, UserFollowers }}
+    >
       {children}
     </AuthContexts.Provider>
   );

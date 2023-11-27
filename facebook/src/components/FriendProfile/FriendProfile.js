@@ -26,11 +26,12 @@ const FriendProfile = () => {
   const [isShowPhotos, setIsShowPhotos] = useState(false);
   const [isShowVideos, setIsShowVideos] = useState(false);
   const [isFollow, setIsFollow] = useState(false);
-  const { state, dispatch } = useContext(AuthContexts);
+  const { state, dispatch, UserFollowings } = useContext(AuthContexts);
+
 
   useEffect(() => {
-    for (let i = 0; i < state?.currentUser?.followings?.length; i++) {
-      if (profileId == state?.currentUser?.followings[i]) {
+    for (let i = 0; i < state?.followings?.length; i++) {
+      if (profileId == state?.followings[i]) {
         setIsFollow(true);
       }
     }
@@ -47,10 +48,11 @@ const FriendProfile = () => {
         });
 
         if (response.data.success) {
-          dispatch({
-            type: "LOGIN",
-            payload: response.data.currentUser,
-          });
+          // dispatch({
+          //   type: "LOGIN",
+          //   payload: response.data.currentUser,
+          // });
+          UserFollowings(response.data.followings);
           setIsFollow(response.data.isFollow);
           toast.success(response.data.message);
         } else {
@@ -153,16 +155,10 @@ const FriendProfile = () => {
             <div id="actions">
               {isFollow ? (
                 <button
-                  style={{
-                    backgroundColor: "white",
-                    border: "2px solid rgb(27, 116, 228)",
-                    color: "rgb(27, 116, 228)",
-                    fontWeight: "700",
-                  }}
                   id="profile-story-btn"
                   onClick={() => sendRemoveFriendRequest(searchUser._id)}
                 >
-                  Unfollow
+                  <i class="fa-solid fa-minus"></i> Unfollow
                 </button>
               ) : (
                 <button
