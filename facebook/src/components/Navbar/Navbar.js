@@ -102,13 +102,13 @@ const Navbar = () => {
           </div>
         </div>
         <div id="middle">
-          <div>
+          <div className="house-icon isNavItemActive">
             <i class="fa-solid fa-house fa-xl"></i>
           </div>
-          <div>
+          <div className="group-icon">
             <i class="fa-solid fa-user-group fa-xl"></i>
           </div>
-          <div>
+          <div className="groups-icon">
             <i class="fa-solid fa-users-rectangle fa-xl"></i>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import "./ViewStory.css";
 import { useNavigate, useParams } from "react-router-dom";
 import logo from "./../../images/logo.JPG";
@@ -25,20 +25,57 @@ const ViewStory = () => {
   const [storyNumber, setStoryNumber] = useState(0);
   const [allStoryUsers, setAllStoryUsers] = useState([]);
   const [myStory, setMyStory] = useState({});
+  const [progressWidth, setProgressWidth] = useState(1);
+
+  const decrementTimer = useCallback(() => {
+    if (storyNumber == userStory.length - 1) {
+      setStoryNumber(userStory.length - 1);
+      // setProgressWidth(100);
+    } else {
+      setStoryNumber((prev) => prev + 1);
+      setProgressWidth(1);
+    }
+  }, [storyNumber, userStory]);
+
+  useEffect(() => {
+    const timeoutFunction = setInterval(decrementTimer, 6800);
+    return () => clearInterval(timeoutFunction);
+  }, [decrementTimer, storyNumber, userStory]);
+
+  const scene = useCallback(() => {
+    if (progressWidth >= 100) {
+      if (storyNumber == userStory.length - 1) {
+        setProgressWidth(100);
+        return;
+      }
+      setProgressWidth(1);
+    } else {
+      setProgressWidth((prev) => prev + 1);
+    }
+  }, [progressWidth, storyNumber, userStory]);
+
+  useEffect(() => {
+    const identity = setInterval(scene, 38);
+    return () => clearInterval(identity);
+  }, [scene]);
 
   const incrementPage = () => {
     if (storyNumber == userStory.length - 1) {
       setStoryNumber(0);
+      setProgressWidth(1);
     } else {
       setStoryNumber((prev) => prev + 1);
+      setProgressWidth(1);
     }
   };
 
   const decrementPage = () => {
     if (storyNumber == 0) {
       setStoryNumber(userStory.length - 1);
+      setProgressWidth(1);
     } else {
       setStoryNumber((prev) => prev - 1);
+      setProgressWidth(1);
     }
   };
 
@@ -157,6 +194,8 @@ const ViewStory = () => {
           if (response.data.success) {
             setUserStory(response.data.userStory);
             setStoryUser(response.data.storyUser);
+            setStoryNumber(0);
+            setProgressWidth(1);
           } else {
             toast.error(response.data.message);
           }
@@ -316,16 +355,18 @@ const ViewStory = () => {
                     </div>
                     <FontAwesomeIcon icon={faEllipsis} />
                   </div>
+                  <div id="Progress_Status">
+                    <div
+                      id="myprogressBar"
+                      style={{ width: `${progressWidth}%` }}
+                    ></div>
+                  </div>
                   <div id="main-img">
                     <img
                       src={userStory[`${storyNumber}`]?.storyImg}
                       alt="story"
                     />
                   </div>
-                  {/* <div id="story-down">
-                    <FontAwesomeIcon icon={faChevronUp} />
-                    <p>No Viewers Yet</p>
-                  </div> */}
 
                   {state?.currentUser?.userId == storyUser._id && (
                     <>

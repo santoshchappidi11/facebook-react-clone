@@ -490,3 +490,17 @@
 .main-story-arrow-right > .right-arrow {
   font-size: 25px;
 }
+
+#Progress_Status {
+  width: 100%;
+  background-color: #999999;
+  border-radius: 10px;
+}
+
+#myprogressBar {
+  width: 2%;
+  height: 3px;
+  border-radius: 10px;
+  transition: 0.1s ease;
+  background-color: rgb(255, 255, 255);
+}

@@ -80,15 +80,18 @@
   align-items: center;
   cursor: pointer;
   border-radius: 10px;
+  margin: 0 2px;
   /* border: 1px solid black; */
 }
 
-#navbar > #middle > div:hover {
-  /* border-bottom: 2px solid rgb(24, 119, 242);; */
+#navbar > #middle > div:hover,
+i:hover {
   background-color: rgb(238, 238, 238);
+  color: rgb(24, 119, 242);
 }
 
-#navbar > #middle > div > i:hover {
+.isNavItemActive {
+  background-color: rgb(238, 238, 238);
   color: rgb(24, 119, 242);
 }
 
