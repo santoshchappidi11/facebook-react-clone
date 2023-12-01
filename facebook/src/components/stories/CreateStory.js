@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../../ApiConfig";
 import toast from "react-hot-toast";
 import { AuthContexts } from "../../Context/AuthContext";
+import emptyUser from "./../../images/empty-user.jpg";
 
 const CreateStory = () => {
   const { state } = useContext(AuthContexts);
@@ -128,7 +129,11 @@ const CreateStory = () => {
               <div id="body-main">
                 <div id="body-user-img">
                   <img
-                    src={searchUser?.profileImg}
+                    src={
+                      searchUser?.profileImg
+                        ? searchUser?.profileImg
+                        : emptyUser
+                    }
                     alt="user"
                     onClick={() => navigateToProfile(searchUser?._id)}
                   />
@@ -151,7 +156,9 @@ const CreateStory = () => {
             </div>
             <div id="story-right-img">
               <img
-                src={searchUser?.profileImg}
+                src={
+                  searchUser?.profileImg ? searchUser?.profileImg : emptyUser
+                }
                 alt="user"
                 onClick={() => navigateToProfile(searchUser?._id)}
               />
@@ -181,7 +188,10 @@ const CreateStory = () => {
                 <div id="story-body-1">
                   {/* <i class="fa-solid fa-circle-user"></i> */}
                   <div id="story-profile-img">
-                    <img src={profileImg} alt="profile" />
+                    <img
+                      src={profileImg ? profileImg : emptyUser}
+                      alt="profile"
+                    />
                   </div>
                   <div id="show-story-to">
                     <h4>

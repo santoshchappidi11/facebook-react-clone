@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContexts } from "../../Context/AuthContext";
 import toast from "react-hot-toast";
 import api from "../../ApiConfig";
+import emptyUser from "./../../images/empty-user.jpg";
 
 const Navbar = () => {
   const { state, Logout } = useContext(AuthContexts);
@@ -128,7 +129,7 @@ const Navbar = () => {
             onMouseOver={openShowSidePopup}
             onMouseLeave={closeShowSidePopup}
           >
-            <img src={profileImg} alt="profile" />
+            <img src={profileImg ? profileImg : emptyUser} alt="profile" />
           </div>
         </div>
       </div>
@@ -144,7 +145,7 @@ const Navbar = () => {
           <div id="sidepopup-header">
             <div id="popup-header" onClick={() => navigateTo("/profile")}>
               <div id="popup-profile-img">
-                <img src={profileImg} alt="profile" />
+                <img src={profileImg ? profileImg : emptyUser} alt="profile" />
               </div>
               <h4>
                 {state?.currentUser?.firstName} {state?.currentUser?.lastName}
@@ -174,7 +175,10 @@ const Navbar = () => {
                 onClick={() => navigateToSearchPage(item._id)}
               >
                 <div className="navbar-search-img">
-                  <img src={item.profileImg} alt="search" />
+                  <img
+                    src={item.profileImg ? item.profileImg : emptyUser}
+                    alt="search"
+                  />
                 </div>
                 <h4>
                   {item.firstName} {item.lastName}

@@ -14,6 +14,7 @@ import {
   faTrashCan,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
+import emptyUser from "./../../images/empty-user.jpg";
 
 const ViewStory = () => {
   const { storyUserId } = useParams();
@@ -238,7 +239,14 @@ const ViewStory = () => {
                               navigateTo(`/view-story/${myStory._id}`)
                             }
                           >
-                            <img src={searchUser?.profileImg} alt="story" />
+                            <img
+                              src={
+                                searchUser?.profileImg
+                                  ? searchUser?.profileImg
+                                  : emptyUser
+                              }
+                              alt="story"
+                            />
                           </div>
                           <h4
                             onClick={() =>
@@ -281,7 +289,12 @@ const ViewStory = () => {
                         <>
                           <div className="single-story" key={item?.storyId}>
                             <div className="single-story-img">
-                              <img src={item?.storyImg} alt="story" />
+                              <img
+                                src={
+                                  item?.storyImg ? item?.storyImg : emptyUser
+                                }
+                                alt="story"
+                              />
                             </div>
                             <FontAwesomeIcon
                               icon={faTrashCan}
@@ -307,7 +320,14 @@ const ViewStory = () => {
                             }
                           >
                             <div className="story-img">
-                              <img src={item?.profileImg} alt="story" />
+                              <img
+                                src={
+                                  item?.profileImg
+                                    ? item?.profileImg
+                                    : emptyUser
+                                }
+                                alt="story"
+                              />
                             </div>
                             <h4>
                               {item?.firstName} {item?.lastName}
@@ -334,7 +354,9 @@ const ViewStory = () => {
             </div>
             <div id="story-right-img">
               <img
-                src={searchUser?.profileImg}
+                src={
+                  searchUser?.profileImg ? searchUser?.profileImg : emptyUser
+                }
                 alt="user"
                 onClick={() => navigateToProfile(searchUser?._id)}
               />
@@ -347,7 +369,14 @@ const ViewStory = () => {
                   <div id="story-up">
                     <div id="story-profile">
                       <div id="story-profile-img">
-                        <img src={storyUser?.profileImg} alt="profile" />
+                        <img
+                          src={
+                            storyUser?.profileImg
+                              ? storyUser?.profileImg
+                              : emptyUser
+                          }
+                          alt="profile"
+                        />
                       </div>
                       <p>
                         {storyUser?.firstName} {storyUser?.lastName}

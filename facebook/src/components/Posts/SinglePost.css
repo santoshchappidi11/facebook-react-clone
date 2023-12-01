@@ -344,3 +344,12 @@
   color: white;
   background-color: rgb(99, 99, 255);
 }
+
+#comments-loading-msg {
+  width: 100%;
+  text-align: center;
+}
+
+#comments-loading-msg > h3 {
+  margin: 100px 0 0 0;
+}

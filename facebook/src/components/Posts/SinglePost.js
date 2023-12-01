@@ -13,6 +13,8 @@ import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 import LikePost from "../Home/LikePost";
 import CommentBox from "../Home/CommentBox";
 import { AuthContexts } from "../../Context/AuthContext";
+import emptyUser from "./../../images/empty-user.jpg";
+import postPlaceholder from "./../../images/post-placeholder.png";
 
 const SinglePost = () => {
   const { state } = useContext(AuthContexts);
@@ -23,7 +25,7 @@ const SinglePost = () => {
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [updatedComment, setUpdatedComment] = useState("");
   const [isShowCommentBox, setIsShowCommentBox] = useState(false);
-  // console.log(editComment, "edit comment");
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigateToProfile = (Id) => {
     if (state?.currentUser?.userId == Id) {
@@ -53,8 +55,10 @@ const SinglePost = () => {
           });
 
           if (response.data.success) {
+            setIsLoading(false);
             setSinglePost(response.data.post);
           } else {
+            setIsLoading(false);
             toast.error(response.data.message);
           }
         } catch (error) {
@@ -150,7 +154,10 @@ const SinglePost = () => {
         <div id="single-post-left">
           <div id="single-post-img">
             <div id="main-img">
-              <img src={singlePost?.image} alt="post" />
+              <img
+                src={singlePost?.image ? singlePost?.image : postPlaceholder}
+                alt="post"
+              />
             </div>
           </div>
         </div>
@@ -160,7 +167,9 @@ const SinglePost = () => {
               <div id="post-user">
                 <div id="post-user-img">
                   <img
-                    src={singlePost?.userImage}
+                    src={
+                      singlePost?.userImage ? singlePost?.userImage : emptyUser
+                    }
                     alt="post-img"
                     onClick={() => navigateToProfile(singlePost?.userId)}
                   />
@@ -223,45 +232,53 @@ const SinglePost = () => {
           {isShowCommentBox && (
             <CommentBox postId={singlePost._id} setSinglePost={setSinglePost} />
           )}
-          <div id="single-post-comments">
-            {singlePost ? (
-              singlePost?.comments?.map((item) => (
-                <div className="comment" key={item.commentId}>
-                  <div className="comment-img">
-                    <img
-                      src={item.profileImg}
-                      alt="comment"
-                      onClick={() => navigateToProfile(item?.userId)}
-                    />
-                  </div>
-                  <div className="comment-details">
-                    <div className="details">
-                      <h5 onClick={() => navigateToProfile(item?.userId)}>
-                        {item.firstName} {item.lastName}
-                      </h5>
-                      <div className="main-comment">
-                        <p>{item.comment}</p>
+          {isLoading ? (
+            <>
+              <div id="comments-loading-msg">
+                <h3>Loading...</h3>
+              </div>
+            </>
+          ) : (
+            <div id="single-post-comments">
+              {singlePost ? (
+                singlePost?.comments?.map((item) => (
+                  <div className="comment" key={item.commentId}>
+                    <div className="comment-img">
+                      <img
+                        src={item.profileImg}
+                        alt="comment"
+                        onClick={() => navigateToProfile(item?.userId)}
+                      />
+                    </div>
+                    <div className="comment-details">
+                      <div className="details">
+                        <h5 onClick={() => navigateToProfile(item?.userId)}>
+                          {item.firstName} {item.lastName}
+                        </h5>
+                        <div className="main-comment">
+                          <p>{item.comment}</p>
+                        </div>
+                      </div>
+                      <div className="comment-actions">
+                        <FontAwesomeIcon
+                          icon={faPenToSquare}
+                          className="edit"
+                          onClick={() => getEditComment(item.commentId)}
+                        />
+                        <FontAwesomeIcon
+                          icon={faXmark}
+                          className="delete"
+                          onClick={() => deleteComment(item.commentId)}
+                        />
                       </div>
                     </div>
-                    <div className="comment-actions">
-                      <FontAwesomeIcon
-                        icon={faPenToSquare}
-                        className="edit"
-                        onClick={() => getEditComment(item.commentId)}
-                      />
-                      <FontAwesomeIcon
-                        icon={faXmark}
-                        className="delete"
-                        onClick={() => deleteComment(item.commentId)}
-                      />
-                    </div>
                   </div>
-                </div>
-              ))
-            ) : (
-              <p>No Comments Yet!</p>
-            )}
-          </div>
+                ))
+              ) : (
+                <p>No Comments Yet!</p>
+              )}
+            </div>
+          )}
         </div>
 
         {isShowEditModal && (

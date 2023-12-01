@@ -15,6 +15,7 @@ import { faMessage } from "@fortawesome/free-regular-svg-icons";
 import StoryPreview from "./StoryPreview";
 import HomeLeft from "./HomeLeft";
 import HomeRight from "./HomeRight";
+import emptyUser from "./../../images/empty-user.jpg";
 // import heart from "./../../images/heart.JPG";
 
 const Home = () => {
@@ -35,9 +36,8 @@ const Home = () => {
   const [pageCount, setPageCount] = useState();
   const [isShowFeedPosts, setIsShowFeedPosts] = useState(true);
   const [isShowFollowingPosts, setIsShowFollowingPosts] = useState(false);
-
-  // console.log(followingPosts, "following posts");
-  // console.log(allPosts, "all posts");
+  const [isStoryLoading, setIsStoryLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const totalPageCount = Math.ceil(storyCount / pageSize);
@@ -53,7 +53,6 @@ const Home = () => {
   };
 
   const decrementPage = () => {
-    console.log("clicked decrement");
     if (page == 1) {
       setPage(pageCount);
     } else {
@@ -105,10 +104,12 @@ const Home = () => {
           const response = await api.post("/get-all-stories", { token, page });
 
           if (response.data.success) {
+            setIsStoryLoading(false);
             setAllStoryUsers(response.data.storyUsers);
             setStoryCount(response.data.storyCount);
             setPageSize(response.data.limit);
           } else {
+            setIsStoryLoading(false);
             toast.error(response.data.message);
           }
         } catch (error) {
@@ -126,8 +127,10 @@ const Home = () => {
         const response = await api.get("/get-all-posts");
 
         if (response.data.success) {
+          setIsLoading(false);
           setAllPosts(response.data.allPosts);
         } else {
+          setIsLoading(false);
           toast.error(response.data.message);
         }
       } catch (error) {
@@ -242,44 +245,22 @@ const Home = () => {
         <HomeLeft state={state} profileImg={profileImg} />
 
         <div id="middle">
-          <StoryPreview
-            allStoryUsers={allStoryUsers}
-            incrementPage={incrementPage}
-            decrementPage={decrementPage}
-          />
-          {/* <div id="middle-story-structure">
-            <div id="story-structure">
-              {allStoryUsers?.length ? (
-                allStoryUsers?.map((item) => (
-                  <>
-                    {" "}
-                    <div className="single-story" key={item._id}>
-                      {item?.yourStories && (
-                        <>
-                          <div className="story-preview">
-                            <img
-                              src={item.yourStories[0].storyImg}
-                              alt="story"
-                            />
-                          </div>
-                        </>
-                      )}
-                      <div className="story-user">
-                        <div className="user-img">
-                          <img src={item.profileImg} alt="user" />
-                        </div>
-                        <p>{item.firstName}</p>
-                      </div>
-                    </div>
-                  </>
-                ))
-              ) : (
-                <>
-                  <p>No Stories!</p>
-                </>
-              )}
-            </div>
-          </div> */}
+          {isStoryLoading ? (
+            <>
+              <div id="story-loading-msg">
+                <h3>Loading...</h3>
+              </div>
+            </>
+          ) : (
+            <>
+              <StoryPreview
+                allStoryUsers={allStoryUsers}
+                incrementPage={incrementPage}
+                decrementPage={decrementPage}
+              />
+            </>
+          )}
+
           <div id="story" onClick={() => navigateTo("/create-story")}>
             <i class="fa-solid fa-plus"></i>
             <div id="create-story-home">
@@ -291,7 +272,7 @@ const Home = () => {
             <div id="top">
               <div id="post-profile-img">
                 <img
-                  src={profileImg}
+                  src={profileImg ? profileImg : emptyUser}
                   alt="profile"
                   onClick={() => navigateTo("/profile")}
                 />
@@ -348,180 +329,216 @@ const Home = () => {
             </div>
           </div>
 
-          {isShowFeedPosts && (
-            <div id="posts">
-              {allPosts?.length ? (
-                allPosts?.map((post) => (
-                  <div className="post" key={post._id}>
-                    <div className="postsec-1">
-                      <div className="post-user">
-                        <div className="post-img">
-                          <img
-                            src={post?.userImage}
-                            alt="post-img"
-                            onClick={() => navigateToProfile(post?.userId)}
+          {isLoading ? (
+            <div id="loading-msg">
+              <h3>Loading...</h3>
+            </div>
+          ) : (
+            <>
+              {isShowFeedPosts && (
+                <div id="posts">
+                  {allPosts?.length ? (
+                    allPosts?.map((post) => (
+                      <div className="post" key={post._id}>
+                        <div className="postsec-1">
+                          <div className="post-user">
+                            <div className="post-img">
+                              <img
+                                src={
+                                  post?.userImage ? post?.userImage : emptyUser
+                                }
+                                alt="post-img"
+                                onClick={() => navigateToProfile(post?.userId)}
+                              />
+                            </div>
+                            <div className="post-details">
+                              <h4
+                                onClick={() => navigateToProfile(post?.userId)}
+                              >
+                                {post?.userFirstName} {post?.userLastName}
+                              </h4>
+                              <p>
+                                2 d · <i class="fa-solid fa-earth-asia"></i>
+                              </p>
+                            </div>
+                          </div>
+                          <div className="options">
+                            <i class="fa-solid fa-ellipsis fa-lg"></i>
+                            <i class="fa-solid fa-xmark fa-xl"></i>
+                          </div>
+                        </div>
+                        <div className="postsec-2">
+                          <div className="caption">
+                            <p>{post.caption} 😂🤗</p>
+                          </div>
+                        </div>
+                        <div
+                          className="postsec-3"
+                          onClick={() => navigateTo(`/single-post/${post._id}`)}
+                        >
+                          <div className="img">
+                            <img src={post?.image} alt="postimage" />
+                          </div>
+                        </div>
+                        <div className="postsec-4">
+                          <div className="post-activity">
+                            <div className="activity-left">
+                              <img src={like} alt="like" />
+                              <p>{post?.likes ? post?.likes?.length : "0"}</p>
+                              {/* <img src={heart} alt="heart" /> */}
+                            </div>
+                            <div className="activity-right">
+                              <p>
+                                {post?.comments ? post?.comments?.length : "0"}{" "}
+                                {post?.comments?.length > 1
+                                  ? "comments"
+                                  : "comment"}
+                              </p>
+                              <p>112 shares</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="postsec-5">
+                          <div>
+                            <LikePost
+                              postId={post._id}
+                              likes={post?.likes}
+                              setAllPosts={setAllPosts}
+                            />
+                            <p>Like</p>
+                          </div>
+                          <div id="sec-5-comment">
+                            <FontAwesomeIcon icon={faMessage} />
+                            <p>Comment</p>
+                          </div>
+                          <div>
+                            <FontAwesomeIcon icon={faShare} />
+                            <p>Share</p>
+                          </div>
+                        </div>
+                        {
+                          <CommentBox
+                            postId={post._id}
+                            setAllPosts={setAllPosts}
                           />
-                        </div>
-                        <div className="post-details">
-                          <h4 onClick={() => navigateToProfile(post?.userId)}>
-                            {post?.userFirstName} {post?.userLastName}
-                          </h4>
-                          <p>
-                            2 d · <i class="fa-solid fa-earth-asia"></i>
-                          </p>
-                        </div>
+                        }
                       </div>
-                      <div className="options">
-                        <i class="fa-solid fa-ellipsis fa-lg"></i>
-                        <i class="fa-solid fa-xmark fa-xl"></i>
-                      </div>
+                    ))
+                  ) : (
+                    <div id="no-post-msg">
+                      <h3>No Posts to show!</h3>
                     </div>
-                    <div className="postsec-2">
-                      <div className="caption">
-                        <p>{post.caption} 😂🤗</p>
-                      </div>
-                    </div>
-                    <div
-                      className="postsec-3"
-                      onClick={() => navigateTo(`/single-post/${post._id}`)}
-                    >
-                      <div className="img">
-                        <img src={post?.image} alt="postimage" />
-                      </div>
-                    </div>
-                    <div className="postsec-4">
-                      <div className="post-activity">
-                        <div className="activity-left">
-                          <img src={like} alt="like" />
-                          <p>{post?.likes ? post?.likes?.length : "0"}</p>
-                          {/* <img src={heart} alt="heart" /> */}
-                        </div>
-                        <div className="activity-right">
-                          <p>
-                            {post?.comments ? post?.comments?.length : "0"}{" "}
-                            {post?.comments?.length > 1
-                              ? "comments"
-                              : "comment"}
-                          </p>
-                          <p>112 shares</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="postsec-5">
-                      <div>
-                        <LikePost
-                          postId={post._id}
-                          likes={post?.likes}
-                          setAllPosts={setAllPosts}
-                        />
-                        <p>Like</p>
-                      </div>
-                      <div id="sec-5-comment">
-                        <FontAwesomeIcon icon={faMessage} />
-                        <p>Comment</p>
-                      </div>
-                      <div>
-                        <FontAwesomeIcon icon={faShare} />
-                        <p>Share</p>
-                      </div>
-                    </div>
-                    {<CommentBox postId={post._id} setAllPosts={setAllPosts} />}
-                  </div>
-                ))
-              ) : (
-                <div id="no-post-msg">
-                  <h3>No Posts to show!</h3>
+                  )}
                 </div>
               )}
-            </div>
+            </>
           )}
 
-          {isShowFollowingPosts && (
-            <div id="posts">
-              {followingPosts?.length ? (
-                followingPosts?.map((post) => (
-                  <div className="post" key={post._id}>
-                    <div className="postsec-1">
-                      <div className="post-user">
-                        <div className="post-img">
-                          <img
-                            src={post?.userImage}
-                            alt="post-img"
-                            onClick={() => navigateToProfile(post?.userId)}
+          {isLoading ? (
+            <>
+              {/* <div id="loading-msg">
+               <h3>Loading...</h3>
+            </div> */}
+            </>
+          ) : (
+            <>
+              {isShowFollowingPosts && (
+                <div id="posts">
+                  {followingPosts?.length ? (
+                    followingPosts?.map((post) => (
+                      <div className="post" key={post._id}>
+                        <div className="postsec-1">
+                          <div className="post-user">
+                            <div className="post-img">
+                              <img
+                                src={
+                                  post?.userImage ? post.userImage : emptyUser
+                                }
+                                alt="post-img"
+                                onClick={() => navigateToProfile(post?.userId)}
+                              />
+                            </div>
+                            <div className="post-details">
+                              <h4
+                                onClick={() => navigateToProfile(post?.userId)}
+                              >
+                                {post?.userFirstName} {post?.userLastName}
+                              </h4>
+                              <p>
+                                2 d · <i class="fa-solid fa-earth-asia"></i>
+                              </p>
+                            </div>
+                          </div>
+                          <div className="options">
+                            <i class="fa-solid fa-ellipsis fa-lg"></i>
+                            <i class="fa-solid fa-xmark fa-xl"></i>
+                          </div>
+                        </div>
+                        <div className="postsec-2">
+                          <div className="caption">
+                            <p>{post.caption} 😂🤗</p>
+                          </div>
+                        </div>
+                        <div
+                          className="postsec-3"
+                          onClick={() => navigateTo(`/single-post/${post._id}`)}
+                        >
+                          <div className="img">
+                            <img src={post?.image} alt="postimage" />
+                          </div>
+                        </div>
+                        <div className="postsec-4">
+                          <div className="post-activity">
+                            <div className="activity-left">
+                              <img src={like} alt="like" />
+                              <p>{post?.likes ? post?.likes?.length : "0"}</p>
+                              {/* <img src={heart} alt="heart" /> */}
+                            </div>
+                            <div className="activity-right">
+                              <p>
+                                {post?.comments ? post?.comments?.length : "0"}{" "}
+                                {post?.comments?.length > 1
+                                  ? "comments"
+                                  : "comment"}
+                              </p>
+                              <p>112 shares</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="postsec-5">
+                          <div>
+                            <LikePost
+                              postId={post._id}
+                              likes={post?.likes}
+                              setAllPosts={setAllPosts}
+                            />
+                            <p>Like</p>
+                          </div>
+                          <div id="sec-5-comment">
+                            <FontAwesomeIcon icon={faMessage} />
+                            <p>Comment</p>
+                          </div>
+                          <div>
+                            <FontAwesomeIcon icon={faShare} />
+                            <p>Share</p>
+                          </div>
+                        </div>
+                        {
+                          <CommentBox
+                            postId={post._id}
+                            setAllPosts={setAllPosts}
                           />
-                        </div>
-                        <div className="post-details">
-                          <h4 onClick={() => navigateToProfile(post?.userId)}>
-                            {post?.userFirstName} {post?.userLastName}
-                          </h4>
-                          <p>
-                            2 d · <i class="fa-solid fa-earth-asia"></i>
-                          </p>
-                        </div>
+                        }
                       </div>
-                      <div className="options">
-                        <i class="fa-solid fa-ellipsis fa-lg"></i>
-                        <i class="fa-solid fa-xmark fa-xl"></i>
-                      </div>
+                    ))
+                  ) : (
+                    <div id="no-post-msg">
+                      <h3>No Posts to show!</h3>
                     </div>
-                    <div className="postsec-2">
-                      <div className="caption">
-                        <p>{post.caption} 😂🤗</p>
-                      </div>
-                    </div>
-                    <div
-                      className="postsec-3"
-                      onClick={() => navigateTo(`/single-post/${post._id}`)}
-                    >
-                      <div className="img">
-                        <img src={post?.image} alt="postimage" />
-                      </div>
-                    </div>
-                    <div className="postsec-4">
-                      <div className="post-activity">
-                        <div className="activity-left">
-                          <img src={like} alt="like" />
-                          <p>{post?.likes ? post?.likes?.length : "0"}</p>
-                          {/* <img src={heart} alt="heart" /> */}
-                        </div>
-                        <div className="activity-right">
-                          <p>
-                            {post?.comments ? post?.comments?.length : "0"}{" "}
-                            {post?.comments?.length > 1
-                              ? "comments"
-                              : "comment"}
-                          </p>
-                          <p>112 shares</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="postsec-5">
-                      <div>
-                        <LikePost
-                          postId={post._id}
-                          likes={post?.likes}
-                          setAllPosts={setAllPosts}
-                        />
-                        <p>Like</p>
-                      </div>
-                      <div id="sec-5-comment">
-                        <FontAwesomeIcon icon={faMessage} />
-                        <p>Comment</p>
-                      </div>
-                      <div>
-                        <FontAwesomeIcon icon={faShare} />
-                        <p>Share</p>
-                      </div>
-                    </div>
-                    {<CommentBox postId={post._id} setAllPosts={setAllPosts} />}
-                  </div>
-                ))
-              ) : (
-                <div id="no-post-msg">
-                  <h3>No Posts to show!</h3>
+                  )}
                 </div>
               )}
-            </div>
+            </>
           )}
         </div>
         <HomeRight />
@@ -543,7 +560,10 @@ const Home = () => {
                   <div id="post-body-1">
                     {/* <i class="fa-solid fa-circle-user"></i> */}
                     <div id="post-profile-img">
-                      <img src={profileImg} alt="profile" />
+                      <img
+                        src={profileImg ? profileImg : emptyUser}
+                        alt="profile"
+                      />
                     </div>
                     <div id="show-post-to">
                       <h4>

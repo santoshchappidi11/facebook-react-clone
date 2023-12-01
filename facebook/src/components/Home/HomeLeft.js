@@ -11,6 +11,7 @@ import feeds from "./../../images/feeds.jpg";
 import events from "./../../images/events.jpg";
 import ads from "./../../images/ads.jpg";
 import { useNavigate } from "react-router-dom";
+import emptyUser from "./../../images/empty-user.jpg";
 
 const HomeLeft = ({ state, profileImg }) => {
   const navigateTo = useNavigate();
@@ -20,7 +21,7 @@ const HomeLeft = ({ state, profileImg }) => {
       <div id="left">
         <div className="left-sec">
           <div id="left-profile-img">
-            <img src={profileImg} alt="profile" />
+            <img src={profileImg ? profileImg : emptyUser} alt="profile" />
           </div>
           <h4
             style={{ marginLeft: "5px" }}

@@ -3,6 +3,7 @@ import "./StoryPreview.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import emptyUser from "./../../images/empty-user.jpg";
 
 const StoryPreview = ({ allStoryUsers, incrementPage, decrementPage }) => {
   const navigateTo = useNavigate();
@@ -29,7 +30,10 @@ const StoryPreview = ({ allStoryUsers, incrementPage, decrementPage }) => {
                   )}
                   <div className="story-user">
                     <div className="user-img">
-                      <img src={item?.profileImg} alt="user" />
+                      <img
+                        src={item?.profileImg ? item?.profileImg : emptyUser}
+                        alt="user"
+                      />
                     </div>
                     <p>{item?.firstName}</p>
                   </div>

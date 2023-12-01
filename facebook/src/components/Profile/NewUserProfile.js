@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../../ApiConfig";
 import { AuthContexts } from "../../Context/AuthContext";
+import emptyUser from "./../../images/empty-user.jpg";
 
 const NewUserProfile = () => {
   const { state } = useContext(AuthContexts);
@@ -134,7 +135,7 @@ const NewUserProfile = () => {
                 </label>
               </div>
               <div id="profile-image">
-                <img src={profileImg} alt="profile" />
+                <img src={profileImg ? profileImg : emptyUser} alt="profile" />
               </div>
             </div>
             <div className="edit-sec-2">

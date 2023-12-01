@@ -13,6 +13,7 @@ import api from "../../ApiConfig";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { AuthContexts } from "../../Context/AuthContext";
+import emptyUser from "./../../images/empty-user.jpg";
 
 const FriendProfile = () => {
   const { profileId } = useParams();
@@ -26,8 +27,8 @@ const FriendProfile = () => {
   const [isShowPhotos, setIsShowPhotos] = useState(false);
   const [isShowVideos, setIsShowVideos] = useState(false);
   const [isFollow, setIsFollow] = useState(false);
-  const { state, dispatch, UserFollowings } = useContext(AuthContexts);
-
+  const { state, UserFollowings } = useContext(AuthContexts);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     for (let i = 0; i < state?.followings?.length; i++) {
@@ -48,10 +49,6 @@ const FriendProfile = () => {
         });
 
         if (response.data.success) {
-          // dispatch({
-          //   type: "LOGIN",
-          //   payload: response.data.currentUser,
-          // });
           UserFollowings(response.data.followings);
           setIsFollow(response.data.isFollow);
           toast.success(response.data.message);
@@ -117,11 +114,13 @@ const FriendProfile = () => {
           });
 
           if (response.data.success) {
+            setIsLoading(false);
             setAllPosts(response.data.posts);
             setSearchUser(response.data.user);
             setProfileImg(response.data.profileImg);
             setCoverImg(response.data.coverImg);
           } else {
+            setIsLoading(false);
             toast.error(response.data.message);
           }
         } catch (error) {
@@ -144,7 +143,7 @@ const FriendProfile = () => {
             </div>
 
             <div id="profile-img">
-              <img src={profileImg} alt="profile" />
+              <img src={profileImg ? profileImg : emptyUser} alt="profile" />
               {/* <i class="fa-solid fa-camera fa-lg"></i> */}
             </div>
           </div>
@@ -221,7 +220,11 @@ const FriendProfile = () => {
 
         <div id="profile-all-activities">
           {isShowPosts && (
-            <FriendPosts allPosts={allPosts} searchUser={searchUser} />
+            <FriendPosts
+              allPosts={allPosts}
+              searchUser={searchUser}
+              isLoading={isLoading}
+            />
           )}
           {isShowAbout && <FriendAbout searchUser={searchUser} />}
           {isShowFriends && <FriendFriends profileId={profileId} />}

@@ -13,6 +13,7 @@ import ProfileAbout from "./ProfileAbout";
 import ProfileFriends from "./ProfileFriends";
 import ProfilePhotos from "./ProfilePhotos";
 import ProfileVideos from "./ProfileVideos";
+import emptyUser from "./../../images/empty-user.jpg";
 // import like from "./../../images/like.JPG";
 
 const Profile = () => {
@@ -28,6 +29,7 @@ const Profile = () => {
   const [isShowFriends, setIsShowFriends] = useState(false);
   const [isShowPhotos, setIsShowPhotos] = useState(false);
   const [isShowVideos, setIsShowVideos] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const openEditProfilePopup = () => {
     setIsShowEditProfile(true);
@@ -89,9 +91,11 @@ const Profile = () => {
           });
 
           if (response.data.success) {
+            setIsLoading(false);
             setSearchUser(response.data.user);
             setAllPosts(response.data.posts);
           } else {
+            setIsLoading(false);
             toast.error(response.data.message);
           }
         } catch (error) {
@@ -221,7 +225,7 @@ const Profile = () => {
             <h4>Add Cover Photo</h4>
           </div>
           <div id="profile-img">
-            <img src={profileImg} alt="profile" />
+            <img src={profileImg ? profileImg : emptyUser} alt="profile" />
             <i class="fa-solid fa-camera fa-lg"></i>
           </div>
         </div>
@@ -293,6 +297,7 @@ const Profile = () => {
             allPosts={allPosts}
             searchUser={searchUser}
             deletePost={deletePost}
+            isLoading={isLoading}
           />
         )}
         {isShowAbout && <ProfileAbout searchUser={searchUser} />}
@@ -327,7 +332,10 @@ const Profile = () => {
                     </label>
                   </div>
                   <div id="profile-image">
-                    <img src={profileImg} alt="profile" />
+                    <img
+                      src={profileImg ? profileImg : emptyUser}
+                      alt="profile"
+                    />
                   </div>
                 </div>
                 <div className="edit-sec-2">

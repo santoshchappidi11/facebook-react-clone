@@ -222,3 +222,12 @@
   width: 100%;
   text-align: center;
 }
+
+#friend-posts-loading-msg {
+  width: 100%;
+  text-align: center;
+}
+
+#friend-posts-loading-msg > h3 {
+  margin: 50px 0 0 0;
+}
