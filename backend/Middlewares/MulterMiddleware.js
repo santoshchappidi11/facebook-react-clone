@@ -1,11 +1,7 @@
 import multer from "multer";
 // import path from "path";
 // import { fileURLToPath } from "url";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+// import { dirname } from "path";
 
 // // Get the current file URL--->
 // const currentFileURL = import.meta.url;
@@ -19,7 +15,7 @@ const __dirname = dirname(__filename);
 // Set up Multer storage------>
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, __dirname); // Set the destination folder for uploaded files
+    cb(null, "uploads/"); // Set the destination folder for uploaded files
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`); // Set the filename to the original filename
