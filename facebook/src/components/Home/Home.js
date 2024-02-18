@@ -380,7 +380,7 @@ const Home = () => {
                 <img
                   src={
                     profileImg
-                      ? `http://localhost:8000/uploads/${profileImg}`
+                      ? `https://facebook-clone-yrjn.onrender.com/${profileImg}`
                       : emptyUser
                   }
                   alt="profile"
@@ -456,7 +456,7 @@ const Home = () => {
                               <img
                                 src={
                                   post?.userImage
-                                    ? `http://localhost:8000/uploads/${post?.userImage}`
+                                    ? `https://facebook-clone-yrjn.onrender.com/${post?.userImage}`
                                     : emptyUser
                                 }
                                 alt="post-img"
@@ -497,7 +497,7 @@ const Home = () => {
                             <div className="video">
                               <video controls autoPlay>
                                 <source
-                                  src={`http://localhost:8000/uploads/${post?.image}`}
+                                  src={`https://facebook-clone-yrjn.onrender.com/uploads/${post?.image}`}
                                   type="video/mp4"
                                 />
                               </video>
@@ -505,7 +505,7 @@ const Home = () => {
                           ) : (
                             <div className="img">
                               <img
-                                src={`http://localhost:8000/uploads/${post?.image}`}
+                                src={`https://facebook-clone-yrjn.onrender.com/uploads/${post?.image}`}
                                 alt="postimage"
                               />
                             </div>
@@ -513,7 +513,7 @@ const Home = () => {
 
                           {/* <div className="img">
                             <img
-                              src={`http://localhost:8000/uploads/${post?.image}`}
+                              src={`https://facebook-clone-yrjn.onrender.com/${post?.image}`}
                               alt="postimage"
                             />
                           </div> */}
@@ -591,7 +591,7 @@ const Home = () => {
                               <img
                                 src={
                                   post?.userImage
-                                    ? `http://localhost:8000/uploads/${post?.userImage}`
+                                    ? `https://facebook-clone-yrjn.onrender.com/${post?.userImage}`
                                     : emptyUser
                                 }
                                 alt="post-img"
@@ -637,7 +637,7 @@ const Home = () => {
                             <div className="video">
                               <video controls autoPlay>
                                 <source
-                                  src={`http://localhost:8000/uploads/${post?.image}`}
+                                  src={`https://facebook-clone-yrjn.onrender.com/${post?.image}`}
                                   type="video/mp4"
                                 />
                               </video>
@@ -645,14 +645,14 @@ const Home = () => {
                           ) : (
                             <div className="img">
                               <img
-                                src={`http://localhost:8000/uploads/${post?.image}`}
+                                src={`https://facebook-clone-yrjn.onrender.com/${post?.image}`}
                                 alt="postimage"
                               />
                             </div>
                           )}
                           {/* <div className="img">
                             <img
-                              src={`http://localhost:8000/uploads/${post?.image}`}
+                              src={`https://facebook-clone-yrjn.onrender.com/${post?.image}`}
                               alt="postimage"
                             />
                           </div> */}
@@ -736,7 +736,7 @@ const Home = () => {
                       <img
                         src={
                           profileImg
-                            ? `http://localhost:8000/uploads/${profileImg}`
+                            ? `https://facebook-clone-yrjn.onrender.com/${profileImg}`
                             : emptyUser
                         }
                         alt="profile"
