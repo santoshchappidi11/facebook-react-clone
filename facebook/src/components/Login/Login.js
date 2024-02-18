@@ -1,14 +1,22 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../../ApiConfig";
 import { AuthContexts } from "../../Context/AuthContext";
+import fbLogo from "../../images/facebook-logo.svg";
 
 const Login = () => {
   const navigateTo = useNavigate();
   const [userData, setUserData] = useState({ email: "", password: "" });
   const { Login, UserFollowings, UserFollowers } = useContext(AuthContexts);
+
+  useEffect(() => {
+    const userToken = JSON.parse(localStorage.getItem("Token"));
+
+    if (!userToken) {
+    }
+  }, []);
 
   const handleChangeValues = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -42,10 +50,7 @@ const Login = () => {
     <div id="login-screen">
       <div id="logo">
         <div id="img">
-          <img
-            src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg"
-            alt="logo"
-          />
+          <img src={fbLogo} alt="logo" />
         </div>
       </div>
       <div id="login">

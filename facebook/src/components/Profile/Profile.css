@@ -46,6 +46,7 @@
   border-radius: 8px;
   color: white;
   background-color: rgb(92, 92, 92);
+  cursor: pointer;
   /* border: 1px solid black; */
 }
 
@@ -61,6 +62,7 @@
   border-radius: 8px;
   color: white;
   background-color: rgb(92, 92, 92);
+  cursor: pointer;
   /* border: 1px solid black; */
 }
 
@@ -113,7 +115,7 @@
   width: 100%;
   object-fit: contain;
   border-radius: 50%;
-  /* background-color: rgb(0, 0, 0); */
+  background-color: rgb(0, 0, 0);
 }
 
 #profile > #profile-up > #profile-cover-img > #profile-img > .fa-camera {
@@ -762,4 +764,19 @@ input[type="file"] {
 label {
   cursor: pointer;
   color: rgb(28, 28, 255);
+}
+
+
+.remove-editprofile-img{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0 0 0;
+  /* border: 1px solid black; */
+}
+
+.remove-editprofile-img > h4{
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
 }

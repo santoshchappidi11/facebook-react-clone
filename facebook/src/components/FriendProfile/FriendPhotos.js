@@ -13,9 +13,14 @@ const FriendPhotos = ({ allPosts }) => {
             {allPosts?.length ? (
               allPosts?.map((post) => (
                 <>
-                  <div className="single-photo" key={post._id}>
-                    <img src={post.image} alt="friend" />
-                  </div>
+                  {post?.image?.slice(-3) !== "mp4" && (
+                    <div className="single-photo" key={post?._id}>
+                      <img
+                        src={`http://localhost:8000/uploads/${post?.image}`}
+                        alt="profile"
+                      />
+                    </div>
+                  )}
                 </>
               ))
             ) : (

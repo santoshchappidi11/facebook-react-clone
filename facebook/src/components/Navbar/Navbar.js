@@ -16,9 +16,15 @@ const Navbar = () => {
   const [searchInputValue, setSearchInputValue] = useState("");
   const [allUsers, setAllUsers] = useState([]);
 
+  useEffect(() => {
+    if (state?.profileImgUpdated || state?.profileImgUpdated == "") {
+      setProfileImg(state?.profileImgUpdated);
+    }
+  }, [state]);
+
   const userLogout = () => {
     Logout();
-    navigateTo("/login");
+    navigateTo("/");
     toast.success("Logout Successfull!");
   };
 
@@ -91,7 +97,7 @@ const Navbar = () => {
       <div id="navbar">
         <div id="left">
           <div id="logo">
-            <img src={logo} alt="logo" onClick={() => navigateTo("/")} />
+            <img src={logo} alt="logo" onClick={() => navigateTo("/home")} />
           </div>
           <div id="search-bar">
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -129,7 +135,14 @@ const Navbar = () => {
             onMouseOver={openShowSidePopup}
             onMouseLeave={closeShowSidePopup}
           >
-            <img src={profileImg ? profileImg : emptyUser} alt="profile" />
+            <img
+              src={
+                profileImg
+                  ? `http://localhost:8000/uploads/${profileImg}`
+                  : emptyUser
+              }
+              alt="profile"
+            />
           </div>
         </div>
       </div>
@@ -145,7 +158,14 @@ const Navbar = () => {
           <div id="sidepopup-header">
             <div id="popup-header" onClick={() => navigateTo("/profile")}>
               <div id="popup-profile-img">
-                <img src={profileImg ? profileImg : emptyUser} alt="profile" />
+                <img
+                  src={
+                    profileImg
+                      ? `http://localhost:8000/uploads/${profileImg}`
+                      : emptyUser
+                  }
+                  alt="profile"
+                />
               </div>
               <h4>
                 {state?.currentUser?.firstName} {state?.currentUser?.lastName}
@@ -176,7 +196,11 @@ const Navbar = () => {
               >
                 <div className="navbar-search-img">
                   <img
-                    src={item.profileImg ? item.profileImg : emptyUser}
+                    src={
+                      item?.profileImg
+                        ? `http://localhost:8000/uploads/${item?.profileImg}`
+                        : emptyUser
+                    }
                     alt="search"
                   />
                 </div>

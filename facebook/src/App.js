@@ -18,8 +18,8 @@ function App() {
       {/* <Navbar /> */}
       <Routes>
         <Route exact path="/register" element={<Register />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/" element={<Home />} />
+        <Route exact path="/" element={<Login />} />
+        <Route exact path="/home" element={<Home />} />
         <Route exact path="/create-story" element={<CreateStory />} />
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/search/:searchId" element={<Search />} />

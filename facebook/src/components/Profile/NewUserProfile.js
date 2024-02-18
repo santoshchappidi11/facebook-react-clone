@@ -7,25 +7,39 @@ import toast from "react-hot-toast";
 import api from "../../ApiConfig";
 import { AuthContexts } from "../../Context/AuthContext";
 import emptyUser from "./../../images/empty-user.jpg";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NewUserProfile = () => {
   const { state } = useContext(AuthContexts);
   const navigateTo = useNavigate();
-  const [profileImg, setProfileImg] = useState("");
   const [coverImg, setCoverImg] = useState("");
   const [bioData, setBioData] = useState("");
+  const [profileImg, setProfileImg] = useState("");
+  const [profileFile, setProfileFile] = useState(null);
+  const [coverFile, setCoverFile] = useState(null);
+  const [isShowRemoveProfileImg, setIsShowRemoveProfileImg] = useState(true);
+  const [isShowRemoveCoverImg, setIsShowRemoveCoverImg] = useState(true);
 
   // console.log(profileImg, "profileImg");
   // console.log(coverImg, "coverImg");
   // console.log(bioData, "bioData");
 
-  // useEffect(() => {
-  //   if (state?.currentUser?.name) {
-  //     navigateTo("/");
-  //   } else {
-  //     navigateTo("/login");
-  //   }
-  // }, [navigateTo, state]);
+  useEffect(() => {
+    if (profileFile == null && !profileImg) {
+      setIsShowRemoveProfileImg(false);
+    } else {
+      setIsShowRemoveProfileImg(true);
+    }
+  }, [profileFile, profileImg]);
+
+  useEffect(() => {
+    if (coverFile == null && !coverImg) {
+      setIsShowRemoveCoverImg(false);
+    } else {
+      setIsShowRemoveCoverImg(true);
+    }
+  }, [coverFile, coverImg]);
 
   useEffect(() => {
     const getProfileDetails = async () => {
@@ -52,32 +66,38 @@ const NewUserProfile = () => {
   }, []);
 
   const handleProfileImg = (e) => {
-    const reader = new FileReader();
-
-    const fileData = e.target.files[0];
-
-    if (fileData) {
-      reader.readAsDataURL(fileData);
-    }
-
-    reader.onload = () => {
-      setProfileImg(reader.result);
-      console.log(reader.result, "URL");
-    };
+    setProfileFile(e.target.files[0]);
+    setProfileImg(URL.createObjectURL(e.target.files[0]));
+    setIsShowRemoveProfileImg(true);
   };
 
   const handleCoverImage = (e) => {
-    const reader = new FileReader();
+    setCoverFile(e.target.files[0]);
+    setCoverImg(URL.createObjectURL(e.target.files[0]));
+    setIsShowRemoveCoverImg(true);
 
-    const fileData = e.target.files[0];
+    // const reader = new FileReader();
+    // const fileData = e.target.files[0];
 
-    if (fileData) {
-      reader.readAsDataURL(fileData);
-    }
+    // if (fileData) {
+    //   reader.readAsDataURL(fileData);
+    // }
 
-    reader.onload = () => {
-      setCoverImg(reader.result);
-    };
+    // reader.onload = () => {
+    //   setCoverImg(reader.result);
+    // };
+  };
+
+  const handleRemoveProfileImg = () => {
+    setProfileFile(null);
+    setProfileImg("");
+    // setIsShowRemoveProfileImg(false);
+  };
+
+  const handleRemoveCoverImg = () => {
+    setCoverFile(null);
+    setCoverImg("");
+    // setIsShowRemoveCoverImg(false);
   };
 
   const handleBioValue = (e) => {
@@ -86,21 +106,38 @@ const NewUserProfile = () => {
 
   const handleUserProfileSubmit = async (e) => {
     e.preventDefault();
-
     const token = JSON.parse(localStorage.getItem("Token"));
+
+    const formData = new FormData();
+    if (profileFile) formData.append("profileImg", profileFile);
+    if (coverFile) formData.append("coverImg", coverFile);
+    if (bioData) formData.append("bioData", bioData);
+    if (profileImg) formData.append("profileNow", profileImg);
+    if (coverImg) formData.append("coverNow", coverImg);
+    // if (token) formData.append("token", token);
+
+    console.log("Profile File:", profileFile);
+    console.log("Cover File:", coverFile);
 
     if (token) {
       try {
-        const response = await api.post("/new-user-profile", {
-          bioData,
-          coverImg,
-          profileImg,
-          token,
-        });
+        const response = await api.post(
+          "/new-user-profile",
+          // bioData,
+          // coverImg,
+          // profileImg,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.data.success) {
           toast.success(response.data.message);
-          navigateTo("/");
+          navigateTo("/home");
         } else {
           toast.error(response.data.message);
         }
@@ -121,22 +158,49 @@ const NewUserProfile = () => {
         ></i> */}
         </div>
         <div id="edit-profile-body">
-          <form onSubmit={handleUserProfileSubmit}>
+          <form
+            onSubmit={handleUserProfileSubmit}
+            encType="multipart/form-data"
+          >
             <div className="edit-sec-1">
               <div className="profile-picture-header">
                 <h3>Profile Picture</h3>
-                {/* <p>Add</p> */}
                 <label>
                   Add <br />
                   <i class="fa fa-2x fa-camera"></i>
-                  <input type="file" onClick={handleProfileImg} />
+                  <input
+                    type="file"
+                    // name="profileImg"
+                    onChange={handleProfileImg}
+                  />
                   <br />
                   <span id="profileImageName"></span>
                 </label>
               </div>
               <div id="profile-image">
-                <img src={profileImg ? profileImg : emptyUser} alt="profile" />
+                {profileFile || profileImg ? (
+                  <img
+                    src={
+                      profileFile
+                        ? profileImg
+                        : `http://localhost:8000/uploads/${profileImg}`
+                    }
+                    alt="profile"
+                  />
+                ) : (
+                  <img src={emptyUser} alt="profile" />
+                )}
               </div>
+              {isShowRemoveProfileImg && (
+                <div
+                  className="remove-editprofile-img"
+                  onClick={handleRemoveProfileImg}
+                >
+                  <h4>
+                    Remove <FontAwesomeIcon icon={faXmark} />
+                  </h4>
+                </div>
+              )}
             </div>
             <div className="edit-sec-2">
               <div className="cover-photo">
@@ -145,14 +209,35 @@ const NewUserProfile = () => {
                 <label>
                   Add <br />
                   <i class="fa fa-2x fa-camera"></i>
-                  <input type="file" onClick={handleCoverImage} />
+                  <input type="file" onChange={handleCoverImage} />
                   <br />
                   <span id="coverImageName"></span>
                 </label>
               </div>
               <div id="cover-image">
-                <img src={coverImg ? coverImg : editcover} alt="cover" />
+                {coverFile || coverImg ? (
+                  <img
+                    src={
+                      coverFile
+                        ? coverImg
+                        : `http://localhost:8000/uploads/${coverImg}`
+                    }
+                    alt="cover"
+                  />
+                ) : (
+                  <img src={editcover} alt="cover" />
+                )}
               </div>
+              {isShowRemoveCoverImg && (
+                <div
+                  className="remove-editprofile-img"
+                  onClick={handleRemoveCoverImg}
+                >
+                  <h4>
+                    Remove <FontAwesomeIcon icon={faXmark} />
+                  </h4>
+                </div>
+              )}
             </div>
             <div className="edit-sec-3">
               <div className="edit-avatar">
@@ -243,8 +328,8 @@ const NewUserProfile = () => {
                 friends to see.
               </p>
             </div>
-            <button>Save Your About Info</button>
-            <button onClick={() => navigateTo("/")}>Skip</button>
+            <button type="submit">Save Your About Info</button>
+            <button onClick={() => navigateTo("/home")}>Skip</button>
           </form>
         </div>
       </div>

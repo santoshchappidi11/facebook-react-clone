@@ -131,6 +131,7 @@
 .friend-post-details > h4 {
   font-size: 15px;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .friend-post-details > p {
@@ -154,7 +155,8 @@
 
 .friend-post-sec-2 > .caption {
   width: 100%;
-  padding: 0 14px;
+  padding: 0 50px 0 60px;
+  margin: 5px 0 10px 0;
 }
 
 .friend-post-sec-2 > .caption > p {
@@ -163,6 +165,11 @@
 
 .friend-post-sec-3 {
   width: 100%;
+}
+
+.friend-post-sec-3 > .video > video{
+  width: 100%;
+  cursor: pointer;
 }
 
 .friend-post-sec-3 > .img {

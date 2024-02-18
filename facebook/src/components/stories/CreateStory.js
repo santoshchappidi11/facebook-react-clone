@@ -8,6 +8,8 @@ import api from "../../ApiConfig";
 import toast from "react-hot-toast";
 import { AuthContexts } from "../../Context/AuthContext";
 import emptyUser from "./../../images/empty-user.jpg";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CreateStory = () => {
   const { state } = useContext(AuthContexts);
@@ -16,7 +18,9 @@ const CreateStory = () => {
   const [isShowCreateStory, setIsShowCreateStory] = useState(false);
   const [caption, setCaption] = useState("");
   const [storyImg, setStoryImg] = useState("");
+  const [storyFile, setStoryFile] = useState(null);
   const [profileImg, setProfileImg] = useState("");
+  const [isShowRemove, setIsShowRemove] = useState(false);
 
   const navigateToProfile = (Id) => {
     if (state?.currentUser?.userId == Id) {
@@ -27,18 +31,14 @@ const CreateStory = () => {
   };
 
   const handleStoryImg = (e) => {
-    const reader = new FileReader();
+    setStoryFile(e.target.files[0]);
+    setStoryImg(URL.createObjectURL(e.target.files[0]));
+    setIsShowRemove(true);
+  };
 
-    const fileData = e.target.files[0];
-
-    if (fileData) {
-      reader.readAsDataURL(fileData);
-    }
-
-    reader.onload = () => {
-      setStoryImg(reader.result);
-      // console.log(reader.result, "URL");
-    };
+  const handleRemoveStoryImg = () => {
+    setStoryImg("");
+    setIsShowRemove(false);
   };
 
   const handleCaptionValue = (e) => {
@@ -51,19 +51,32 @@ const CreateStory = () => {
     if (storyImg && caption) {
       const token = JSON.parse(localStorage.getItem("Token"));
 
+      const formData = new FormData();
+      if (storyFile) formData.append("storyImg", storyFile);
+      if (caption) formData.append("caption", caption);
+
       if (token) {
         try {
-          const response = await api.post("/add-story", {
-            token,
-            storyImg,
-            caption,
-          });
+          const response = await api.post(
+            "/add-story",
+            // token,
+            // storyImg,
+            // caption,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
           if (response.data.success) {
             toast.success(response.data.message);
             setCaption("");
             setStoryImg("");
             setIsShowCreateStory(false);
+            setIsShowRemove(false);
           } else {
             toast.error(response.data.message);
           }
@@ -82,6 +95,9 @@ const CreateStory = () => {
 
   const closeCreateStoryPopup = () => {
     setIsShowCreateStory(false);
+    setStoryImg("");
+    setIsShowRemove(false);
+    setCaption("");
   };
 
   useEffect(() => {
@@ -117,9 +133,9 @@ const CreateStory = () => {
             <div id="left-header">
               <i
                 class="fa-solid fa-xmark fa-xl"
-                onClick={() => navigateTo("/")}
+                onClick={() => navigateTo("/home")}
               ></i>
-              <img src={logo} alt="logo" onClick={() => navigateTo("/")} />
+              <img src={logo} alt="logo" onClick={() => navigateTo("/home")} />
             </div>
             <div id="left-body">
               <div id="body-header">
@@ -131,7 +147,7 @@ const CreateStory = () => {
                   <img
                     src={
                       searchUser?.profileImg
-                        ? searchUser?.profileImg
+                        ? `http://localhost:8000/uploads/${searchUser?.profileImg}`
                         : emptyUser
                     }
                     alt="user"
@@ -157,7 +173,9 @@ const CreateStory = () => {
             <div id="story-right-img">
               <img
                 src={
-                  searchUser?.profileImg ? searchUser?.profileImg : emptyUser
+                  searchUser?.profileImg
+                    ? `http://localhost:8000/uploads/${searchUser?.profileImg}`
+                    : emptyUser
                 }
                 alt="user"
                 onClick={() => navigateToProfile(searchUser?._id)}
@@ -184,12 +202,19 @@ const CreateStory = () => {
               ></i>
             </div>
             <div id="create-story-body">
-              <form onSubmit={handleCreateStorySubmit}>
+              <form
+                onSubmit={handleCreateStorySubmit}
+                encType="multipart/form-data"
+              >
                 <div id="story-body-1">
                   {/* <i class="fa-solid fa-circle-user"></i> */}
                   <div id="story-profile-img">
                     <img
-                      src={profileImg ? profileImg : emptyUser}
+                      src={
+                        profileImg
+                          ? `http://localhost:8000/uploads/${profileImg}`
+                          : emptyUser
+                      }
                       alt="profile"
                     />
                   </div>
@@ -226,6 +251,13 @@ const CreateStory = () => {
                   )}
                   <i class="fa-regular fa-face-smile fa-xl"></i>
                 </div>
+                {isShowRemove && (
+                  <div id="remove-post-img" onClick={handleRemoveStoryImg}>
+                    <h4>
+                      Remove <FontAwesomeIcon icon={faXmark} />
+                    </h4>
+                  </div>
+                )}
                 <div id="story-body-4">
                   <h4>Add to your story</h4>
                   <div id="add-to-story">
@@ -234,7 +266,7 @@ const CreateStory = () => {
                         src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/Ivw7nhRtXyo.png"
                         alt="story"
                       />
-                      <input type="file" onClick={handleStoryImg} />
+                      <input type="file" onChange={handleStoryImg} />
                     </label>
                     <img
                       src="https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/b37mHA1PjfK.png"

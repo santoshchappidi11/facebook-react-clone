@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./FriendPosts.css";
 import like from "./../../images/like.JPG";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,9 +7,21 @@ import {
   faArrowDownShortWide,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import emptyUser from "./../../images/empty-user.jpg";
+import { AuthContexts } from "../../Context/AuthContext";
+import ReactTimeAgo from "react-time-ago";
 
 const FriendPosts = ({ allPosts, searchUser, isLoading }) => {
+  const { state } = useContext(AuthContexts);
   const navigateTo = useNavigate();
+
+  const navigateToProfile = (Id) => {
+    if (state?.currentUser?.userId == Id) {
+      navigateTo("/profile");
+    } else {
+      navigateTo(`/friend-profile/${Id}`);
+    }
+  };
 
   return (
     <>
@@ -47,18 +59,27 @@ const FriendPosts = ({ allPosts, searchUser, isLoading }) => {
               <div id="friend-posts">
                 {allPosts?.length ? (
                   allPosts?.map((post) => (
-                    <div className="friend-post" key={post._id}>
+                    <div className="friend-post" key={post?._id}>
                       <div className="friend-post-sec-1">
                         <div className="friend-post-user">
                           <div className="friend-post-img">
-                            <img src={post?.userImage} alt="friend-post-img" />
+                            <img
+                              src={
+                                post?.userImage
+                                  ? `http://localhost:8000/uploads/${post?.userImage}`
+                                  : emptyUser
+                              }
+                              alt="post-img"
+                              onClick={() => navigateToProfile(post?.userId)}
+                            />
                           </div>
                           <div className="friend-post-details">
                             <h4>
                               {post?.userFirstName} {post?.userLastName}
                             </h4>
                             <p>
-                              2 d · <i class="fa-solid fa-earth-asia"></i>
+                              <ReactTimeAgo date={post?.date} locale="en-US" />{" "}
+                              · <i class="fa-solid fa-earth-asia"></i>
                             </p>
                           </div>
                         </div>
@@ -69,16 +90,36 @@ const FriendPosts = ({ allPosts, searchUser, isLoading }) => {
                       </div>
                       <div className="friend-post-sec-2">
                         <div className="caption">
-                          <p>{post.caption} 😂🤗</p>
+                          <p>{post?.caption}</p>
                         </div>
                       </div>
                       <div
                         className="friend-post-sec-3"
-                        onClick={() => navigateTo(`/single-post/${post._id}`)}
+                        onClick={() => navigateTo(`/single-post/${post?._id}`)}
                       >
-                        <div className="img">
-                          <img src={post?.image} alt="postimage" />
-                        </div>
+                        {post?.image?.slice(-3) === "mp4" ? (
+                          <div className="video">
+                            <video controls autoPlay>
+                              <source
+                                src={`http://localhost:8000/uploads/${post?.image}`}
+                                type="video/mp4"
+                              />
+                            </video>
+                          </div>
+                        ) : (
+                          <div className="img">
+                            <img
+                              src={`http://localhost:8000/uploads/${post?.image}`}
+                              alt="postimage"
+                            />
+                          </div>
+                        )}
+                        {/* <div className="img">
+                          <img
+                            src={`http://localhost:8000/uploads/${post?.image}`}
+                            alt="postimage"
+                          />
+                        </div> */}
                       </div>
                       <div className="friend-post-sec-4">
                         <div className="friend-post-activity">
@@ -93,7 +134,7 @@ const FriendPosts = ({ allPosts, searchUser, isLoading }) => {
                                 ? "comments"
                                 : "comment"}
                             </p>
-                            <p>112 shares</p>
+                            <p>0 shares</p>
                           </div>
                         </div>
                       </div>

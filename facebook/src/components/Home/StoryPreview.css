@@ -20,7 +20,7 @@
 #story-structure > .single-story {
   position: relative;
   height: 160px;
-  width: 22%;
+  width: 20%;
   border-radius: 12px;
   cursor: pointer;
   z-index: 5;
@@ -55,7 +55,7 @@
   align-items: center;
   flex-direction: column;
   border-radius: 12px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .story-user > .user-img {

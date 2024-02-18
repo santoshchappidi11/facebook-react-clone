@@ -5,7 +5,13 @@ import { AuthContexts } from "../../Context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 
-const LikePost = ({ postId, likes, setAllPosts, setSinglePost }) => {
+const LikePost = ({
+  postId,
+  likes,
+  setAllPosts,
+  setSinglePost,
+  setFollowingPosts,
+}) => {
   const { state } = useContext(AuthContexts);
   const [isPostLiked, setIsPostLiked] = useState();
 
@@ -35,6 +41,10 @@ const LikePost = ({ postId, likes, setAllPosts, setSinglePost }) => {
 
         if (setSinglePost) {
           setSinglePost(response.data.singlePost);
+        }
+
+        if (setFollowingPosts) {
+          setFollowingPosts(response.data.followingPosts);
         }
       } else {
         toast.error(response.data.message);

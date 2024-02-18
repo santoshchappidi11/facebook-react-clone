@@ -15,6 +15,7 @@ import CommentBox from "../Home/CommentBox";
 import { AuthContexts } from "../../Context/AuthContext";
 import emptyUser from "./../../images/empty-user.jpg";
 import postPlaceholder from "./../../images/post-placeholder.png";
+import ReactTimeAgo from "react-time-ago";
 
 const SinglePost = () => {
   const { state } = useContext(AuthContexts);
@@ -62,6 +63,7 @@ const SinglePost = () => {
             toast.error(response.data.message);
           }
         } catch (error) {
+          setIsLoading(false);
           toast.error(error.response.data.message);
         }
       }
@@ -153,12 +155,37 @@ const SinglePost = () => {
       <div id="single-post">
         <div id="single-post-left">
           <div id="single-post-img">
-            <div id="main-img">
+            {singlePost?.image?.slice(-3) === "mp4" ? (
+              <div id="video">
+                <video controls>
+                  <source
+                    src={`http://localhost:8000/uploads/${singlePost?.image}`}
+                    type="video/mp4"
+                  />
+                </video>
+              </div>
+            ) : (
+              <div id="main-img">
+                <img
+                  src={
+                    singlePost?.image
+                      ? `http://localhost:8000/uploads/${singlePost?.image}`
+                      : postPlaceholder
+                  }
+                  alt="post"
+                />
+              </div>
+            )}
+            {/* <div id="main-img">
               <img
-                src={singlePost?.image ? singlePost?.image : postPlaceholder}
+                src={
+                  singlePost?.image
+                    ? `http://localhost:8000/uploads/${singlePost?.image}`
+                    : postPlaceholder
+                }
                 alt="post"
               />
-            </div>
+            </div> */}
           </div>
         </div>
         <div id="single-post-right">
@@ -168,7 +195,9 @@ const SinglePost = () => {
                 <div id="post-user-img">
                   <img
                     src={
-                      singlePost?.userImage ? singlePost?.userImage : emptyUser
+                      singlePost?.userImage
+                        ? `http://localhost:8000/uploads/${singlePost?.userImage}`
+                        : emptyUser
                     }
                     alt="post-img"
                     onClick={() => navigateToProfile(singlePost?.userId)}
@@ -179,7 +208,11 @@ const SinglePost = () => {
                     {singlePost?.userFirstName} {singlePost?.userLastName}
                   </h4>
                   <p>
-                    2 d · <i class="fa-solid fa-earth-asia"></i>
+                    {singlePost?.date && (
+                      <ReactTimeAgo date={singlePost?.date} locale="en-US" />
+                    )}
+                    {/* {singlePost?.postedOn} */} ·{" "}
+                    <i class="fa-solid fa-earth-asia"></i>
                   </p>
                 </div>
               </div>
@@ -205,7 +238,7 @@ const SinglePost = () => {
                       : " comment"}
                   </p>
                   <p>
-                    <FontAwesomeIcon icon={faShare} /> 112 shares
+                    <FontAwesomeIcon icon={faShare} /> 0 shares
                   </p>
                 </div>
               </div>
@@ -230,7 +263,10 @@ const SinglePost = () => {
             </div>
           </div>
           {isShowCommentBox && (
-            <CommentBox postId={singlePost._id} setSinglePost={setSinglePost} />
+            <CommentBox
+              postId={singlePost?._id}
+              setSinglePost={setSinglePost}
+            />
           )}
           {isLoading ? (
             <>
@@ -240,12 +276,16 @@ const SinglePost = () => {
             </>
           ) : (
             <div id="single-post-comments">
-              {singlePost ? (
+              {singlePost?.comments?.length > 0 ? (
                 singlePost?.comments?.map((item) => (
-                  <div className="comment" key={item.commentId}>
+                  <div className="comment" key={item?.commentId}>
                     <div className="comment-img">
                       <img
-                        src={item.profileImg}
+                        src={
+                          item?.profileImg
+                            ? `http://localhost:8000/uploads/${item?.profileImg}`
+                            : emptyUser
+                        }
                         alt="comment"
                         onClick={() => navigateToProfile(item?.userId)}
                       />
@@ -253,29 +293,31 @@ const SinglePost = () => {
                     <div className="comment-details">
                       <div className="details">
                         <h5 onClick={() => navigateToProfile(item?.userId)}>
-                          {item.firstName} {item.lastName}
+                          {item?.firstName} {item?.lastName}
                         </h5>
                         <div className="main-comment">
-                          <p>{item.comment}</p>
+                          <p>{item?.comment}</p>
                         </div>
                       </div>
                       <div className="comment-actions">
                         <FontAwesomeIcon
                           icon={faPenToSquare}
                           className="edit"
-                          onClick={() => getEditComment(item.commentId)}
+                          onClick={() => getEditComment(item?.commentId)}
                         />
                         <FontAwesomeIcon
                           icon={faXmark}
                           className="delete"
-                          onClick={() => deleteComment(item.commentId)}
+                          onClick={() => deleteComment(item?.commentId)}
                         />
                       </div>
                     </div>
                   </div>
                 ))
               ) : (
-                <p>No Comments Yet!</p>
+                <div id="no-single-post-comment">
+                  <p>No Comments Yet!</p>
+                </div>
               )}
             </div>
           )}
@@ -294,7 +336,14 @@ const SinglePost = () => {
               </div>
               <div id="edit-modal-body">
                 <div id="edit-comment-img">
-                  <img src={editComment?.profileImg} alt="comment" />
+                  <img
+                    src={
+                      editComment?.profileImg
+                        ? `http://localhost:8000/uploads/${editComment?.profileImg}`
+                        : emptyUser
+                    }
+                    alt="comment"
+                  />
                 </div>
                 <div id="edit-comment-details">
                   <h5>

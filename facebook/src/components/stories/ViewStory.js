@@ -15,6 +15,7 @@ import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import emptyUser from "./../../images/empty-user.jpg";
+import ReactTimeAgo from "react-time-ago";
 
 const ViewStory = () => {
   const { storyUserId } = useParams();
@@ -26,7 +27,11 @@ const ViewStory = () => {
   const [storyNumber, setStoryNumber] = useState(0);
   const [allStoryUsers, setAllStoryUsers] = useState([]);
   const [myStory, setMyStory] = useState({});
-  const [progressWidth, setProgressWidth] = useState(1);
+  const [progressWidth, setProgressWidth] = useState(0);
+
+  const handleTimeChange = (e) => {
+    console.log(e, "e");
+  };
 
   const decrementTimer = useCallback(() => {
     if (storyNumber == userStory.length - 1) {
@@ -39,7 +44,7 @@ const ViewStory = () => {
   }, [storyNumber, userStory]);
 
   useEffect(() => {
-    const timeoutFunction = setInterval(decrementTimer, 6800);
+    const timeoutFunction = setInterval(decrementTimer, 4700);
     return () => clearInterval(timeoutFunction);
   }, [decrementTimer, storyNumber, userStory]);
 
@@ -49,14 +54,14 @@ const ViewStory = () => {
         setProgressWidth(100);
         return;
       }
-      setProgressWidth(1);
+      setProgressWidth(0);
     } else {
       setProgressWidth((prev) => prev + 1);
     }
   }, [progressWidth, storyNumber, userStory]);
 
   useEffect(() => {
-    const identity = setInterval(scene, 38);
+    const identity = setInterval(scene, 40);
     return () => clearInterval(identity);
   }, [scene]);
 
@@ -102,7 +107,7 @@ const ViewStory = () => {
     }
   };
 
-  const deleteSingleStory = async (singleStoryId) => {
+  const deleteSingleStory = async (singleStoryId, storyImg) => {
     const token = JSON.parse(localStorage.getItem("Token"));
 
     if (token) {
@@ -110,6 +115,7 @@ const ViewStory = () => {
         const response = await api.post("/delete-single-story", {
           token,
           singleStoryId,
+          storyImg,
         });
 
         if (response.data.success) {
@@ -217,9 +223,9 @@ const ViewStory = () => {
             <div id="left-header">
               <i
                 class="fa-solid fa-xmark fa-xl"
-                onClick={() => navigateTo("/")}
+                onClick={() => navigateTo("/home")}
               ></i>
-              <img src={logo} alt="logo" onClick={() => navigateTo("/")} />
+              <img src={logo} alt="logo" onClick={() => navigateTo("/home")} />
             </div>
             <div id="left-body">
               <div id="body-header">
@@ -232,7 +238,7 @@ const ViewStory = () => {
                   <div id="all-your-stories">
                     <>
                       {myStory?.yourStories?.length ? (
-                        <div className="your-story">
+                        <div className="your-story" key={myStory._id}>
                           <div
                             className="your-story-img"
                             onClick={() =>
@@ -242,7 +248,7 @@ const ViewStory = () => {
                             <img
                               src={
                                 searchUser?.profileImg
-                                  ? searchUser?.profileImg
+                                  ? `http://localhost:8000/uploads/${searchUser?.profileImg}`
                                   : emptyUser
                               }
                               alt="story"
@@ -291,15 +297,28 @@ const ViewStory = () => {
                             <div className="single-story-img">
                               <img
                                 src={
-                                  item?.storyImg ? item?.storyImg : emptyUser
+                                  item?.storyImg
+                                    ? `http://localhost:8000/uploads/${item?.storyImg}`
+                                    : emptyUser
                                 }
                                 alt="story"
                               />
                             </div>
+                            {item?.storyAddedTime && (
+                              <p id="story-time">
+                                <ReactTimeAgo
+                                  date={item?.storyAddedTime}
+                                  locale="en-US"
+                                  onChange={handleTimeChange}
+                                />
+                              </p>
+                            )}
                             <FontAwesomeIcon
                               icon={faTrashCan}
                               className="delete-single-story"
-                              onClick={() => deleteSingleStory(item?.storyId)}
+                              onClick={() =>
+                                deleteSingleStory(item?.storyId, item?.storyImg)
+                              }
                             />
                           </div>
                         </>
@@ -316,14 +335,14 @@ const ViewStory = () => {
                             className="user-story"
                             key={item?._id}
                             onClick={() =>
-                              navigateTo(`/view-story/${item._id}`)
+                              navigateTo(`/view-story/${item?._id}`)
                             }
                           >
                             <div className="story-img">
                               <img
                                 src={
                                   item?.profileImg
-                                    ? item?.profileImg
+                                    ? `http://localhost:8000/uploads/${item?.profileImg}`
                                     : emptyUser
                                 }
                                 alt="story"
@@ -332,6 +351,19 @@ const ViewStory = () => {
                             <h4>
                               {item?.firstName} {item?.lastName}
                             </h4>
+                            <div>
+                              {item?.yourStories[0]?.storyAddedTime && (
+                                <p id="story-time">
+                                  {" "}
+                                  ({" "}
+                                  <ReactTimeAgo
+                                    date={item?.yourStories[0]?.storyAddedTime}
+                                    locale="en-US"
+                                  />
+                                  )
+                                </p>
+                              )}
+                            </div>
                           </div>
                         </>
                       ))
@@ -355,7 +387,9 @@ const ViewStory = () => {
             <div id="story-right-img">
               <img
                 src={
-                  searchUser?.profileImg ? searchUser?.profileImg : emptyUser
+                  searchUser?.profileImg
+                    ? `http://localhost:8000/uploads/${searchUser?.profileImg}`
+                    : emptyUser
                 }
                 alt="user"
                 onClick={() => navigateToProfile(searchUser?._id)}
@@ -372,7 +406,7 @@ const ViewStory = () => {
                         <img
                           src={
                             storyUser?.profileImg
-                              ? storyUser?.profileImg
+                              ? `http://localhost:8000/uploads/${storyUser?.profileImg}`
                               : emptyUser
                           }
                           alt="profile"
@@ -381,6 +415,15 @@ const ViewStory = () => {
                       <p>
                         {storyUser?.firstName} {storyUser?.lastName}
                       </p>
+
+                      {userStory[`${storyNumber}`]?.storyAddedTime && (
+                        <p id="story-time">
+                          {" "}
+                          <ReactTimeAgo
+                            date={userStory[`${storyNumber}`]?.storyAddedTime}
+                          />
+                        </p>
+                      )}
                     </div>
                     <FontAwesomeIcon icon={faEllipsis} />
                   </div>
@@ -391,10 +434,19 @@ const ViewStory = () => {
                     ></div>
                   </div>
                   <div id="main-img">
-                    <img
-                      src={userStory[`${storyNumber}`]?.storyImg}
-                      alt="story"
-                    />
+                    {userStory[`${storyNumber}`]?.storyImg && (
+                      <img
+                        src={`http://localhost:8000/uploads/${
+                          userStory[`${storyNumber}`]?.storyImg
+                        }`}
+                        alt="story"
+                      />
+                    )}
+                  </div>
+                  <div>
+                    {userStory[`${storyNumber}`]?.caption && (
+                      <h4>{userStory[`${storyNumber}`]?.caption}</h4>
+                    )}
                   </div>
 
                   {state?.currentUser?.userId == storyUser._id && (

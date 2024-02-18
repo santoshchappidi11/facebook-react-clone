@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast";
 import api from "../../ApiConfig";
+import emptyUser from "./../../images/empty-user.jpg";
 
 const ProfileFriends = () => {
   const [isShowFollowers, setIsShowFollowers] = useState(true);
@@ -91,7 +92,14 @@ const ProfileFriends = () => {
                   <>
                     <div className="profile-follower" key={item?._id}>
                       <div className="follower-img">
-                        <img src={item?.profileImg} alt="follower" />
+                        <img
+                          src={
+                            item?.profileImg
+                              ? `http://localhost:8000/uploads/${item?.profileImg}`
+                              : emptyUser
+                          }
+                          alt="follower"
+                        />
                       </div>
                       <h3>
                         {item?.firstName} {item?.lastName}
@@ -113,7 +121,14 @@ const ProfileFriends = () => {
                   <>
                     <div className="profile-following" key={item?._id}>
                       <div className="following-img">
-                        <img src={item?.profileImg} alt="following" />
+                        <img
+                          src={
+                            item?.profileImg
+                              ? `http://localhost:8000/uploads/${item?.profileImg}`
+                              : emptyUser
+                          }
+                          alt="following"
+                        />
                       </div>
                       <h3>
                         {item?.firstName} {item?.lastName}

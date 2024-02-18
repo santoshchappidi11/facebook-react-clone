@@ -27,7 +27,7 @@ body {
 #home > #left > .left-sec {
   height: auto;
   width: 98%;
-  padding: 12px 15px;
+  padding: 15px 15px;
   float: right;
   display: flex;
   justify-content: flex-start;
@@ -337,7 +337,8 @@ body {
 
 #home > #middle > #posts > .post > .postsec-2 > .caption {
   width: 100%;
-  padding: 0 14px;
+  padding: 0 50px 0 60px;
+  margin: 5px 0 10px 0;
   /* border: 1px solid red; */
 }
 
@@ -347,6 +348,11 @@ body {
 
 #home > #middle > #posts > .post > .postsec-3 {
   width: 100%;
+}
+
+.postsec-3 > .video > video{
+  width: 100%;
+  cursor: pointer;
 }
 
 #home > #middle > #posts > .post > .postsec-3 > .img {
@@ -685,7 +691,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 48%;
+  width: 55%;
   /* border: 1px solid black; */
 }
 
@@ -756,6 +762,7 @@ label {
   width: 100%;
   object-fit: contain;
   border-radius: 50%;
+  border: 1px solid rgb(191, 191, 191);
 }
 
 #user-comment {
@@ -880,4 +887,28 @@ label {
 
 #story-loading-msg > h3 {
   margin: 20px 0;
+}
+
+#remove-post-img{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0 0 0;
+  /* border: 1px solid black; */
+}
+
+#remove-post-img > h4{
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#post-file-name{
+  margin: 5px 0;
+  text-align: center;
+  /* border: 1px solid black; */
+}
+
+#add-to-post .fa-image, .fa-video{
+  color: black;
 }

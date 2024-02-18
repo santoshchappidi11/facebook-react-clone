@@ -2,7 +2,6 @@ import React from "react";
 import "./ProfilePhotos.css";
 
 const ProfilePhotos = ({ allPosts }) => {
- 
   return (
     <>
       <div id="profile-photos">
@@ -14,9 +13,14 @@ const ProfilePhotos = ({ allPosts }) => {
             {allPosts?.length ? (
               allPosts?.map((post) => (
                 <>
-                  <div className="single-photo" key={post._id}>
-                    <img src={post.image} alt="profile" />
-                  </div>
+                  {post?.image?.slice(-3) !== "mp4" && (
+                    <div className="single-photo" key={post._id}>
+                      <img
+                        src={`http://localhost:8000/uploads/${post?.image}`}
+                        alt="profile"
+                      />
+                    </div>
+                  )}
                 </>
               ))
             ) : (

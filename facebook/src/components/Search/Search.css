@@ -292,7 +292,8 @@
 
 #posts > .post > .postsec-2 > .caption {
   width: 100%;
-  padding: 0 14px;
+  padding: 0 50px 0 60px;
+  margin: 5px 0 10px 0;
   /* border: 1px solid red; */
 }
 
@@ -302,6 +303,11 @@
 
 #posts > .post > .postsec-3 {
   width: 100%;
+}
+
+.postsec-3 > .video > video{
+  width: 100%;
+  cursor: pointer;
 }
 
 #posts > .post > .postsec-3 > .img {

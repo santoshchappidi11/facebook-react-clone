@@ -2,6 +2,11 @@ import jwt from "jsonwebtoken";
 import UserModel from "../Models/UserModel.js";
 import PostModel from "../Models/PostModel.js";
 import { v4 as uuidv4 } from "uuid";
+// import fs from "fs";
+// import path from "path";
+// import { fileURLToPath } from "url";
+// import { dirname } from "path";
+import { multerUnlink } from "../utils/multer.js";
 
 export const getAllPosts = async (req, res) => {
   try {
@@ -40,13 +45,16 @@ export const getFollowingPosts = async (req, res) => {
     if (user) {
       let followingPosts = [];
 
-      for (var i = 0; i < user.followings.length; i++) {
-        const post = await PostModel.findOne({ userId: user.followings[i] });
-
+      for (var i = 0; i < user?.followings?.length; i++) {
+        const post = await PostModel.find({
+          userId: user?.followings[i].toString(),
+        });
         if (post) {
-          followingPosts.push(post);
+          followingPosts.push(...post);
         }
       }
+
+      console.log(followingPosts, "posts");
 
       return res.status(200).json({ success: true, posts: followingPosts });
     }
@@ -58,11 +66,23 @@ export const getFollowingPosts = async (req, res) => {
 };
 
 export const addPost = async (req, res) => {
-  try {
-    const { token, postImg, caption, profileImg, userFirstName, userLastName } =
-      req.body;
+  // console.log("here add post");
 
-    //   console.log(token, postImg, caption, profileImg, userFirstName, userLastName)
+  try {
+    const token = req?.headers?.authorization?.slice(7);
+
+    // console.log(req.body, "body here");
+    // console.log(req.file.filename, "file here");
+    const { caption, profileImg, userFirstName, userLastName } = req.body;
+
+    // console.log(
+    //   token,
+    //   postImg,
+    //   caption,
+    //   profileImg,
+    //   userFirstName,
+    //   userLastName
+    // );
 
     if (!token)
       return res
@@ -80,26 +100,104 @@ export const addPost = async (req, res) => {
 
     const user = await UserModel.findById(userId);
 
+    // console.log(req.file.path, "file path");
     if (user) {
-      const newPost = new PostModel({
-        image: postImg,
-        caption: caption,
-        userImage: profileImg,
-        userId: user._id,
-        userFirstName,
-        userLastName,
-      });
+      if (req.file && req.file.filename) {
+        const date = Date.now();
 
-      await newPost.save();
+        const modifiedDate = new Date(date);
+        const finalDate = modifiedDate.toDateString();
 
-      const allPosts = await PostModel.find({});
+        const newPost = new PostModel({
+          image: req.file.filename,
+          caption: caption,
+          userImage: profileImg,
+          userId: user._id,
+          userFirstName,
+          userLastName,
+          postedOn: finalDate,
+        });
+        await newPost.save();
+        const allPosts = await PostModel.find({});
 
+        return res
+          .status(200)
+          .json({ success: true, message: "New Post Addded!", allPosts });
+      }
+    } else {
       return res
-        .status(200)
-        .json({ success: true, message: "New Post Addded!", allPosts });
+        .status(404)
+        .json({ success: false, message: "No user found!" });
     }
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.message });
+  }
+};
 
-    return res.status(404).json({ success: false, message: "No user found!" });
+export const addVideoPost = async (req, res) => {
+  console.log("here add post");
+
+  try {
+    const token = req?.headers?.authorization?.slice(7);
+
+    // console.log(req.body, "body here");
+    // console.log(req.file.filename, "file here");
+    const { caption, profileImg, userFirstName, userLastName } = req.body;
+
+    // console.log(
+    //   token,
+    //   postImg,
+    //   caption,
+    //   profileImg,
+    //   userFirstName,
+    //   userLastName
+    // );
+
+    if (!token)
+      return res
+        .status(404)
+        .json({ success: false, message: "Token is required!" });
+
+    const decodedData = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!decodedData)
+      return res
+        .status(404)
+        .json({ success: false, message: "Not a valid token!" });
+
+    const userId = decodedData?.userId;
+
+    const user = await UserModel.findById(userId);
+
+    // console.log(req.file.path, "file path");
+    if (user) {
+      if (req.file && req.file.filename) {
+        const date = Date.now();
+
+        const modifiedDate = new Date(date);
+        const finalDate = modifiedDate.toDateString();
+
+        const newPost = new PostModel({
+          image: req.file.filename,
+          caption: caption,
+          userImage: profileImg,
+          userId: user._id,
+          userFirstName,
+          userLastName,
+          postedOn: finalDate,
+        });
+        await newPost.save();
+        const allPosts = await PostModel.find({});
+
+        return res
+          .status(200)
+          .json({ success: true, message: "New Post Addded!", allPosts });
+      }
+    } else {
+      return res
+        .status(404)
+        .json({ success: false, message: "No user found!" });
+    }
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
   }
@@ -107,10 +205,7 @@ export const addPost = async (req, res) => {
 
 export const deleteYourPost = async (req, res) => {
   try {
-    const { token, postId } = req.body;
-
-    console.log(token, "token");
-    console.log(postId, "post id");
+    const { token, postId, postImage } = req.body;
 
     if (!token)
       return res
@@ -134,6 +229,8 @@ export const deleteYourPost = async (req, res) => {
     const user = await UserModel.findById(userId);
 
     if (user) {
+      multerUnlink(postImage);
+
       const postDeleted = await PostModel.findOneAndDelete(
         { _id: postId },
         { userId },
@@ -143,9 +240,11 @@ export const deleteYourPost = async (req, res) => {
       if (postDeleted) {
         const allMyPosts = await PostModel.find({ userId });
 
-        return res
-          .status(200)
-          .json({ success: true, message: "Post Deleted!", posts: allMyPosts });
+        return res.status(200).json({
+          success: true,
+          message: "Post Deleted!",
+          posts: allMyPosts,
+        });
       }
 
       return res.status(404).json({
@@ -156,6 +255,7 @@ export const deleteYourPost = async (req, res) => {
 
     return res.status(404).json({ success: false, message: "User not found!" });
   } catch (error) {
+    console.log(error, "error 500 delete post");
     return res.status(500).json({ success: false, error: error.message });
   }
 };
@@ -256,12 +356,14 @@ export const likeUnlikePost = async (req, res) => {
       await updatedPost.save();
       const allPosts = await PostModel.find({});
       const singlePost = await PostModel.findById(postId);
+
       return res.status(200).json({
         success: true,
         message: "You unliked the post!",
         isPostLike: false,
         allPosts,
         singlePost,
+        followingPosts: allPosts,
       });
     }
     return res.status(404).json({ success: false, message: "No post found!" });
@@ -298,13 +400,15 @@ export const addComment = async (req, res) => {
         const randomId = uuidv4();
         const commentId = randomId.slice(0, 10);
 
+        let profileImage = profileImg ? profileImg : "";
+
         const commentObj = {
           userId: user._id,
           commentId,
           comment: userComment,
           firstName,
           lastName,
-          profileImg,
+          profileImg: profileImage,
         };
 
         post?.comments?.push(commentObj);

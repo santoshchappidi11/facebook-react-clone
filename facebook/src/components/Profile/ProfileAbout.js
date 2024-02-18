@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ProfileAbout.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,8 +10,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const ProfileAbout = ({ searchUser }) => {
+  // console.log(searchUser, "user here");
+
   const [isShowBasicInfo, setIsShowBasicInfo] = useState(true);
   const [isShowTransparencyInfo, setIsShowTransparencyInfo] = useState(false);
+  const [accountCreated, setAccountCreated] = useState("");
+
+  useEffect(() => {
+    if (searchUser?.date) {
+      const date = new Date(searchUser?.date);
+      setAccountCreated(date.toLocaleDateString());
+    }
+  }, [searchUser]);
 
   const handleMultiplePages = (e) => {
     if (e.target.innerText == "Contact and basic info") {
@@ -73,7 +83,7 @@ const ProfileAbout = ({ searchUser }) => {
                 <div className="transp-info">
                   <FontAwesomeIcon icon={faClock} className="clock" />
                   <div>
-                    <h4>10 February 2016</h4>
+                    <h4>{accountCreated}</h4>
                     <p>Creation date</p>
                   </div>
                 </div>

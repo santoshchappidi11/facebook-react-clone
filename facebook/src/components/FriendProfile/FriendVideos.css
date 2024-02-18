@@ -37,7 +37,7 @@
   /* border: 1px solid green; */
 }
 
-#all-videos > .single-video {
+#all-videos > .video {
   height: 160px;
   width: 25%;
   border-radius: 8px;
@@ -46,7 +46,7 @@
   border: 1px solid lightgrey;
 }
 
-.single-video > img {
+#all-videos > .video > video{
   height: 100%;
   width: 100%;
   border-radius: 8px;

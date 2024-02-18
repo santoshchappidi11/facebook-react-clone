@@ -28,6 +28,13 @@ const postSchema = new Schema({
   comments: {
     type: [Object],
   },
+  postedOn: {
+    type: String,
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 export default mongoose.model("Post", postSchema);

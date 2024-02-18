@@ -11,7 +11,6 @@
   width: 25%;
   height: 100%;
   background-color: white;
-
   /* border: 1px solid black; */
 }
 
@@ -32,8 +31,8 @@
 }
 
 #create-story > #left > #left-main > #left-header > .fa-xmark {
-  height: 72%;
-  width: 40px;
+  height: 70%;
+  width: 12%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -89,7 +88,6 @@
   display: flex;
   align-items: center;
   padding: 0 0 20px 0;
-  /* border: 1px solid black; */
 }
 
 #body-main > #body-user-img {
@@ -97,6 +95,7 @@
   width: 60px;
   border-radius: 50%;
   margin: 0 10px;
+  border: 1px solid rgb(227, 227, 227);
 }
 
 #body-main > #body-user-img > img {
@@ -152,9 +151,25 @@
   cursor: pointer;
 }
 
+
+#create-story > #right{
+  background-color: rgb(240, 242, 245);
+}
+
+#create-story > #right > #right-header{
+  height: 10%;
+  width: 25%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  float: right;
+  /* box-shadow: rgba(99, 99, 99, 0.2) 0px 0px 5px 0px; */
+}
+
+
 #create-story > #right > #right-header > div {
-  height: 78%;
-  width: 40px;
+  height: 70%;
+  width: 20%;
   margin: 0 4px;
   display: flex;
   justify-content: center;
@@ -171,7 +186,7 @@
 }
 
 #create-story > #right > #right-body {
-  height: 92%;
+  height: 90%;
   width: 100%;
   display: flex;
   justify-content: center;

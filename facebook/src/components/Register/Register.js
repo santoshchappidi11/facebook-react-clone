@@ -3,6 +3,7 @@ import "./Register.css";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../../ApiConfig/index.js";
+import fbLogo from "../../images/facebook-logo.svg";
 
 const Register = () => {
   const navigateTo = useNavigate();
@@ -47,7 +48,7 @@ const Register = () => {
               password: "",
               confirmPassword: "",
             });
-            navigateTo("/login");
+            navigateTo("/");
           } else {
             toast.error(response.data.message);
           }
@@ -66,10 +67,7 @@ const Register = () => {
     <div id="register-screen">
       <div id="logo">
         <div id="img">
-          <img
-            src="https://static.xx.fbcdn.net/rsrc.php/y8/r/dF5SId3UHWd.svg"
-            alt="logo"
-          />
+          <img src={fbLogo} alt="logo" />
         </div>
       </div>
       <div id="register">
@@ -145,9 +143,7 @@ const Register = () => {
           <div id="sign-in">
             <p>
               Already have an account?{" "}
-              <span onClick={() => navigateTo("/login")}>
-                Login for Facebook
-              </span>
+              <span onClick={() => navigateTo("/")}>Login for Facebook</span>
             </p>
           </div>
         </div>

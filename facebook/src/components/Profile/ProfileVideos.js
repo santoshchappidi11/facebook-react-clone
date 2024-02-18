@@ -13,9 +13,16 @@ const ProfileVideos = ({ allPosts }) => {
             {allPosts?.length ? (
               allPosts?.map((post) => (
                 <>
-                  <div className="single-video" key={post._id}>
-                    <img src={post.image} alt="profile" />
-                  </div>
+                  {post?.image?.slice(-3) === "mp4" && (
+                    <div className="video">
+                      <video controls autoPlay>
+                        <source
+                          src={`http://localhost:8000/uploads/${post?.image}`}
+                          type="video/mp4"
+                        />
+                      </video>
+                    </div>
+                  )}
                 </>
               ))
             ) : (

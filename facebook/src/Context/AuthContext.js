@@ -9,6 +9,7 @@ const initialState = {
   currentUser: null,
   followings: null,
   followers: null,
+  profileImgUpdated: null,
 };
 
 const reducer = (state, action) => {
@@ -24,6 +25,9 @@ const reducer = (state, action) => {
 
     case "FOLLOWERS":
       return { ...state, followers: action.payload };
+
+    case "PROFILE":
+      return { ...state, profileImgUpdated: action.payload };
 
     default:
       return state;
@@ -49,6 +53,13 @@ const AuthProvider = ({ children }) => {
 
     dispatch({
       type: "LOGOUT",
+    });
+  };
+
+  const ProfileChanged = (image) => {
+    dispatch({
+      type: "PROFILE",
+      payload: image,
     });
   };
 
@@ -101,7 +112,15 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContexts.Provider
-      value={{ state, Login, Logout, dispatch, UserFollowings, UserFollowers }}
+      value={{
+        state,
+        Login,
+        Logout,
+        dispatch,
+        UserFollowings,
+        UserFollowers,
+        ProfileChanged,
+      }}
     >
       {children}
     </AuthContexts.Provider>

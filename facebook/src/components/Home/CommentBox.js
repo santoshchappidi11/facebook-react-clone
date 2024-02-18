@@ -46,7 +46,8 @@ const CommentBox = ({ postId, setAllPosts, setSinglePost }) => {
     if (userComment) {
       const token = JSON.parse(localStorage.getItem("Token"));
 
-      if (token && firstName && lastName && profileImg) {
+      if (token && firstName && lastName) {
+        console.log(token, firstName, lastName, profileImg);
         try {
           const response = await api.post("/add-comment", {
             userComment,

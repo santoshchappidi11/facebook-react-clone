@@ -139,11 +139,21 @@ const FriendProfile = () => {
         <div id="profile-up">
           <div id="profile-cover-img">
             <div id="cover-img">
-              <img src={coverImg} alt="cover" />
+              <img
+                src={coverImg && `http://localhost:8000/uploads/${coverImg}`}
+                alt="cover"
+              />
             </div>
 
             <div id="profile-img">
-              <img src={profileImg ? profileImg : emptyUser} alt="profile" />
+              <img
+                src={
+                  profileImg
+                    ? `http://localhost:8000/uploads/${profileImg}`
+                    : emptyUser
+                }
+                alt="profile"
+              />
               {/* <i class="fa-solid fa-camera fa-lg"></i> */}
             </div>
           </div>

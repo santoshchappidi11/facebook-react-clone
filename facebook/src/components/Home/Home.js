@@ -16,6 +16,8 @@ import StoryPreview from "./StoryPreview";
 import HomeLeft from "./HomeLeft";
 import HomeRight from "./HomeRight";
 import emptyUser from "./../../images/empty-user.jpg";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import ReactTimeAgo from "react-time-ago";
 // import heart from "./../../images/heart.JPG";
 
 const Home = () => {
@@ -28,7 +30,7 @@ const Home = () => {
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
   const [allPosts, setAllPosts] = useState([]);
-  const [followingPosts, setFollowingPosts] = useState();
+  const [followingPosts, setFollowingPosts] = useState([]);
   const [allStoryUsers, setAllStoryUsers] = useState();
   const [storyCount, setStoryCount] = useState();
   const [page, setPage] = useState(1);
@@ -38,6 +40,15 @@ const Home = () => {
   const [isShowFollowingPosts, setIsShowFollowingPosts] = useState(false);
   const [isStoryLoading, setIsStoryLoading] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
+  const [postFile, setPostFile] = useState(null);
+  const [postVideoFile, setPostVideoFile] = useState(null);
+  const [postFileName, setPostFileName] = useState("");
+  const [isShowRemove, setIsShowRemove] = useState(false);
+
+  // console.log(postVideoFile, "video file");
+  // console.log(caption, "caption video");
+
+  // console.log(followingPosts, "following posts");
 
   useEffect(() => {
     const totalPageCount = Math.ceil(storyCount / pageSize);
@@ -86,6 +97,10 @@ const Home = () => {
 
   const closeCreatePostPopup = () => {
     setIsShowCreatePost(false);
+    setPostImg("");
+    setIsShowRemove(false);
+    setCaption("");
+    setPostFileName("");
   };
 
   useEffect(() => {
@@ -134,7 +149,8 @@ const Home = () => {
           toast.error(response.data.message);
         }
       } catch (error) {
-        toast.error(error.response.data.message);
+        setIsLoading(false);
+        console.log(error.response.data.message);
       }
     };
 
@@ -188,44 +204,72 @@ const Home = () => {
     setCaption(e.target.value);
   };
 
-  const handleProfileImg = (e) => {
-    const reader = new FileReader();
-
-    const fileData = e.target.files[0];
-
-    if (fileData) {
-      reader.readAsDataURL(fileData);
+  const handlePostImg = (e) => {
+    if (e.target.files[0].name.slice(-3) !== "mp4") {
+      setPostFile(e.target.files[0]);
+      setPostImg(URL.createObjectURL(e.target.files[0]));
+      setIsShowRemove(true);
+      setPostFileName(e.target.files[0].name);
+    } else {
+      toast.error("Please select a valid image to post");
     }
-
-    reader.onload = () => {
-      setPostImg(reader.result);
-      // console.log(reader.result, "URL");
-    };
   };
 
-  const handleCreatePostSubmit = async (e) => {
-    e.preventDefault();
+  const handlePostVideo = (e) => {
+    if (e.target.files[0].name.slice(-3) === "mp4") {
+      setPostVideoFile(e.target.files[0]);
+      setPostFileName(e.target.files[0].name);
+      setIsShowRemove(true);
+    } else {
+      toast.error("Please select a valid video to post!");
+    }
+  };
 
+  const handleRemovePostImg = () => {
+    setPostImg("");
+    setIsShowRemove(false);
+    setPostFileName("");
+  };
+
+  const handleCreateImgPost = async () => {
     if (postImg && caption) {
       const token = JSON.parse(localStorage.getItem("Token"));
 
+      const formData = new FormData();
+      if (postFile) formData.append("postImg", postFile);
+      if (caption) formData.append("caption", caption);
+      if (profileImg) formData.append("profileImg", profileImg);
+      if (userFirstName) formData.append("userFirstName", userFirstName);
+      if (userLastName) formData.append("userLastName", userLastName);
+
       if (token) {
         try {
-          const response = await api.post("/add-post", {
-            token,
-            postImg,
-            caption,
-            profileImg,
-            userFirstName,
-            userLastName,
-          });
+          const response = await api.post(
+            "/add-post",
+            // token,
+            // postImg,
+            // caption,
+            // profileImg,
+            // userFirstName,
+            // userLastName,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
           if (response.data.success) {
             toast.success(response.data.message);
             setAllPosts(response.data.allPosts);
             setCaption("");
             setPostImg("");
+            setPostFileName("");
+            setPostFile("");
             setIsShowCreatePost(false);
+            setIsShowRemove(false);
           } else {
             toast.error(response.data.message);
           }
@@ -234,7 +278,69 @@ const Home = () => {
         }
       }
     } else {
-      toast.error("please select caption and image to post something!");
+      toast.error("please select caption and image/video to post something!");
+    }
+  };
+
+  const handleCreateVideoPost = async (postVideoFile, caption) => {
+    if (postVideoFile && caption) {
+      const token = JSON.parse(localStorage.getItem("Token"));
+
+      const formData = new FormData();
+      if (postVideoFile) formData.append("postVideo", postVideoFile);
+      if (caption) formData.append("caption", caption);
+      if (profileImg) formData.append("profileImg", profileImg);
+      if (userFirstName) formData.append("userFirstName", userFirstName);
+      if (userLastName) formData.append("userLastName", userLastName);
+
+      if (token) {
+        try {
+          const response = await api.post(
+            "/add-video-post",
+            // token,
+            // postImg,
+            // caption,
+            // profileImg,
+            // userFirstName,
+            // userLastName,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.data.success) {
+            toast.success(response.data.message);
+            setAllPosts(response.data.allPosts);
+            setCaption("");
+            setPostImg("");
+            setPostFileName("");
+            setPostVideoFile("");
+            setIsShowCreatePost(false);
+            setIsShowRemove(false);
+          } else {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          toast.error(error.response.data.message);
+        }
+      }
+    } else {
+      toast.error("please select caption and image/video to post something!");
+    }
+  };
+
+  const handleCreatePostSubmit = async (e) => {
+    e.preventDefault();
+
+    console.log(postFile);
+    if (postFile && caption) {
+      handleCreateImgPost();
+    } else {
+      handleCreateVideoPost(postVideoFile, caption);
     }
   };
 
@@ -272,7 +378,11 @@ const Home = () => {
             <div id="top">
               <div id="post-profile-img">
                 <img
-                  src={profileImg ? profileImg : emptyUser}
+                  src={
+                    profileImg
+                      ? `http://localhost:8000/uploads/${profileImg}`
+                      : emptyUser
+                  }
                   alt="profile"
                   onClick={() => navigateTo("/profile")}
                 />
@@ -289,7 +399,7 @@ const Home = () => {
                 />
                 <p>Live video</p>
               </div>
-              <div>
+              <div onClick={openCreatePostPopup}>
                 <img
                   src="	https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/Ivw7nhRtXyo.png"
                   alt="post"
@@ -337,7 +447,7 @@ const Home = () => {
             <>
               {isShowFeedPosts && (
                 <div id="posts">
-                  {allPosts?.length ? (
+                  {allPosts?.length > 0 ? (
                     allPosts?.map((post) => (
                       <div className="post" key={post._id}>
                         <div className="postsec-1">
@@ -345,7 +455,9 @@ const Home = () => {
                             <div className="post-img">
                               <img
                                 src={
-                                  post?.userImage ? post?.userImage : emptyUser
+                                  post?.userImage
+                                    ? `http://localhost:8000/uploads/${post?.userImage}`
+                                    : emptyUser
                                 }
                                 alt="post-img"
                                 onClick={() => navigateToProfile(post?.userId)}
@@ -358,7 +470,12 @@ const Home = () => {
                                 {post?.userFirstName} {post?.userLastName}
                               </h4>
                               <p>
-                                2 d · <i class="fa-solid fa-earth-asia"></i>
+                                <ReactTimeAgo
+                                  date={post?.date}
+                                  locale="en-US"
+                                />
+                                {/* {post?.postedOn}  */} ·{" "}
+                                <i class="fa-solid fa-earth-asia"></i>
                               </p>
                             </div>
                           </div>
@@ -369,16 +486,37 @@ const Home = () => {
                         </div>
                         <div className="postsec-2">
                           <div className="caption">
-                            <p>{post.caption} 😂🤗</p>
+                            <p>{post.caption}</p>
                           </div>
                         </div>
                         <div
                           className="postsec-3"
                           onClick={() => navigateTo(`/single-post/${post._id}`)}
                         >
-                          <div className="img">
-                            <img src={post?.image} alt="postimage" />
-                          </div>
+                          {post?.image?.slice(-3) === "mp4" ? (
+                            <div className="video">
+                              <video controls autoPlay>
+                                <source
+                                  src={`http://localhost:8000/uploads/${post?.image}`}
+                                  type="video/mp4"
+                                />
+                              </video>
+                            </div>
+                          ) : (
+                            <div className="img">
+                              <img
+                                src={`http://localhost:8000/uploads/${post?.image}`}
+                                alt="postimage"
+                              />
+                            </div>
+                          )}
+
+                          {/* <div className="img">
+                            <img
+                              src={`http://localhost:8000/uploads/${post?.image}`}
+                              alt="postimage"
+                            />
+                          </div> */}
                         </div>
                         <div className="postsec-4">
                           <div className="post-activity">
@@ -394,7 +532,7 @@ const Home = () => {
                                   ? "comments"
                                   : "comment"}
                               </p>
-                              <p>112 shares</p>
+                              <p>0 shares</p>
                             </div>
                           </div>
                         </div>
@@ -452,7 +590,9 @@ const Home = () => {
                             <div className="post-img">
                               <img
                                 src={
-                                  post?.userImage ? post.userImage : emptyUser
+                                  post?.userImage
+                                    ? `http://localhost:8000/uploads/${post?.userImage}`
+                                    : emptyUser
                                 }
                                 alt="post-img"
                                 onClick={() => navigateToProfile(post?.userId)}
@@ -464,9 +604,17 @@ const Home = () => {
                               >
                                 {post?.userFirstName} {post?.userLastName}
                               </h4>
-                              <p>
-                                2 d · <i class="fa-solid fa-earth-asia"></i>
-                              </p>
+
+                              {post?.date && (
+                                <p>
+                                  <ReactTimeAgo
+                                    date={post?.date}
+                                    locale="en-US"
+                                  />
+                                  {/* {post?.postedOn} */} ·{" "}
+                                  <i class="fa-solid fa-earth-asia"></i>
+                                </p>
+                              )}
                             </div>
                           </div>
                           <div className="options">
@@ -476,16 +624,38 @@ const Home = () => {
                         </div>
                         <div className="postsec-2">
                           <div className="caption">
-                            <p>{post.caption} 😂🤗</p>
+                            <p>{post?.caption}</p>
                           </div>
                         </div>
                         <div
                           className="postsec-3"
-                          onClick={() => navigateTo(`/single-post/${post._id}`)}
+                          onClick={() =>
+                            navigateTo(`/single-post/${post?._id}`)
+                          }
                         >
-                          <div className="img">
-                            <img src={post?.image} alt="postimage" />
-                          </div>
+                          {post?.image?.slice(-3) === "mp4" ? (
+                            <div className="video">
+                              <video controls autoPlay>
+                                <source
+                                  src={`http://localhost:8000/uploads/${post?.image}`}
+                                  type="video/mp4"
+                                />
+                              </video>
+                            </div>
+                          ) : (
+                            <div className="img">
+                              <img
+                                src={`http://localhost:8000/uploads/${post?.image}`}
+                                alt="postimage"
+                              />
+                            </div>
+                          )}
+                          {/* <div className="img">
+                            <img
+                              src={`http://localhost:8000/uploads/${post?.image}`}
+                              alt="postimage"
+                            />
+                          </div> */}
                         </div>
                         <div className="postsec-4">
                           <div className="post-activity">
@@ -501,16 +671,16 @@ const Home = () => {
                                   ? "comments"
                                   : "comment"}
                               </p>
-                              <p>112 shares</p>
+                              <p>0 shares</p>
                             </div>
                           </div>
                         </div>
-                        <div className="postsec-5">
+                        {/* <div className="postsec-5">
                           <div>
                             <LikePost
-                              postId={post._id}
+                              postId={post?._id}
                               likes={post?.likes}
-                              setAllPosts={setAllPosts}
+                              setFollowingPosts={setFollowingPosts}
                             />
                             <p>Like</p>
                           </div>
@@ -522,13 +692,13 @@ const Home = () => {
                             <FontAwesomeIcon icon={faShare} />
                             <p>Share</p>
                           </div>
-                        </div>
-                        {
+                        </div> */}
+                        {/* {
                           <CommentBox
-                            postId={post._id}
+                            postId={post?._id}
                             setAllPosts={setAllPosts}
                           />
-                        }
+                        } */}
                       </div>
                     ))
                   ) : (
@@ -556,12 +726,19 @@ const Home = () => {
                 ></i>
               </div>
               <div id="create-post-body">
-                <form onSubmit={handleCreatePostSubmit}>
+                <form
+                  onSubmit={handleCreatePostSubmit}
+                  encType="multipart/form-data"
+                >
                   <div id="post-body-1">
                     {/* <i class="fa-solid fa-circle-user"></i> */}
                     <div id="post-profile-img">
                       <img
-                        src={profileImg ? profileImg : emptyUser}
+                        src={
+                          profileImg
+                            ? `http://localhost:8000/uploads/${profileImg}`
+                            : emptyUser
+                        }
                         alt="profile"
                       />
                     </div>
@@ -598,19 +775,37 @@ const Home = () => {
                     )}
                     <i class="fa-regular fa-face-smile fa-xl"></i>
                   </div>
+                  <p id="post-file-name">{postFileName}</p>
+                  {isShowRemove && (
+                    <div id="remove-post-img" onClick={handleRemovePostImg}>
+                      <h4>
+                        Remove <FontAwesomeIcon icon={faXmark} />
+                      </h4>
+                    </div>
+                  )}
                   <div id="post-body-4">
                     <h4>Add to your post</h4>
                     <div id="add-to-post">
                       <label>
-                        {/* <br /> */}
-                        {/* <i class="fa fa-xl fa-camera"></i> */}
-                        <img
+                        <i class="fa-regular fa-image fa-xl"></i>
+                        {/* <img
                           src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/Ivw7nhRtXyo.png"
                           alt="story"
+                        /> */}
+                        <input type="file" onChange={handlePostImg} />
+                      </label>
+                      <label>
+                        <i class="fa-solid fa-video fa-xl"></i>
+                        {/* <img
+                          src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/Ivw7nhRtXyo.png"
+                          alt="story"
+                        /> */}
+                        <input
+                          type="file"
+                          name="video"
+                          accept="video/*"
+                          onChange={handlePostVideo}
                         />
-                        <input type="file" onClick={handleProfileImg} />
-                        {/* <br /> */}
-                        {/* <span id="profileImageName"></span> */}
                       </label>
                       <img
                         src="https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/b37mHA1PjfK.png"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Profile.css";
 import Navbar from "../Navbar/Navbar";
 import editcover from "./../../images/editcover.jpg";
@@ -14,13 +14,23 @@ import ProfileFriends from "./ProfileFriends";
 import ProfilePhotos from "./ProfilePhotos";
 import ProfileVideos from "./ProfileVideos";
 import emptyUser from "./../../images/empty-user.jpg";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { AuthContexts } from "../../Context/AuthContext";
+
 // import like from "./../../images/like.JPG";
 
 const Profile = () => {
+  const { ProfileChanged } = useContext(AuthContexts);
   const navigateTo = useNavigate();
   const [isShowEditProfile, setIsShowEditProfile] = useState(false);
   const [profileImg, setProfileImg] = useState("");
   const [coverImg, setCoverImg] = useState("");
+  const [profileFile, setProfileFile] = useState(null);
+  const [coverFile, setCoverFile] = useState(null);
+  const [editProfileImg, setEditProfileImg] = useState("");
+  const [editCoverImg, setEditCoverImg] = useState("");
+  const [deleteProfileImg, setDeleteProfileImg] = useState("");
+  const [deleteCoverImg, setDeleteCoverImg] = useState("");
   const [bioData, setBioData] = useState("");
   const [allPosts, setAllPosts] = useState([]);
   const [searchUser, setSearchUser] = useState({});
@@ -30,6 +40,13 @@ const Profile = () => {
   const [isShowPhotos, setIsShowPhotos] = useState(false);
   const [isShowVideos, setIsShowVideos] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isShowRemoveProfileImg, setIsShowRemoveProfileImg] = useState(true);
+  const [isShowRemoveCoverImg, setIsShowRemoveCoverImg] = useState(true);
+
+  // console.log(isShowRemoveProfileImg, "remove btn");
+  // console.log(profileFile, "file here");
+  // console.log(profileImg, "profile img here");
+  // console.log(coverImg, "cover img here");
 
   const openEditProfilePopup = () => {
     setIsShowEditProfile(true);
@@ -81,6 +98,22 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    if (profileFile == null && !profileImg) {
+      setIsShowRemoveProfileImg(false);
+    } else {
+      setIsShowRemoveProfileImg(true);
+    }
+  }, [profileFile, profileImg]);
+
+  useEffect(() => {
+    if (coverFile == null && !coverImg) {
+      setIsShowRemoveCoverImg(false);
+    } else {
+      setIsShowRemoveCoverImg(true);
+    }
+  }, [coverFile, coverImg]);
+
+  useEffect(() => {
     const getSearchResults = async () => {
       const token = JSON.parse(localStorage.getItem("Token"));
 
@@ -119,6 +152,10 @@ const Profile = () => {
             setProfileImg(response.data.profileImg);
             setCoverImg(response.data.coverImg);
             setBioData(response.data.bioData);
+            setEditProfileImg(response.data.profileImg);
+            setEditCoverImg(response.data.coverImg);
+            setDeleteProfileImg(response.data.profileImg);
+            setDeleteCoverImg(response.data.coverImg);
           } else {
             toast.error(response.data.message);
           }
@@ -130,12 +167,16 @@ const Profile = () => {
     getProfileDetails();
   }, []);
 
-  const deletePost = async (postId) => {
+  const deletePost = async (postId, postImage) => {
     const token = JSON.parse(localStorage.getItem("Token"));
 
     if (token) {
       try {
-        const response = await api.post("/delete-your-post", { token, postId });
+        const response = await api.post("/delete-your-post", {
+          token,
+          postId,
+          postImage,
+        });
 
         if (response.data.success) {
           setAllPosts(response.data.posts);
@@ -150,36 +191,31 @@ const Profile = () => {
   };
 
   const handleProfileImg = (e) => {
-    const reader = new FileReader();
-
-    const fileData = e.target.files[0];
-
-    if (fileData) {
-      reader.readAsDataURL(fileData);
-    }
-
-    reader.onload = () => {
-      setProfileImg(reader.result);
-      console.log(reader.result, "URL");
-    };
+    setProfileFile(e.target.files[0]);
+    setEditProfileImg(URL.createObjectURL(e.target.files[0]));
+    setIsShowRemoveProfileImg(true);
   };
 
   const handleCoverImage = (e) => {
-    const reader = new FileReader();
-
-    const fileData = e.target.files[0];
-
-    if (fileData) {
-      reader.readAsDataURL(fileData);
-    }
-
-    reader.onload = () => {
-      setCoverImg(reader.result);
-    };
+    setCoverFile(e.target.files[0]);
+    setEditCoverImg(URL.createObjectURL(e.target.files[0]));
+    setIsShowRemoveCoverImg(true);
   };
 
   const handleBioValue = (e) => {
     setBioData(e.target.value);
+  };
+
+  const handleRemoveProfileImg = () => {
+    setProfileFile(null);
+    setEditProfileImg("");
+    setIsShowRemoveProfileImg(false);
+  };
+
+  const handleRemoveCoverImg = () => {
+    setCoverFile(null);
+    setEditCoverImg("");
+    setIsShowRemoveCoverImg(false);
   };
 
   const handleUserProfileSubmit = async (e) => {
@@ -187,17 +223,40 @@ const Profile = () => {
 
     const token = JSON.parse(localStorage.getItem("Token"));
 
+    const formData = new FormData();
+    if (profileFile) formData.append("profileImg", profileFile);
+    if (coverFile) formData.append("coverImg", coverFile);
+    if (bioData) formData.append("bioData", bioData);
+    if (editProfileImg) formData.append("profileNow", editProfileImg);
+    if (editCoverImg) formData.append("coverNow", editCoverImg);
+    if (deleteProfileImg) formData.append("deleteProfileImg", deleteProfileImg);
+    if (deleteCoverImg) formData.append("deleteCoverImg", deleteCoverImg);
+
     if (token) {
       try {
-        const response = await api.post("/new-user-profile", {
-          bioData,
-          coverImg,
-          profileImg,
-          token,
-        });
+        const response = await api.post(
+          "/new-user-profile",
+          // bioData,
+          // coverImg: editProfileImg,
+          // profileImg: editCoverImg,
+          // token,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.data.success) {
           toast.success("Updated your profile!");
+          setProfileImg(response.data.profileImage);
+          setCoverImg(response.data.coverImage);
+          setBioData(response.data.bioData);
+          setDeleteProfileImg(response.data.profileImage);
+          setDeleteCoverImg(response.data.coverImage);
+          ProfileChanged(response.data.profileImage);
           setIsShowEditProfile(false);
         } else {
           toast.error(response.data.message);
@@ -214,18 +273,28 @@ const Profile = () => {
       <div id="profile-up">
         <div id="profile-cover-img">
           <div id="cover-img">
-            <img src={coverImg} alt="cover" />
+            <img
+              src={coverImg ? `http://localhost:8000/uploads/${coverImg}` : ""}
+              alt="cover"
+            />
           </div>
           <div className="cover-avatar">
             <i class="fa-solid fa-user-pen"></i>
             <h4>Create with avatar</h4>
           </div>
-          <div className="cover-photo">
+          <div className="cover-photo" onClick={openEditProfilePopup}>
             <i class="fa-solid fa-camera"></i>
             <h4>Add Cover Photo</h4>
           </div>
-          <div id="profile-img">
-            <img src={profileImg ? profileImg : emptyUser} alt="profile" />
+          <div id="profile-img" onClick={openEditProfilePopup}>
+            <img
+              src={
+                profileImg
+                  ? `http://localhost:8000/uploads/${profileImg}`
+                  : emptyUser
+              }
+              alt="profile"
+            />
             <i class="fa-solid fa-camera fa-lg"></i>
           </div>
         </div>
@@ -294,6 +363,7 @@ const Profile = () => {
       <div id="profile-all-activities">
         {isShowPosts && (
           <ProfilePosts
+            bioData={bioData}
             allPosts={allPosts}
             searchUser={searchUser}
             deletePost={deletePost}
@@ -318,7 +388,10 @@ const Profile = () => {
               ></i>
             </div>
             <div id="edit-profile-body">
-              <form onSubmit={handleUserProfileSubmit}>
+              <form
+                onSubmit={handleUserProfileSubmit}
+                encType="multipart/form-data"
+              >
                 <div className="edit-sec-1">
                   <div className="profile-picture-header">
                     <h3>Profile Picture</h3>
@@ -326,17 +399,35 @@ const Profile = () => {
                     <label>
                       Add <br />
                       <i class="fa fa-2x fa-camera"></i>
-                      <input type="file" onClick={handleProfileImg} />
+                      <input type="file" onChange={handleProfileImg} />
                       <br />
                       <span id="profileImageName"></span>
                     </label>
                   </div>
                   <div id="profile-image">
-                    <img
-                      src={profileImg ? profileImg : emptyUser}
-                      alt="profile"
-                    />
+                    {profileFile || editProfileImg ? (
+                      <img
+                        src={
+                          profileFile
+                            ? editProfileImg
+                            : `http://localhost:8000/uploads/${editProfileImg}`
+                        }
+                        alt="profile"
+                      />
+                    ) : (
+                      <img src={emptyUser} alt="profile" />
+                    )}
                   </div>
+                  {isShowRemoveProfileImg && (
+                    <div
+                      className="remove-editprofile-img"
+                      onClick={handleRemoveProfileImg}
+                    >
+                      <h4>
+                        Remove <FontAwesomeIcon icon={faXmark} />
+                      </h4>
+                    </div>
+                  )}
                 </div>
                 <div className="edit-sec-2">
                   <div className="cover-photo">
@@ -345,14 +436,35 @@ const Profile = () => {
                     <label>
                       Add <br />
                       <i class="fa fa-2x fa-camera"></i>
-                      <input type="file" onClick={handleCoverImage} />
+                      <input type="file" onChange={handleCoverImage} />
                       <br />
                       <span id="coverImageName"></span>
                     </label>
                   </div>
                   <div id="cover-image">
-                    <img src={coverImg ? coverImg : editcover} alt="cover" />
+                    {coverFile || editCoverImg ? (
+                      <img
+                        src={
+                          coverFile
+                            ? editCoverImg
+                            : `http://localhost:8000/uploads/${editCoverImg}`
+                        }
+                        alt="cover"
+                      />
+                    ) : (
+                      <img src={editcover} alt="cover" />
+                    )}
                   </div>
+                  {isShowRemoveCoverImg && (
+                    <div
+                      className="remove-editprofile-img"
+                      onClick={handleRemoveCoverImg}
+                    >
+                      <h4>
+                        Remove <FontAwesomeIcon icon={faXmark} />
+                      </h4>
+                    </div>
+                  )}
                 </div>
                 <div className="edit-sec-3">
                   <div className="edit-avatar">

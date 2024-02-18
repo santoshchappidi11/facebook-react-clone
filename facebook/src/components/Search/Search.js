@@ -14,6 +14,7 @@ import like from "./../../images/like.JPG";
 import { AuthContexts } from "../../Context/AuthContext";
 import FollowBtn from "./FollowBtn";
 import emptyUser from "./../../images/empty-user.jpg";
+import ReactTimeAgo from "react-time-ago";
 
 const Search = () => {
   const { state, UserFollowings, UserFollowers } = useContext(AuthContexts);
@@ -142,7 +143,9 @@ const Search = () => {
             <div id="middle-header-img">
               <img
                 src={
-                  searchUser?.profileImg ? searchUser?.profileImg : emptyUser
+                  searchUser?.profileImg
+                    ? `http://localhost:8000/uploads/${searchUser?.profileImg}`
+                    : emptyUser
                 }
                 alt="search"
                 onClick={() => navigateToProfile(searchUser?._id)}
@@ -161,7 +164,9 @@ const Search = () => {
           <div id="middle-header-middle">
             <p>
               <FontAwesomeIcon icon={faCircleInfo} className="profile-info" />
-              {searchUser?.bioData}
+              {searchUser?.bioData
+                ? searchUser?.bioData
+                : `No Bio Yet from ${searchUser?.firstName}!`}
             </p>
             <p>
               {" "}
@@ -177,7 +182,7 @@ const Search = () => {
           <div id="middle-header-down">
             <FollowBtn
               isFollow={isFollow}
-              searchUserId={searchUser._id}
+              searchUserId={searchUser?._id}
               sendAndRemoveFriendRequest={sendAndRemoveFriendRequest}
             />
           </div>
@@ -195,12 +200,16 @@ const Search = () => {
             <div id="posts">
               {allPosts?.length ? (
                 allPosts?.map((post) => (
-                  <div className="post" key={post._id}>
+                  <div className="post" key={post?._id}>
                     <div className="postsec-1">
                       <div className="post-user">
                         <div className="post-img">
                           <img
-                            src={post?.userImage ? post?.userImage : emptyUser}
+                            src={
+                              post?.userImage
+                                ? `http://localhost:8000/uploads/${post?.userImage}`
+                                : emptyUser
+                            }
                             alt="post-img"
                             onClick={() => navigateToProfile(post?.userId)}
                           />
@@ -210,7 +219,9 @@ const Search = () => {
                             {post?.userFirstName} {post?.userLastName}
                           </h4>
                           <p>
-                            2 d · <i class="fa-solid fa-earth-asia"></i>
+                            <ReactTimeAgo date={post?.date} locale="en-US" />
+                            {/* {post?.postedOn} */} ·{" "}
+                            <i class="fa-solid fa-earth-asia"></i>
                           </p>
                         </div>
                       </div>
@@ -221,16 +232,36 @@ const Search = () => {
                     </div>
                     <div className="postsec-2">
                       <div className="caption">
-                        <p>{post.caption} 😂🤗</p>
+                        <p>{post?.caption}</p>
                       </div>
                     </div>
                     <div
                       className="postsec-3"
-                      onClick={() => navigateTo(`/single-post/${post._id}`)}
+                      onClick={() => navigateTo(`/single-post/${post?._id}`)}
                     >
-                      <div className="img">
-                        <img src={post?.image} alt="postimage" />
-                      </div>
+                      {post?.image?.slice(-3) === "mp4" ? (
+                        <div className="video">
+                          <video controls autoPlay>
+                            <source
+                              src={`http://localhost:8000/uploads/${post?.image}`}
+                              type="video/mp4"
+                            />
+                          </video>
+                        </div>
+                      ) : (
+                        <div className="img">
+                          <img
+                            src={`http://localhost:8000/uploads/${post?.image}`}
+                            alt="postimage"
+                          />
+                        </div>
+                      )}
+                      {/* <div className="img">
+                        <img
+                          src={`http://localhost:8000/uploads/${post?.image}`}
+                          alt="postimage"
+                        />
+                      </div> */}
                     </div>
                     <div className="postsec-4">
                       <div className="post-activity">
@@ -245,7 +276,7 @@ const Search = () => {
                               ? "comments"
                               : "comment"}
                           </p>
-                          <p>112 shares</p>
+                          <p>0 shares</p>
                         </div>
                       </div>
                     </div>

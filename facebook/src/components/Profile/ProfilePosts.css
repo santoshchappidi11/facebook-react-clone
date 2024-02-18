@@ -156,7 +156,8 @@
 
 .profile-post-sec-2 > .caption {
   width: 100%;
-  padding: 0 14px;
+  padding: 0 50px 0 60px;
+  margin: 5px 0 10px 0;
 }
 
 .profile-post-sec-2 > .caption > p {
@@ -165,6 +166,12 @@
 
 .profile-post-sec-3 {
   width: 100%;
+}
+
+
+.profile-post-sec-3 > .video > video{
+  width: 100%;
+  cursor: pointer;
 }
 
 .profile-post-sec-3 > .img {
