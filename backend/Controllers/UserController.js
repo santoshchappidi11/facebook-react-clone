@@ -271,6 +271,23 @@ export const newUserProfileDetails = async (req, res) => {
       );
       if (profileNow === undefined && profileId) {
         cloudDestroy(profileId);
+
+        const posts = await PostModel.find({ userId: userId });
+
+        if (posts?.length) {
+          for (let i = 0; i < posts?.length; i++) {
+            let userPost = await PostModel.findByIdAndUpdate(
+              { _id: posts[i]?._id },
+              {
+                userImage: "",
+              },
+              { new: true }
+            );
+            if (userPost) {
+              await userPost.save();
+            }
+          }
+        }
       }
       if (coverNow === undefined && coverId) {
         cloudDestroy(coverId);
@@ -302,6 +319,22 @@ export const newUserProfileDetails = async (req, res) => {
       );
       if (profileNow === undefined && profileId) {
         cloudDestroy(profileId);
+        const posts = await PostModel.find({ userId: userId });
+
+        if (posts?.length) {
+          for (let i = 0; i < posts?.length; i++) {
+            let userPost = await PostModel.findByIdAndUpdate(
+              { _id: posts[i]?._id },
+              {
+                userImage: "",
+              },
+              { new: true }
+            );
+            if (userPost) {
+              await userPost.save();
+            }
+          }
+        }
       }
       if (coverNow === undefined && coverId) {
         cloudDestroy(coverId);
