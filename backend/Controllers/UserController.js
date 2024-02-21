@@ -237,7 +237,11 @@ export const newUserProfileDetails = async (req, res) => {
         for (let i = 0; i < posts?.length; i++) {
           let userPost = await PostModel.findByIdAndUpdate(
             { _id: posts[i]?._id },
-            { userImage: profileResult?.secure_url },
+            {
+              userImage: profileResult?.secure_url
+                ? profileResult?.secure_url
+                : "",
+            },
             { new: true }
           );
           if (userPost) {
