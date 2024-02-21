@@ -1,6 +1,12 @@
 import mongoose, { Schema } from "mongoose";
 
 const userSchema = new Schema({
+  profileImageId: {
+    type: String,
+  },
+  coverImageId: {
+    type: String,
+  },
   firstName: {
     type: String,
     required: true,

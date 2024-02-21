@@ -21,14 +21,7 @@ const HomeLeft = ({ state, profileImg }) => {
       <div id="left">
         <div className="left-sec">
           <div id="left-profile-img">
-            <img
-              src={
-                profileImg
-                  ? `http://localhost:8000/uploads/${profileImg}`
-                  : emptyUser
-              }
-              alt="profile"
-            />
+            <img src={profileImg ? profileImg : emptyUser} alt="profile" />
           </div>
           <h4
             style={{ marginLeft: "5px" }}

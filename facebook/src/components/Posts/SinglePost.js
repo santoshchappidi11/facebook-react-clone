@@ -158,20 +158,13 @@ const SinglePost = () => {
             {singlePost?.image?.slice(-3) === "mp4" ? (
               <div id="video">
                 <video controls>
-                  <source
-                    src={`http://localhost:8000/uploads/${singlePost?.image}`}
-                    type="video/mp4"
-                  />
+                  <source src={singlePost?.image} type="video/mp4" />
                 </video>
               </div>
             ) : (
               <div id="main-img">
                 <img
-                  src={
-                    singlePost?.image
-                      ? `http://localhost:8000/uploads/${singlePost?.image}`
-                      : postPlaceholder
-                  }
+                  src={singlePost?.image ? singlePost?.image : postPlaceholder}
                   alt="post"
                 />
               </div>
@@ -195,9 +188,7 @@ const SinglePost = () => {
                 <div id="post-user-img">
                   <img
                     src={
-                      singlePost?.userImage
-                        ? `http://localhost:8000/uploads/${singlePost?.userImage}`
-                        : emptyUser
+                      singlePost?.userImage ? singlePost?.userImage : emptyUser
                     }
                     alt="post-img"
                     onClick={() => navigateToProfile(singlePost?.userId)}
@@ -281,11 +272,7 @@ const SinglePost = () => {
                   <div className="comment" key={item?.commentId}>
                     <div className="comment-img">
                       <img
-                        src={
-                          item?.profileImg
-                            ? `http://localhost:8000/uploads/${item?.profileImg}`
-                            : emptyUser
-                        }
+                        src={item?.profileImg ? item?.profileImg : emptyUser}
                         alt="comment"
                         onClick={() => navigateToProfile(item?.userId)}
                       />
@@ -339,7 +326,7 @@ const SinglePost = () => {
                   <img
                     src={
                       editComment?.profileImg
-                        ? `http://localhost:8000/uploads/${editComment?.profileImg}`
+                        ? editComment?.profileImg
                         : emptyUser
                     }
                     alt="comment"

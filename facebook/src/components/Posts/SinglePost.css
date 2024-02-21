@@ -97,6 +97,7 @@
   object-fit: contain;
   border-radius: 50%;
   cursor: pointer;
+  background-color: rgb(228, 230, 235);
 }
 
 #post-user-details > h4 {

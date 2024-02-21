@@ -42,6 +42,8 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isShowRemoveProfileImg, setIsShowRemoveProfileImg] = useState(true);
   const [isShowRemoveCoverImg, setIsShowRemoveCoverImg] = useState(true);
+  const [profileId, setProfileId] = useState("");
+  const [coverId, setCoverId] = useState("");
 
   // console.log(isShowRemoveProfileImg, "remove btn");
   // console.log(profileFile, "file here");
@@ -156,6 +158,8 @@ const Profile = () => {
             setEditCoverImg(response.data.coverImg);
             setDeleteProfileImg(response.data.profileImg);
             setDeleteCoverImg(response.data.coverImg);
+            setProfileId(response?.data?.profileId);
+            setCoverId(response?.data?.coverId);
           } else {
             toast.error(response.data.message);
           }
@@ -167,7 +171,7 @@ const Profile = () => {
     getProfileDetails();
   }, []);
 
-  const deletePost = async (postId, postImage) => {
+  const deletePost = async (postId, imageId, postType) => {
     const token = JSON.parse(localStorage.getItem("Token"));
 
     if (token) {
@@ -175,7 +179,8 @@ const Profile = () => {
         const response = await api.post("/delete-your-post", {
           token,
           postId,
-          postImage,
+          imageId,
+          postType,
         });
 
         if (response.data.success) {
@@ -231,6 +236,8 @@ const Profile = () => {
     if (editCoverImg) formData.append("coverNow", editCoverImg);
     if (deleteProfileImg) formData.append("deleteProfileImg", deleteProfileImg);
     if (deleteCoverImg) formData.append("deleteCoverImg", deleteCoverImg);
+    if (profileId) formData.append("profileId", profileId);
+    if (coverId) formData.append("coverId", coverId);
 
     if (token) {
       try {
@@ -257,6 +264,8 @@ const Profile = () => {
           setDeleteProfileImg(response.data.profileImage);
           setDeleteCoverImg(response.data.coverImage);
           ProfileChanged(response.data.profileImage);
+          setProfileId(response?.data?.profileId);
+          setCoverId(response?.data?.coverId);
           setIsShowEditProfile(false);
         } else {
           toast.error(response.data.message);
@@ -273,10 +282,7 @@ const Profile = () => {
       <div id="profile-up">
         <div id="profile-cover-img">
           <div id="cover-img">
-            <img
-              src={coverImg ? `http://localhost:8000/uploads/${coverImg}` : ""}
-              alt="cover"
-            />
+            <img src={coverImg ? coverImg : ""} alt="cover" />
           </div>
           <div className="cover-avatar">
             <i class="fa-solid fa-user-pen"></i>
@@ -287,14 +293,7 @@ const Profile = () => {
             <h4>Add Cover Photo</h4>
           </div>
           <div id="profile-img" onClick={openEditProfilePopup}>
-            <img
-              src={
-                profileImg
-                  ? `http://localhost:8000/uploads/${profileImg}`
-                  : emptyUser
-              }
-              alt="profile"
-            />
+            <img src={profileImg ? profileImg : emptyUser} alt="profile" />
             <i class="fa-solid fa-camera fa-lg"></i>
           </div>
         </div>
@@ -407,11 +406,7 @@ const Profile = () => {
                   <div id="profile-image">
                     {profileFile || editProfileImg ? (
                       <img
-                        src={
-                          profileFile
-                            ? editProfileImg
-                            : `http://localhost:8000/uploads/${editProfileImg}`
-                        }
+                        src={profileFile ? editProfileImg : editProfileImg}
                         alt="profile"
                       />
                     ) : (
@@ -444,11 +439,7 @@ const Profile = () => {
                   <div id="cover-image">
                     {coverFile || editCoverImg ? (
                       <img
-                        src={
-                          coverFile
-                            ? editCoverImg
-                            : `http://localhost:8000/uploads/${editCoverImg}`
-                        }
+                        src={coverFile ? editCoverImg : editCoverImg}
                         alt="cover"
                       />
                     ) : (

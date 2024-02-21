@@ -1,6 +1,14 @@
 import mongoose, { Schema } from "mongoose";
 
 const postSchema = new Schema({
+  imageId: {
+    type: String,
+    required: true,
+  },
+  postType: {
+    type: String,
+    required: true,
+  },
   image: {
     type: String,
     required: true,

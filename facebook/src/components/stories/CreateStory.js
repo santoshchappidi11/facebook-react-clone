@@ -147,7 +147,7 @@ const CreateStory = () => {
                   <img
                     src={
                       searchUser?.profileImg
-                        ? `http://localhost:8000/uploads/${searchUser?.profileImg}`
+                        ? searchUser?.profileImg
                         : emptyUser
                     }
                     alt="user"
@@ -173,9 +173,7 @@ const CreateStory = () => {
             <div id="story-right-img">
               <img
                 src={
-                  searchUser?.profileImg
-                    ? `http://localhost:8000/uploads/${searchUser?.profileImg}`
-                    : emptyUser
+                  searchUser?.profileImg ? searchUser?.profileImg : emptyUser
                 }
                 alt="user"
                 onClick={() => navigateToProfile(searchUser?._id)}
@@ -210,11 +208,7 @@ const CreateStory = () => {
                   {/* <i class="fa-solid fa-circle-user"></i> */}
                   <div id="story-profile-img">
                     <img
-                      src={
-                        profileImg
-                          ? `http://localhost:8000/uploads/${profileImg}`
-                          : emptyUser
-                      }
+                      src={profileImg ? profileImg : emptyUser}
                       alt="profile"
                     />
                   </div>

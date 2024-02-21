@@ -135,14 +135,7 @@ const Navbar = () => {
             onMouseOver={openShowSidePopup}
             onMouseLeave={closeShowSidePopup}
           >
-            <img
-              src={
-                profileImg
-                  ? `http://localhost:8000/uploads/${profileImg}`
-                  : emptyUser
-              }
-              alt="profile"
-            />
+            <img src={profileImg ? profileImg : emptyUser} alt="profile" />
           </div>
         </div>
       </div>
@@ -158,14 +151,7 @@ const Navbar = () => {
           <div id="sidepopup-header">
             <div id="popup-header" onClick={() => navigateTo("/profile")}>
               <div id="popup-profile-img">
-                <img
-                  src={
-                    profileImg
-                      ? `http://localhost:8000/uploads/${profileImg}`
-                      : emptyUser
-                  }
-                  alt="profile"
-                />
+                <img src={profileImg ? profileImg : emptyUser} alt="profile" />
               </div>
               <h4>
                 {state?.currentUser?.firstName} {state?.currentUser?.lastName}
@@ -196,11 +182,7 @@ const Navbar = () => {
               >
                 <div className="navbar-search-img">
                   <img
-                    src={
-                      item?.profileImg
-                        ? `http://localhost:8000/uploads/${item?.profileImg}`
-                        : emptyUser
-                    }
+                    src={item?.profileImg ? item?.profileImg : emptyUser}
                     alt="search"
                   />
                 </div>

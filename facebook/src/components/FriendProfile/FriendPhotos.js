@@ -13,13 +13,12 @@ const FriendPhotos = ({ allPosts }) => {
             {allPosts?.length ? (
               allPosts?.map((post) => (
                 <>
-                  {post?.image?.slice(-3) !== "mp4" && (
+                  {post?.image?.slice(-3) !== "mp4" ? (
                     <div className="single-photo" key={post?._id}>
-                      <img
-                        src={`http://localhost:8000/uploads/${post?.image}`}
-                        alt="profile"
-                      />
+                      <img src={post?.image} alt="profile" />
                     </div>
+                  ) : (
+                    <p>No Photos to show! </p>
                   )}
                 </>
               ))

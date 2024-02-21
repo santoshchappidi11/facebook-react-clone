@@ -378,11 +378,7 @@ const Home = () => {
             <div id="top">
               <div id="post-profile-img">
                 <img
-                  src={
-                    profileImg
-                      ? `http://localhost:8000/uploads/${profileImg}`
-                      : emptyUser
-                  }
+                  src={profileImg ? profileImg : emptyUser}
                   alt="profile"
                   onClick={() => navigateTo("/profile")}
                 />
@@ -455,9 +451,7 @@ const Home = () => {
                             <div className="post-img">
                               <img
                                 src={
-                                  post?.userImage
-                                    ? `http://localhost:8000/uploads/${post?.userImage}`
-                                    : emptyUser
+                                  post?.userImage ? post?.userImage : emptyUser
                                 }
                                 alt="post-img"
                                 onClick={() => navigateToProfile(post?.userId)}
@@ -496,18 +490,12 @@ const Home = () => {
                           {post?.image?.slice(-3) === "mp4" ? (
                             <div className="video">
                               <video controls autoPlay>
-                                <source
-                                  src={`http://localhost:8000/uploads/${post?.image}`}
-                                  type="video/mp4"
-                                />
+                                <source src={post?.image} type="video/mp4" />
                               </video>
                             </div>
                           ) : (
                             <div className="img">
-                              <img
-                                src={`http://localhost:8000/uploads/${post?.image}`}
-                                alt="postimage"
-                              />
+                              <img src={post?.image} alt="postimage" />
                             </div>
                           )}
 
@@ -590,9 +578,7 @@ const Home = () => {
                             <div className="post-img">
                               <img
                                 src={
-                                  post?.userImage
-                                    ? `http://localhost:8000/uploads/${post?.userImage}`
-                                    : emptyUser
+                                  post?.userImage ? post?.userImage : emptyUser
                                 }
                                 alt="post-img"
                                 onClick={() => navigateToProfile(post?.userId)}
@@ -636,18 +622,12 @@ const Home = () => {
                           {post?.image?.slice(-3) === "mp4" ? (
                             <div className="video">
                               <video controls autoPlay>
-                                <source
-                                  src={`http://localhost:8000/uploads/${post?.image}`}
-                                  type="video/mp4"
-                                />
+                                <source src={post?.image} type="video/mp4" />
                               </video>
                             </div>
                           ) : (
                             <div className="img">
-                              <img
-                                src={`http://localhost:8000/uploads/${post?.image}`}
-                                alt="postimage"
-                              />
+                              <img src={post?.image} alt="postimage" />
                             </div>
                           )}
                           {/* <div className="img">
@@ -734,11 +714,7 @@ const Home = () => {
                     {/* <i class="fa-solid fa-circle-user"></i> */}
                     <div id="post-profile-img">
                       <img
-                        src={
-                          profileImg
-                            ? `http://localhost:8000/uploads/${profileImg}`
-                            : emptyUser
-                        }
+                        src={profileImg ? profileImg : emptyUser}
                         alt="profile"
                       />
                     </div>

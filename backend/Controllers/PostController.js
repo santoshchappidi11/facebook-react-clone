@@ -2,11 +2,14 @@ import jwt from "jsonwebtoken";
 import UserModel from "../Models/UserModel.js";
 import PostModel from "../Models/PostModel.js";
 import { v4 as uuidv4 } from "uuid";
+import { multerUnlink } from "../utils/multer.js";
+import { v2 as cloudinary } from "cloudinary";
+import { cloudConfig, cloudDestroy } from "../utils/cloudinary.js";
+
 // import fs from "fs";
 // import path from "path";
 // import { fileURLToPath } from "url";
 // import { dirname } from "path";
-import { multerUnlink } from "../utils/multer.js";
 
 export const getAllPosts = async (req, res) => {
   try {
@@ -54,8 +57,6 @@ export const getFollowingPosts = async (req, res) => {
         }
       }
 
-      console.log(followingPosts, "posts");
-
       return res.status(200).json({ success: true, posts: followingPosts });
     }
 
@@ -66,23 +67,19 @@ export const getFollowingPosts = async (req, res) => {
 };
 
 export const addPost = async (req, res) => {
-  // console.log("here add post");
+  cloudConfig();
 
   try {
     const token = req?.headers?.authorization?.slice(7);
 
     // console.log(req.body, "body here");
     // console.log(req.file.filename, "file here");
+
     const { caption, profileImg, userFirstName, userLastName } = req.body;
 
-    // console.log(
-    //   token,
-    //   postImg,
-    //   caption,
-    //   profileImg,
-    //   userFirstName,
-    //   userLastName
-    // );
+    const file = req.file;
+
+    console.log(file, "cloud file here");
 
     if (!token)
       return res
@@ -100,7 +97,6 @@ export const addPost = async (req, res) => {
 
     const user = await UserModel.findById(userId);
 
-    // console.log(req.file.path, "file path");
     if (user) {
       if (req.file && req.file.filename) {
         const date = Date.now();
@@ -108,21 +104,38 @@ export const addPost = async (req, res) => {
         const modifiedDate = new Date(date);
         const finalDate = modifiedDate.toDateString();
 
-        const newPost = new PostModel({
-          image: req.file.filename,
-          caption: caption,
-          userImage: profileImg,
-          userId: user._id,
-          userFirstName,
-          userLastName,
-          postedOn: finalDate,
-        });
-        await newPost.save();
-        const allPosts = await PostModel.find({});
+        cloudinary?.uploader?.upload(file?.path, async (error, result) => {
+          if (error) {
+            return res
+              .status(500)
+              .json({ success: false, message: error.message });
+          }
 
-        return res
-          .status(200)
-          .json({ success: true, message: "New Post Addded!", allPosts });
+          const imageUrl = result.secure_url;
+          const imageId = result.public_id;
+
+          if (result) {
+            multerUnlink(file?.filename);
+          }
+
+          const newPost = new PostModel({
+            imageId: imageId,
+            image: imageUrl,
+            caption: caption,
+            userImage: profileImg,
+            userId: user._id,
+            userFirstName,
+            userLastName,
+            postedOn: finalDate,
+            postType: "image",
+          });
+          await newPost.save();
+          const allPosts = await PostModel.find({});
+
+          return res
+            .status(200)
+            .json({ success: true, message: "New Post Addded!", allPosts });
+        });
       }
     } else {
       return res
@@ -135,23 +148,19 @@ export const addPost = async (req, res) => {
 };
 
 export const addVideoPost = async (req, res) => {
-  console.log("here add post");
+  cloudConfig();
 
   try {
     const token = req?.headers?.authorization?.slice(7);
 
     // console.log(req.body, "body here");
     // console.log(req.file.filename, "file here");
+
     const { caption, profileImg, userFirstName, userLastName } = req.body;
 
-    // console.log(
-    //   token,
-    //   postImg,
-    //   caption,
-    //   profileImg,
-    //   userFirstName,
-    //   userLastName
-    // );
+    const file = req.file;
+
+    console.log(file, "cloud file here");
 
     if (!token)
       return res
@@ -169,7 +178,6 @@ export const addVideoPost = async (req, res) => {
 
     const user = await UserModel.findById(userId);
 
-    // console.log(req.file.path, "file path");
     if (user) {
       if (req.file && req.file.filename) {
         const date = Date.now();
@@ -177,21 +185,41 @@ export const addVideoPost = async (req, res) => {
         const modifiedDate = new Date(date);
         const finalDate = modifiedDate.toDateString();
 
-        const newPost = new PostModel({
-          image: req.file.filename,
-          caption: caption,
-          userImage: profileImg,
-          userId: user._id,
-          userFirstName,
-          userLastName,
-          postedOn: finalDate,
-        });
-        await newPost.save();
-        const allPosts = await PostModel.find({});
+        cloudinary.uploader.upload(
+          file?.path,
+          { resource_type: "video" },
+          async (error, result) => {
+            if (error) {
+              return res
+                .status(500)
+                .json({ success: false, message: error.message });
+            }
+            const videoUrl = result?.secure_url;
+            const videoId = result.public_id;
 
-        return res
-          .status(200)
-          .json({ success: true, message: "New Post Addded!", allPosts });
+            if (result) {
+              multerUnlink(file?.filename);
+            }
+
+            const newPost = new PostModel({
+              imageId: videoId,
+              image: videoUrl,
+              caption: caption,
+              userImage: profileImg,
+              userId: user._id,
+              userFirstName,
+              userLastName,
+              postedOn: finalDate,
+              postType: "video",
+            });
+            await newPost.save();
+            const allPosts = await PostModel.find({});
+
+            return res
+              .status(200)
+              .json({ success: true, message: "New Post Addded!", allPosts });
+          }
+        );
       }
     } else {
       return res
@@ -204,8 +232,10 @@ export const addVideoPost = async (req, res) => {
 };
 
 export const deleteYourPost = async (req, res) => {
+  cloudConfig();
+
   try {
-    const { token, postId, postImage } = req.body;
+    const { token, postId, imageId, postType } = req.body;
 
     if (!token)
       return res
@@ -229,14 +259,13 @@ export const deleteYourPost = async (req, res) => {
     const user = await UserModel.findById(userId);
 
     if (user) {
-      multerUnlink(postImage);
+      cloudDestroy(imageId, postType);
 
       const postDeleted = await PostModel.findOneAndDelete(
         { _id: postId },
         { userId },
         { new: true }
       );
-
       if (postDeleted) {
         const allMyPosts = await PostModel.find({ userId });
 
@@ -246,7 +275,6 @@ export const deleteYourPost = async (req, res) => {
           posts: allMyPosts,
         });
       }
-
       return res.status(404).json({
         success: false,
         message: "Something went wrong! can't delete",
@@ -504,7 +532,6 @@ export const deleteComment = async (req, res) => {
 export const getEditComment = async (req, res) => {
   try {
     const { token, postId, ID } = req.body;
-    // console.log(token, postId, ID);
 
     if (!token || !postId || !ID)
       return res

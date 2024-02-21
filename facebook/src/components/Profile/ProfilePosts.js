@@ -66,9 +66,7 @@ const ProfilePosts = ({
                             <div className="profile-post-img">
                               <img
                                 src={
-                                  post?.userImage
-                                    ? `http://localhost:8000/uploads/${post?.userImage}`
-                                    : emptyUser
+                                  post?.userImage ? post?.userImage : emptyUser
                                 }
                                 alt="profile-post-img"
                               />
@@ -93,7 +91,13 @@ const ProfilePosts = ({
                             </div>
 
                             <div
-                              onClick={() => deletePost(post?._id, post?.image)}
+                              onClick={() =>
+                                deletePost(
+                                  post?._id,
+                                  post?.imageId,
+                                  post?.postType
+                                )
+                              }
                             >
                               <i class="fa-solid fa-xmark fa-xl"></i>
                             </div>
@@ -113,18 +117,12 @@ const ProfilePosts = ({
                           {post?.image?.slice(-3) === "mp4" ? (
                             <div className="video">
                               <video controls autoPlay>
-                                <source
-                                  src={`http://localhost:8000/uploads/${post?.image}`}
-                                  type="video/mp4"
-                                />
+                                <source src={post?.image} type="video/mp4" />
                               </video>
                             </div>
                           ) : (
                             <div className="img">
-                              <img
-                                src={`http://localhost:8000/uploads/${post?.image}`}
-                                alt="postimage"
-                              />
+                              <img src={post?.image} alt="postimage" />
                             </div>
                           )}
                           {/* <div className="img">

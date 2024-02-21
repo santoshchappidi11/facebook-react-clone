@@ -29,6 +29,9 @@ const ViewStory = () => {
   const [myStory, setMyStory] = useState({});
   const [progressWidth, setProgressWidth] = useState(0);
 
+  console.log(myStory, "my story");
+  console.log(searchUser, "search user");
+
   const handleTimeChange = (e) => {
     console.log(e, "e");
   };
@@ -85,12 +88,16 @@ const ViewStory = () => {
     }
   };
 
-  const deleteStory = async (userID) => {
+  const deleteStory = async (userID, allStories) => {
     const token = JSON.parse(localStorage.getItem("Token"));
 
     if (token) {
       try {
-        const response = await api.post("/delete-story", { token, userID });
+        const response = await api.post("/delete-story", {
+          token,
+          userID,
+          allStories,
+        });
 
         if (response.data.success) {
           // navigateTo("/create-story");
@@ -107,7 +114,7 @@ const ViewStory = () => {
     }
   };
 
-  const deleteSingleStory = async (singleStoryId, storyImg) => {
+  const deleteSingleStory = async (singleStoryId, storyImg, storyImageId) => {
     const token = JSON.parse(localStorage.getItem("Token"));
 
     if (token) {
@@ -116,6 +123,7 @@ const ViewStory = () => {
           token,
           singleStoryId,
           storyImg,
+          storyImageId,
         });
 
         if (response.data.success) {
@@ -238,17 +246,17 @@ const ViewStory = () => {
                   <div id="all-your-stories">
                     <>
                       {myStory?.yourStories?.length ? (
-                        <div className="your-story" key={myStory._id}>
+                        <div className="your-story" key={myStory?._id}>
                           <div
                             className="your-story-img"
                             onClick={() =>
-                              navigateTo(`/view-story/${myStory._id}`)
+                              navigateTo(`/view-story/${myStory?._id}`)
                             }
                           >
                             <img
                               src={
                                 searchUser?.profileImg
-                                  ? `http://localhost:8000/uploads/${searchUser?.profileImg}`
+                                  ? searchUser?.profileImg
                                   : emptyUser
                               }
                               alt="story"
@@ -256,7 +264,7 @@ const ViewStory = () => {
                           </div>
                           <h4
                             onClick={() =>
-                              navigateTo(`/view-story/${myStory._id}`)
+                              navigateTo(`/view-story/${myStory?._id}`)
                             }
                           >
                             {myStory?.firstName} {myStory?.lastName}(YOU)
@@ -270,7 +278,12 @@ const ViewStory = () => {
                             <FontAwesomeIcon
                               icon={faTrashCan}
                               className="delete-story"
-                              onClick={() => deleteStory(searchUser?._id)}
+                              onClick={() =>
+                                deleteStory(
+                                  searchUser?._id,
+                                  myStory?.yourStories
+                                )
+                              }
                             />
                           </div>
                         </div>
@@ -297,9 +310,7 @@ const ViewStory = () => {
                             <div className="single-story-img">
                               <img
                                 src={
-                                  item?.storyImg
-                                    ? `http://localhost:8000/uploads/${item?.storyImg}`
-                                    : emptyUser
+                                  item?.storyImg ? item?.storyImg : emptyUser
                                 }
                                 alt="story"
                               />
@@ -317,7 +328,11 @@ const ViewStory = () => {
                               icon={faTrashCan}
                               className="delete-single-story"
                               onClick={() =>
-                                deleteSingleStory(item?.storyId, item?.storyImg)
+                                deleteSingleStory(
+                                  item?.storyId,
+                                  item?.storyImg,
+                                  item?.storyImageId
+                                )
                               }
                             />
                           </div>
@@ -342,7 +357,7 @@ const ViewStory = () => {
                               <img
                                 src={
                                   item?.profileImg
-                                    ? `http://localhost:8000/uploads/${item?.profileImg}`
+                                    ? item?.profileImg
                                     : emptyUser
                                 }
                                 alt="story"
@@ -387,9 +402,7 @@ const ViewStory = () => {
             <div id="story-right-img">
               <img
                 src={
-                  searchUser?.profileImg
-                    ? `http://localhost:8000/uploads/${searchUser?.profileImg}`
-                    : emptyUser
+                  searchUser?.profileImg ? searchUser?.profileImg : emptyUser
                 }
                 alt="user"
                 onClick={() => navigateToProfile(searchUser?._id)}
@@ -406,7 +419,7 @@ const ViewStory = () => {
                         <img
                           src={
                             storyUser?.profileImg
-                              ? `http://localhost:8000/uploads/${storyUser?.profileImg}`
+                              ? storyUser?.profileImg
                               : emptyUser
                           }
                           alt="profile"
@@ -436,9 +449,7 @@ const ViewStory = () => {
                   <div id="main-img">
                     {userStory[`${storyNumber}`]?.storyImg && (
                       <img
-                        src={`http://localhost:8000/uploads/${
-                          userStory[`${storyNumber}`]?.storyImg
-                        }`}
+                        src={userStory[`${storyNumber}`]?.storyImg}
                         alt="story"
                       />
                     )}

@@ -24,21 +24,14 @@ const StoryPreview = ({ allStoryUsers, incrementPage, decrementPage }) => {
                   {item?.yourStories && (
                     <>
                       <div className="story-preview">
-                        <img
-                          src={`http://localhost:8000/uploads/${item?.yourStories[0]?.storyImg}`}
-                          alt="story"
-                        />
+                        <img src={item?.yourStories[0]?.storyImg} alt="story" />
                       </div>
                     </>
                   )}
                   <div className="story-user">
                     <div className="user-img">
                       <img
-                        src={
-                          item.profileImg
-                            ? `http://localhost:8000/uploads/${item.profileImg}`
-                            : emptyUser
-                        }
+                        src={item.profileImg ? item.profileImg : emptyUser}
                         alt="user"
                       />
                     </div>

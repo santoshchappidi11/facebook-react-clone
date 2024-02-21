@@ -4,16 +4,8 @@ import UserModel from "../Models/UserModel.js";
 import PostModel from "../Models/PostModel.js";
 import { v4 as uuidv4 } from "uuid";
 import { multerUnlink } from "../utils/multer.js";
-// import path from "path";
-// import fs from "fs";
-
-// import { fileURLToPath } from "url";
-// import { dirname } from "path";
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
-
-// import { v2 as cloudinary } from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
+import { cloudConfig, cloudDestroy } from "../utils/cloudinary.js";
 
 export const register = async (req, res) => {
   try {
@@ -147,22 +139,24 @@ export const getCurrentUser = async (req, res) => {
 };
 
 export const newUserProfileDetails = async (req, res) => {
+  cloudConfig();
+
   try {
-    // console.log("Inside newUserProfileDetails");
-    // console.log(req.headers, "headers");
-
     const token = req?.headers?.authorization?.slice(7);
-    // console.log(token, "token here");
 
-    const { bioData, coverNow, profileNow, deleteProfileImg, deleteCoverImg } =
-      req.body;
-    // console.log(bioData, "bio data here");
-    // console.log(coverNow, "cover here");
-    // console.log(profileNow, "profile here");
-    // console.log(deleteProfileImg, "delete profile img");
-    // console.log(deleteCoverImg, "delete cover img");
-    // console.log(req.files, "files");
+    const {
+      bioData,
+      coverNow,
+      profileNow,
+      // deleteProfileImg,
+      // deleteCoverImg,
+      profileId,
+      coverId,
+    } = req.body;
+
     // console.log(req.body, "body here");
+    // console.log(req.files.profileImg[0].filename, "files");
+    // console.log(req?.files, "files here");
 
     if (!token)
       return res
@@ -178,88 +172,145 @@ export const newUserProfileDetails = async (req, res) => {
 
     const userId = decodedData?.userId;
 
-    // for (const field of Object.keys(req.files)) {
-    //   const file = req.files[field][0];
-    //   const filePath = path.join(__dirname, "..", "uploads", file.filename);
-    //   const fileExists = await fs
-    //     .access(filePath)
-    //     .then(() => true)
-    //     .catch(() => false);
-
-    //   if (fileExists) {
-    //     multerUnlink(filePath);
-    //     // continue;
-    //   }
-    // }
-
     if (
-      req.files &&
-      (req.files.profileImg !== undefined || req.files.coverImg !== undefined)
+      req?.files &&
+      (req?.files?.profileImg !== undefined ||
+        req?.files?.coverImg !== undefined)
     ) {
+      console.log("from here try,");
+
+      if (req?.files?.profileImg !== undefined && profileId) {
+        cloudDestroy(profileId);
+      }
+
+      if (req?.files?.coverImg !== undefined && coverId) {
+        cloudDestroy(coverId);
+      }
+
+      // Function to upload a file to Cloudinary and return the result data
+      const uploadFileToCloudinary = async (filePath) => {
+        try {
+          const result = await new Promise((resolve, reject) => {
+            cloudinary.uploader.upload(filePath, (error, result) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve(result);
+              }
+            });
+          });
+          return result;
+        } catch (error) {
+          throw error;
+        }
+      };
+
+      // Upload profile image and cover image to Cloudinary and store result data in a variable
+
+      const profileImgPath = req?.files?.profileImg?.[0]?.path;
+      const coverImgPath = req?.files?.coverImg?.[0]?.path;
+
+      const profileResult =
+        profileImgPath?.length &&
+        (await uploadFileToCloudinary(profileImgPath));
+
+      const coverResult =
+        coverImgPath?.length && (await uploadFileToCloudinary(coverImgPath));
+
+      // console.log("Profile Upload successful. Result:", profileResult);
+      // console.log("Cover Upload successful. Result:", coverResult);
+      // Store result data in a variable or use it as needed
+
+      if (profileResult) {
+        multerUnlink(req?.files?.profileImg[0]?.filename);
+      }
+
+      if (coverResult) {
+        multerUnlink(req?.files?.coverImg[0]?.filename);
+      }
+
+      // update user post profile image-------->
+
+      const posts = await PostModel.find({ userId: userId });
+
+      if (posts?.length) {
+        for (let i = 0; i < posts?.length; i++) {
+          let userPost = await PostModel.findByIdAndUpdate(
+            { _id: posts[i]?._id },
+            { userImage: profileResult?.secure_url },
+            { new: true }
+          );
+          if (userPost) {
+            await userPost.save();
+          }
+        }
+      }
+
       const user = await UserModel.findByIdAndUpdate(
         userId,
         {
           bioData: bioData ? bioData : "",
+          profileImageId: profileResult ? profileResult?.public_id : "",
           profileImg: req?.files?.profileImg
-            ? req?.files?.profileImg[0]?.filename
+            ? profileResult?.secure_url
             : profileNow
             ? profileNow
             : "",
+          coverImageId: coverResult ? coverResult?.public_id : "",
           coverImg: req?.files?.coverImg
-            ? req?.files?.coverImg[0]?.filename
+            ? coverResult?.secure_url
             : coverNow
             ? coverNow
             : "",
         },
         { new: true }
       );
-
-      if (profileNow == undefined && deleteProfileImg) {
-        multerUnlink(deleteProfileImg);
+      if (profileNow === undefined && profileId) {
+        cloudDestroy(profileId);
       }
-
-      if (coverNow == undefined && deleteCoverImg) {
-        multerUnlink(deleteCoverImg);
+      if (coverNow === undefined && coverId) {
+        cloudDestroy(coverId);
       }
-
       if (user) {
         const userNow = await UserModel.findById(userId);
-
         return res.status(200).json({
           success: true,
-          profileImage: userNow.profileImg,
-          coverImage: userNow.coverImg,
-          bioData: userNow.bioData,
+          profileImage: userNow?.profileImg,
+          coverImage: userNow?.coverImg,
+          bioData: userNow?.bioData,
+          profileId: userNow?.profileImageId,
+          coverId: userNow?.coverImageId,
           message: "Saved your profile!",
         });
       }
     } else {
+      console.log("from here catch,");
       const user = await UserModel.findByIdAndUpdate(
         userId,
         {
           bioData: bioData ? bioData : "",
           profileImg: profileNow ? profileNow : "",
           coverImg: coverNow ? coverNow : "",
+          profileId: profileId ? profileId : "",
+          coverId: coverId ? coverId : "",
         },
         { new: true }
       );
-
-      if (profileNow == undefined && deleteProfileImg) {
-        multerUnlink(deleteProfileImg);
+      if (profileNow === undefined && profileId) {
+        cloudDestroy(profileId);
       }
-
-      if (coverNow == undefined && deleteCoverImg) {
-        multerUnlink(deleteCoverImg);
+      if (coverNow === undefined && coverId) {
+        cloudDestroy(coverId);
       }
-
       if (user) {
         const userNow = await UserModel.findById(userId);
-
         return res.status(200).json({
           success: true,
-          profileImage: userNow.profileImg,
-          coverImage: userNow.coverImg,
-          bioData: userNow.bioData,
+          profileImage: userNow?.profileImg,
+          coverImage: userNow?.coverImg,
+          bioData: userNow?.bioData,
+          profileId: userNow?.profileImageId,
+          coverId: userNow?.coverImageId,
           message: "Saved your profile!",
         });
       }
@@ -267,6 +318,7 @@ export const newUserProfileDetails = async (req, res) => {
 
     return res.status(404).json({ success: false, message: "No user found!" });
   } catch (error) {
+    console.log("from bottom");
     return res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -294,9 +346,11 @@ export const getProfileDetails = async (req, res) => {
     if (user) {
       return res.status(200).json({
         success: true,
-        bioData: user.bioData,
-        profileImg: user.profileImg,
-        coverImg: user.coverImg,
+        bioData: user?.bioData,
+        profileImg: user?.profileImg,
+        coverImg: user?.coverImg,
+        profileId: user?.profileImageId,
+        coverId: user?.coverImageId,
       });
     }
 
@@ -426,6 +480,8 @@ export const getFriendProfile = async (req, res) => {
 };
 
 export const addStory = async (req, res) => {
+  cloudConfig();
+
   try {
     const token = req?.headers?.authorization?.slice(7);
 
@@ -452,28 +508,49 @@ export const addStory = async (req, res) => {
 
     const user = await UserModel.findById(userId);
 
+    // console.log(req.file, "files here");
+
     if (user) {
-      if (req.file && req.file.filename) {
-        const randomId = uuidv4();
-        const storyId = randomId.slice(0, 10);
+      if (req?.file && req?.file?.filename) {
+        cloudinary.uploader.upload(
+          req?.file?.path,
 
-        const storyObj = {
-          storyId,
-          userId: user._id,
-          profileImg: user.profileImg,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          caption,
-          storyImg: req.file.filename,
-          storyAddedTime: Date.now(),
-        };
+          async (error, result) => {
+            if (error) {
+              return res
+                .status(500)
+                .json({ success: false, message: error.message });
+            }
+            const storyImageUrl = result?.secure_url;
+            const storyImageId = result.public_id;
 
-        user?.yourStories?.push(storyObj);
-        user.isStoryAdded = true;
-        await user?.save();
-        return res
-          .status(200)
-          .json({ success: true, message: "Your Story Added!" });
+            if (result) {
+              multerUnlink(req?.file?.filename);
+            }
+
+            const randomId = uuidv4();
+            const storyId = randomId.slice(0, 10);
+
+            const storyObj = {
+              storyImageId,
+              storyId,
+              userId: user._id,
+              profileImg: user.profileImg,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              caption,
+              storyImg: storyImageUrl,
+              storyAddedTime: Date.now(),
+            };
+
+            user?.yourStories?.push(storyObj);
+            user.isStoryAdded = true;
+            await user?.save();
+            return res
+              .status(200)
+              .json({ success: true, message: "Your Story Added!" });
+          }
+        );
       }
     } else {
       return res
@@ -571,8 +648,16 @@ export const getUserStory = async (req, res) => {
 };
 
 export const deleteStory = async (req, res) => {
+  cloudConfig();
+
   try {
-    const { token, userID } = req.body;
+    const { token, userID, allStories } = req.body;
+
+    let storyIds = [];
+
+    for (let i = 0; i < allStories?.length; i++) {
+      storyIds.push(allStories?.[i]?.storyImageId);
+    }
 
     if (!token)
       return res
@@ -591,7 +676,7 @@ export const deleteStory = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Not a valid token!" });
 
-    // const userId = decodedData?.userId;
+    const userId = decodedData?.userId;
 
     const user = await UserModel.findOneAndUpdate(
       { _id: userID },
@@ -599,6 +684,12 @@ export const deleteStory = async (req, res) => {
       { yourStories: [] },
       { new: true }
     );
+
+    if (storyIds?.length) {
+      for (let i = 0; i < storyIds?.length; i++) {
+        cloudDestroy(storyIds[i]);
+      }
+    }
 
     if (user) {
       user.isStoryAdded = false;
@@ -623,8 +714,10 @@ export const deleteStory = async (req, res) => {
 };
 
 export const deleteSingleStory = async (req, res) => {
+  cloudConfig();
+
   try {
-    const { token, singleStoryId, storyImg } = req.body;
+    const { token, singleStoryId, storyImg, storyImageId } = req.body;
 
     if (!token)
       return res
@@ -648,7 +741,7 @@ export const deleteSingleStory = async (req, res) => {
     const user = await UserModel.findById(userId);
 
     if (user) {
-      multerUnlink(storyImg);
+      cloudDestroy(storyImageId);
 
       const updatedStory = await UserModel.findOneAndUpdate(
         { _id: userId },

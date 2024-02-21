@@ -20,6 +20,8 @@ const NewUserProfile = () => {
   const [coverFile, setCoverFile] = useState(null);
   const [isShowRemoveProfileImg, setIsShowRemoveProfileImg] = useState(true);
   const [isShowRemoveCoverImg, setIsShowRemoveCoverImg] = useState(true);
+  const [profileId, setProfileId] = useState("");
+  const [coverId, setCoverId] = useState("");
 
   // console.log(profileImg, "profileImg");
   // console.log(coverImg, "coverImg");
@@ -54,6 +56,8 @@ const NewUserProfile = () => {
             setBioData(response.data.bioData);
             setProfileImg(response.data.profileImg);
             setCoverImg(response.data.coverImg);
+            setProfileId(response?.data?.profileId);
+            setCoverId(response?.data?.coverId);
           } else {
             toast.error(response.data.message);
           }
@@ -114,10 +118,12 @@ const NewUserProfile = () => {
     if (bioData) formData.append("bioData", bioData);
     if (profileImg) formData.append("profileNow", profileImg);
     if (coverImg) formData.append("coverNow", coverImg);
+    if (profileId) formData.append("profileId", profileId);
+    if (coverId) formData.append("coverId", coverId);
     // if (token) formData.append("token", token);
 
-    console.log("Profile File:", profileFile);
-    console.log("Cover File:", coverFile);
+    // console.log("Profile File:", profileFile);
+    // console.log("Cover File:", coverFile);
 
     if (token) {
       try {
@@ -180,11 +186,7 @@ const NewUserProfile = () => {
               <div id="profile-image">
                 {profileFile || profileImg ? (
                   <img
-                    src={
-                      profileFile
-                        ? profileImg
-                        : `http://localhost:8000/uploads/${profileImg}`
-                    }
+                    src={profileFile ? profileImg : profileImg}
                     alt="profile"
                   />
                 ) : (
@@ -216,14 +218,7 @@ const NewUserProfile = () => {
               </div>
               <div id="cover-image">
                 {coverFile || coverImg ? (
-                  <img
-                    src={
-                      coverFile
-                        ? coverImg
-                        : `http://localhost:8000/uploads/${coverImg}`
-                    }
-                    alt="cover"
-                  />
+                  <img src={coverFile ? coverImg : coverImg} alt="cover" />
                 ) : (
                   <img src={editcover} alt="cover" />
                 )}

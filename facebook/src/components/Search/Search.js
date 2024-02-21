@@ -24,6 +24,10 @@ const Search = () => {
   const navigateTo = useNavigate();
   const { searchId } = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const [isShowFollowBtn, setIsShowFollowBtn] = useState(false);
+
+  console.log(state, "state");
+  console.log(searchUser, "search user");
 
   useEffect(() => {
     for (let i = 0; i < state?.followings?.length; i++) {
@@ -32,6 +36,14 @@ const Search = () => {
       }
     }
   }, [searchId, state]);
+
+  useEffect(() => {
+    if (searchUser?._id === state?.currentUser?.userId) {
+      setIsShowFollowBtn(false);
+    } else {
+      setIsShowFollowBtn(true);
+    }
+  }, [searchUser, state]);
 
   const navigateToProfile = (Id) => {
     if (state?.currentUser?.userId == Id) {
@@ -143,9 +155,7 @@ const Search = () => {
             <div id="middle-header-img">
               <img
                 src={
-                  searchUser?.profileImg
-                    ? `http://localhost:8000/uploads/${searchUser?.profileImg}`
-                    : emptyUser
+                  searchUser?.profileImg ? searchUser?.profileImg : emptyUser
                 }
                 alt="search"
                 onClick={() => navigateToProfile(searchUser?._id)}
@@ -180,11 +190,17 @@ const Search = () => {
             </p>
           </div>
           <div id="middle-header-down">
-            <FollowBtn
-              isFollow={isFollow}
-              searchUserId={searchUser?._id}
-              sendAndRemoveFriendRequest={sendAndRemoveFriendRequest}
-            />
+            {isShowFollowBtn ? (
+              <FollowBtn
+                isFollow={isFollow}
+                searchUserId={searchUser?._id}
+                sendAndRemoveFriendRequest={sendAndRemoveFriendRequest}
+              />
+            ) : (
+              <button onClick={() => navigateTo("/profile")}>
+                View Profile
+              </button>
+            )}
           </div>
         </div>
 
@@ -205,11 +221,7 @@ const Search = () => {
                       <div className="post-user">
                         <div className="post-img">
                           <img
-                            src={
-                              post?.userImage
-                                ? `http://localhost:8000/uploads/${post?.userImage}`
-                                : emptyUser
-                            }
+                            src={post?.userImage ? post?.userImage : emptyUser}
                             alt="post-img"
                             onClick={() => navigateToProfile(post?.userId)}
                           />
@@ -242,18 +254,12 @@ const Search = () => {
                       {post?.image?.slice(-3) === "mp4" ? (
                         <div className="video">
                           <video controls autoPlay>
-                            <source
-                              src={`http://localhost:8000/uploads/${post?.image}`}
-                              type="video/mp4"
-                            />
+                            <source src={post?.image} type="video/mp4" />
                           </video>
                         </div>
                       ) : (
                         <div className="img">
-                          <img
-                            src={`http://localhost:8000/uploads/${post?.image}`}
-                            alt="postimage"
-                          />
+                          <img src={post?.image} alt="postimage" />
                         </div>
                       )}
                       {/* <div className="img">

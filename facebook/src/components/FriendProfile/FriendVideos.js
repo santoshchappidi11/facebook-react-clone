@@ -13,15 +13,14 @@ const FriendVideos = ({ allPosts }) => {
             {allPosts?.length ? (
               allPosts?.map((post) => (
                 <>
-                  {post?.image?.slice(-3) === "mp4" && (
+                  {post?.image?.slice(-3) === "mp4" ? (
                     <div className="video">
                       <video controls autoPlay>
-                        <source
-                          src={`http://localhost:8000/uploads/${post?.image}`}
-                          type="video/mp4"
-                        />
+                        <source src={post?.image} type="video/mp4" />
                       </video>
                     </div>
+                  ) : (
+                    <p>No Videos to show! </p>
                   )}
                 </>
               ))
