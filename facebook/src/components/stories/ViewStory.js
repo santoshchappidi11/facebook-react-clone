@@ -16,6 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import emptyUser from "./../../images/empty-user.jpg";
 import ReactTimeAgo from "react-time-ago";
+import connectLogo from "../../images/connect_transparent.png";
 
 const ViewStory = () => {
   const { storyUserId } = useParams();
@@ -233,8 +234,14 @@ const ViewStory = () => {
                 class="fa-solid fa-xmark fa-xl"
                 onClick={() => navigateTo("/home")}
               ></i>
-              <h2 onClick={() => navigateTo("/home")}>connect</h2>
-              {/* <img src={logo} alt="logo" onClick={() => navigateTo("/home")} /> */}
+              {/* <h2 onClick={() => navigateTo("/home")}>connect</h2> */}
+              <div id="connnect-logo">
+                <img
+                  src={connectLogo}
+                  alt="logo"
+                  onClick={() => navigateTo("/home")}
+                />
+              </div>
             </div>
             <div id="left-body">
               <div id="body-header">

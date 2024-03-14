@@ -6,6 +6,7 @@ import { AuthContexts } from "../../Context/AuthContext";
 import toast from "react-hot-toast";
 import api from "../../ApiConfig";
 import emptyUser from "./../../images/empty-user.jpg";
+import connectLogo from "../../images/connect_transparent.png";
 
 const Navbar = () => {
   const { state, Logout } = useContext(AuthContexts);
@@ -97,8 +98,12 @@ const Navbar = () => {
       <div id="navbar">
         <div id="left">
           <div id="logo">
-            <h2 onClick={() => navigateTo("/home")}>connect</h2>
-            {/* <img src={logo} alt="logo" onClick={() => navigateTo("/home")} /> */}
+            {/* <h2 onClick={() => navigateTo("/home")}>connect</h2> */}
+            <img
+              src={connectLogo}
+              alt="logo"
+              onClick={() => navigateTo("/home")}
+            />
           </div>
           <div id="search-bar">
             <i class="fa-solid fa-magnifying-glass"></i>

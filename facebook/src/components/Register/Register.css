@@ -16,22 +16,23 @@
   /* border: 1px solid red; */
 }
 
-#register-screen > #logo h2{
+/* #register-screen > #logo h2{
   font-size: 55px;
   font-weight: 600;
   color: orangered;
-}
- /*#register-screen > #logo > #img {
-  height: 100%;
-  width: 21%;
+} */
+ #register-screen > #logo > #img {
+  height: 70%;
+  width: auto;
   margin: auto;
-  border: 1px solid green;
+  /* border: 1px solid green; */
 } 
 
-/* #register-screen > #logo > #img > img {
+#register-screen > #logo > #img > img {
   height: 100%;
   width: 100%;
-} */
+  object-fit: contain;
+}
 
 #register-screen > #register {
   height: auto;

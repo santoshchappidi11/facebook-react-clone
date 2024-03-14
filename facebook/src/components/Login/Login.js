@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import api from "../../ApiConfig";
 import { AuthContexts } from "../../Context/AuthContext";
 import fbLogo from "../../images/facebook-logo.svg";
+import connectLogo from "../../images/connect_transparent.png";
 
 const Login = () => {
   const navigateTo = useNavigate();
@@ -49,10 +50,10 @@ const Login = () => {
   return (
     <div id="login-screen">
       <div id="logo">
-        <h2>connect</h2>
-        {/* <div id="img">
-          <img src={fbLogo} alt="logo" />
-        </div> */}
+        {/* <h2>connect</h2> */}
+        <div id="img">
+          <img src={connectLogo} alt="logo" />
+        </div>
       </div>
       <div id="login">
         <div id="login-header">

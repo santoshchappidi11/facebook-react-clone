@@ -246,6 +246,7 @@ body {
 
 #posts > #no-post-msg > h3 {
   margin: 50px 0 0 0;
+  color: #ff8c62;
 }
 
 #home > #middle > #posts > .post {
@@ -878,6 +879,7 @@ label {
 
 #loading-msg > h3 {
   margin: 50px 0 0 0;
+  color: #ff8c62;
 }
 
 #story-loading-msg {
@@ -887,6 +889,7 @@ label {
 
 #story-loading-msg > h3 {
   margin: 20px 0;
+  color: #ff8c62;
 }
 
 #remove-post-img{

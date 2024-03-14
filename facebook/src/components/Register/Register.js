@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../../ApiConfig/index.js";
 import fbLogo from "../../images/facebook-logo.svg";
+import connectLogo from "../../images/connect_transparent.png";
 
 const Register = () => {
   const navigateTo = useNavigate();
@@ -66,10 +67,10 @@ const Register = () => {
   return (
     <div id="register-screen">
       <div id="logo">
-        <h2>connect</h2>
-        {/* <div id="img">
-          <img src={fbLogo} alt="logo" />
-        </div> */}
+        {/* <h2>connect</h2> */}
+        <div id="img">
+          <img src={connectLogo} alt="logo" />
+        </div>
       </div>
       <div id="register">
         <div id="register-header">

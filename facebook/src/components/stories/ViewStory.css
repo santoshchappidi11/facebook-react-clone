@@ -47,11 +47,23 @@
 }
 
 
-#view-story > #left > #left-main > #left-header > h2{
+#view-story > #left > #left-main > #left-header > #connnect-logo{
+  height: 45px;
+  width: auto;
+}
+
+#connnect-logo > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+/* #view-story > #left > #left-main > #left-header > h2{
   color: orangered;
   font-size: 28px;
   cursor: pointer;
-}
+} */
 
 /* #view-story > #left > #left-main > #left-header > img {
   cursor: pointer;

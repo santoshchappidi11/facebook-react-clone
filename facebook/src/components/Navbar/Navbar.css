@@ -10,6 +10,7 @@
   z-index: 10;
   background-color: white;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: rgb(255, 253, 251);
   /* border: 1px solid black; */
 }
 
@@ -23,24 +24,24 @@
 }
 
 #navbar > #left > #logo {
-  height: 80%;
+  height: 75%;
   width:auto;
   cursor: pointer;
   /* border: 1px solid black; */
 }
 
 
-#navbar > #left > #logo h2{
+/* #navbar > #left > #logo h2{
   color: orangered;
   font-size: 28px;
-}
+} */
 
-/* #navbar > #left > #logo > img {
+#navbar > #left > #logo > img {
   height: 100%;
   width: 100%;
   object-fit: contain;
   filter: contrast(150%);
-} */
+}
 
 #navbar > #left > #search-bar {
   height: 70%;
@@ -235,7 +236,7 @@ i:hover {
   position: fixed;
   top: 47px;
   /* right: 10px; */
-  left: 115px;
+  left: 60px;
   z-index: 60;
   width: 18%;
   background-color: white;

@@ -15,24 +15,25 @@
   align-items: center;
   /* border: 1px solid red; */
 }
-
+/* 
 #login-screen > #logo h2{
   font-size: 55px;
   font-weight: 600;
   color: orangered;
-}
+} */
 
-/* #login-screen > #logo > #img {
-  height: 100%;
-  width: 21%;
+#login-screen > #logo > #img {
+  height: 70%;
+  width: auto;
   margin: auto;
-  border: 1px solid green;
+  /* border: 1px solid green; */
 }
 
 #login-screen > #logo > #img > img {
   height: 100%;
   width: 100%;
-} */
+  object-fit: contain;
+} 
 
 #login-screen > #login {
   height: auto;

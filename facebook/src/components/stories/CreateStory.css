@@ -44,16 +44,24 @@
   /* border: 1px solid red; */
 }
 
-
+/* 
 #create-story > #left > #left-main > #left-header > h2{
   color: orangered;
   font-size: 28px;
   cursor: pointer;
+} */
+
+#connnect-logo{
+  height: 75%;
+  width: auto;
 }
 
-/* #create-story > #left > #left-main > #left-header > img {
+#connnect-logo > img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
   cursor: pointer;
-} */
+}
 
 #create-story > #left > #left-main > #left-body {
   height: 75%;
