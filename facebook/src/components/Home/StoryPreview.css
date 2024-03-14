@@ -71,7 +71,7 @@
   width: 100%;
   object-fit: contain;
   border-radius: 50%;
-  border: 3px solid blue;
+  border: 3px solid orangered;
 }
 
 .story-user > p {

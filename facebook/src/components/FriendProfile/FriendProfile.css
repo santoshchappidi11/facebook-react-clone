@@ -159,7 +159,7 @@
   color: white;
   font-weight: 600;
   cursor: pointer;
-  background-color: rgb(27, 116, 228);
+  background-color: orangered;
 }
 
 #friend-profile
@@ -273,6 +273,6 @@
 }
 
 .profile-down-active {
-  color: rgb(8, 102, 255);
+  color: orangered;
   /* border-bottom: 1px solid blue; */
 }

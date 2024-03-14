@@ -96,7 +96,7 @@
   > .profile-picture-header
   > p {
   cursor: pointer;
-  color: rgb(28, 28, 255);
+  color: orangered;
 }
 
 /* #edit-profile-screen
@@ -154,7 +154,7 @@
   > .cover-photo
   > p {
   cursor: pointer;
-  color: rgb(28, 28, 255);
+  color: orangered;
 }
 
 /* #edit-profile-screen
@@ -212,7 +212,7 @@
   > .edit-avatar
   > p {
   cursor: pointer;
-  color: rgb(28, 28, 255);
+  color: orangered;
 }
 
 #edit-profile-screen
@@ -286,7 +286,7 @@
   > .edit-bio
   > p {
   cursor: pointer;
-  color: rgb(28, 28, 255);
+  color: orangered;
 }
 
 #edit-profile-screen
@@ -351,7 +351,7 @@
   > .edit-custom
   > p {
   cursor: pointer;
-  color: rgb(28, 28, 255);
+  color: orangered;
 }
 
 #edit-profile-screen
@@ -433,7 +433,7 @@ filter: ;
   > .edit-hobbies
   > p {
   cursor: pointer;
-  color: rgb(28, 28, 255);
+  color: orangered;
 }
 
 #edit-profile-screen > #edit-profile > #edit-profile-body > form > .edit-sec-7 {
@@ -466,7 +466,7 @@ filter: ;
   > .edit-featured
   > p {
   cursor: pointer;
-  color: rgb(28, 28, 255);
+  color: orangered;
 }
 
 #edit-profile-screen
@@ -498,10 +498,10 @@ filter: ;
   background: none;
   font-size: 16px;
   font-weight: 600;
-  color: rgb(24, 119, 242);
+  color: orangered;
   margin: 15px 0;
   cursor: pointer;
-  background-color: rgb(231, 243, 255);
+  background-color: rgb(254, 241, 236);
 }
 
 input[type="file"] {
@@ -510,5 +510,5 @@ input[type="file"] {
 
 label {
   cursor: pointer;
-  color: rgb(28, 28, 255);
+  color: orangered;
 }

@@ -49,13 +49,14 @@ const Login = () => {
   return (
     <div id="login-screen">
       <div id="logo">
-        <div id="img">
+        <h2>connect</h2>
+        {/* <div id="img">
           <img src={fbLogo} alt="logo" />
-        </div>
+        </div> */}
       </div>
       <div id="login">
         <div id="login-header">
-          <h2>Log in to Facebook</h2>
+          <h2>Log in to Connect</h2>
         </div>
         <div id="login-body">
           <form onSubmit={handleLoginSubmit}>
@@ -85,7 +86,7 @@ const Login = () => {
             <div id="sign-up">
               <p>Forgotten account?</p>
               <span onClick={() => navigateTo("/register")}>
-                Sign up for Facebook
+                Sign up for Connect
               </span>
             </div>
           </form>

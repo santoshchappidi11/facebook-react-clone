@@ -178,10 +178,10 @@
   background: none;
   font-weight: 600;
   font-size: 15px;
-  color: rgb(76, 100, 210);
+  color: orangered;
   transition: 0.2s ease;
+  background-color: rgb(254, 241, 236);
   /* margin: 0 10px; */
-  background-color: rgb(235, 245, 255);
 }
 
 #middle-header-down > button:hover {

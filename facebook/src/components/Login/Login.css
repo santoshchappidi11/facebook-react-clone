@@ -10,20 +10,29 @@
   height: 105px;
   width: 100%;
   margin: 0 0 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   /* border: 1px solid red; */
 }
 
-#login-screen > #logo > #img {
+#login-screen > #logo h2{
+  font-size: 55px;
+  font-weight: 600;
+  color: orangered;
+}
+
+/* #login-screen > #logo > #img {
   height: 100%;
   width: 21%;
   margin: auto;
-  /* border: 1px solid green; */
+  border: 1px solid green;
 }
 
 #login-screen > #logo > #img > img {
   height: 100%;
   width: 100%;
-}
+} */
 
 #login-screen > #login {
   height: auto;
@@ -139,7 +148,7 @@
   border: none;
   color: white;
   cursor: pointer;
-  background-color: rgb(24, 119, 242);
+  background-color: orangered;
 }
 
 #login-screen > #login > #login-body > form > #sign-up {
@@ -154,13 +163,13 @@
 #login-screen > #login > #login-body > form > #sign-up > p {
   font-size: 13px;
   margin: 0 10px 0 0;
-  color: rgb(24, 119, 242);
+  color: orangered;
   cursor: pointer;
 }
 
 #login-screen > #login > #login-body > form > #sign-up > span {
   font-size: 13px;
   margin: 0 10px 0 0;
-  color: rgb(24, 119, 242);
+  color: orangered;
   cursor: pointer;
 }

@@ -46,9 +46,16 @@
   /* border: 1px solid red; */
 }
 
-#view-story > #left > #left-main > #left-header > img {
+
+#view-story > #left > #left-main > #left-header > h2{
+  color: orangered;
+  font-size: 28px;
   cursor: pointer;
 }
+
+/* #view-story > #left > #left-main > #left-header > img {
+  cursor: pointer;
+} */
 
 #view-story > #left > #left-main > #left-body {
   height: 75%;
@@ -141,7 +148,7 @@
   width: 48px;
   border-radius: 50%;
   padding: 2px;
-  border: 2px solid blue;
+  border: 2px solid orangered;
 }
 
 .your-story > .your-story-img > img {
@@ -214,7 +221,7 @@
   padding: 8px 10px;
   border-radius: 5px;
   cursor: pointer;
-  color: rgb(22, 131, 255);
+  color: orangered;
   background-color: rgb(213, 235, 241);
   /* border: 1px solid grey; */
 }
@@ -272,7 +279,7 @@
   width: 48px;
   border-radius: 50%;
   padding: 2px;
-  border: 2px solid blue;
+  border: 2px solid orangered;
 }
 
 .user-story > .story-img > img {
@@ -446,7 +453,7 @@
   padding: 12px 15px;
   border-radius: 5px;
   cursor: pointer;
-  color: rgb(22, 131, 255);
+  color: orangered;
   font-size: 25px;
   background-color: rgb(213, 235, 241);
 }

@@ -58,7 +58,7 @@ const LikePost = ({
         icon={faThumbsUp}
         style={{
           cursor: "pointer",
-          color: `${isPostLiked ? "blue" : "black"}`,
+          color: `${isPostLiked ? "orangered" : "black"}`,
         }}
         onClick={handlePostLike}
       />

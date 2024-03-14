@@ -621,7 +621,7 @@ const Home = () => {
                         >
                           {post?.image?.slice(-3) === "mp4" ? (
                             <div className="video">
-                              <video controls autoPlay>
+                              <video controls>
                                 <source src={post?.image} type="video/mp4" />
                               </video>
                             </div>

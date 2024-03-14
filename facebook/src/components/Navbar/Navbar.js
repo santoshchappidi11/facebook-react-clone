@@ -97,13 +97,14 @@ const Navbar = () => {
       <div id="navbar">
         <div id="left">
           <div id="logo">
-            <img src={logo} alt="logo" onClick={() => navigateTo("/home")} />
+            <h2 onClick={() => navigateTo("/home")}>connect</h2>
+            {/* <img src={logo} alt="logo" onClick={() => navigateTo("/home")} /> */}
           </div>
           <div id="search-bar">
             <i class="fa-solid fa-magnifying-glass"></i>
             <input
               type="text"
-              placeholder="Search Facebook"
+              placeholder="Search Connect"
               onChange={handleSearchInputValue}
             />
           </div>

@@ -93,11 +93,7 @@ const ProfileFriends = () => {
                     <div className="profile-follower" key={item?._id}>
                       <div className="follower-img">
                         <img
-                          src={
-                            item?.profileImg
-                              ? `http://localhost:8000/uploads/${item?.profileImg}`
-                              : emptyUser
-                          }
+                          src={item?.profileImg ? item?.profileImg : emptyUser}
                           alt="follower"
                         />
                       </div>
@@ -122,11 +118,7 @@ const ProfileFriends = () => {
                     <div className="profile-following" key={item?._id}>
                       <div className="following-img">
                         <img
-                          src={
-                            item?.profileImg
-                              ? `http://localhost:8000/uploads/${item?.profileImg}`
-                              : emptyUser
-                          }
+                          src={item?.profileImg ? item?.profileImg : emptyUser}
                           alt="following"
                         />
                       </div>

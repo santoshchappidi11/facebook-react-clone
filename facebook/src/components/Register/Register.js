@@ -66,9 +66,10 @@ const Register = () => {
   return (
     <div id="register-screen">
       <div id="logo">
-        <div id="img">
+        <h2>connect</h2>
+        {/* <div id="img">
           <img src={fbLogo} alt="logo" />
-        </div>
+        </div> */}
       </div>
       <div id="register">
         <div id="register-header">
@@ -131,7 +132,7 @@ const Register = () => {
             </div>
             <p>
               People who use our service may have uploaded your contact
-              information to Facebook. Learn more.
+              information to Connect. Learn more.
             </p>
             <p>
               By clicking Sign Up, you agree to our Terms, Privacy Policy and
@@ -143,7 +144,7 @@ const Register = () => {
           <div id="sign-in">
             <p>
               Already have an account?{" "}
-              <span onClick={() => navigateTo("/")}>Login for Facebook</span>
+              <span onClick={() => navigateTo("/")}>Login for Connect</span>
             </p>
           </div>
         </div>

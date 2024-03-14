@@ -37,13 +37,13 @@
 }
 
 #profile-about-options > h4:hover {
-  /* color: rgb(8, 102, 255); */
-  background-color: rgb(235, 245, 255);
+  /* color: orangered; */
+    background-color: rgb(254, 241, 236);
 }
 
 .profile-active {
-  color: rgb(8, 102, 255);
-  background-color: rgb(235, 245, 255);
+  color: orangered;
+    background-color: rgb(254, 241, 236);
 }
 
 #profile-about-right {

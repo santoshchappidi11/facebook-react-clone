@@ -102,8 +102,8 @@ body {
   justify-content: center;
   align-items: center;
   margin: 0 10px;
-  color: rgb(24, 118, 242);
   background-color: rgb(219, 231, 242);
+  color: orangered;
   /* border: 1px solid red; */
 }
 
@@ -225,7 +225,7 @@ body {
 }
 
 .feed-active {
-  color: rgb(8, 102, 255);
+  color: orangered;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   /* background-color: white; */
 }
@@ -725,7 +725,7 @@ body {
   border-radius: 5px;
   cursor: pointer;
   color: white;
-  background-color: rgb(99, 99, 255);
+  background-color: orangered;
 }
 
 input[type="file"] {
@@ -790,7 +790,7 @@ label {
   padding: 6px 12px;
   border-radius: 5px;
   cursor: pointer;
-  background-color: rgb(68, 68, 255);
+  background-color: orangered !important;
 }
 
 #sec-5-comment {

@@ -44,9 +44,16 @@
   /* border: 1px solid red; */
 }
 
-#create-story > #left > #left-main > #left-header > img {
+
+#create-story > #left > #left-main > #left-header > h2{
+  color: orangered;
+  font-size: 28px;
   cursor: pointer;
 }
+
+/* #create-story > #left > #left-main > #left-header > img {
+  cursor: pointer;
+} */
 
 #create-story > #left > #left-main > #left-body {
   height: 75%;

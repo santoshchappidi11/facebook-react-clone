@@ -38,7 +38,7 @@
   font-weight: 600;
   padding: 8px 15px;
   border-radius: 6px;
-  color: rgb(8, 102, 255);
+  color: orangered;
 }
 
 #friend-up-middle > p:hover {
@@ -167,7 +167,7 @@
 }
 
 .friend-friends-active {
-  color: rgb(8, 102, 255);
+  color: orangered;
   /* border-bottom: 1px solid blue; */
 }
 

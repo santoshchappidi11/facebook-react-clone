@@ -135,7 +135,8 @@ const CreateStory = () => {
                 class="fa-solid fa-xmark fa-xl"
                 onClick={() => navigateTo("/home")}
               ></i>
-              <img src={logo} alt="logo" onClick={() => navigateTo("/home")} />
+              <h2 onClick={() => navigateTo("/home")}>connect</h2>
+              {/* <img src={logo} alt="logo" onClick={() => navigateTo("/home")} /> */}
             </div>
             <div id="left-body">
               <div id="body-header">

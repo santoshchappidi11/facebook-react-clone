@@ -355,7 +355,7 @@
   border-radius: 5px;
   cursor: pointer;
   color: white;
-  background-color: rgb(99, 99, 255);
+  background-color: orangered;
 }
 
 #comments-loading-msg {
